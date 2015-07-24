@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainScreenActivity">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:id="@+id/MainButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <Button
+                android:id="@+id/findItemBtn"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Find Item" />
+            <Button
+                android:id="@+id/reportItemBtn"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Report Item" />
+            <Button
+                android:id="@+id/profileBtn"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Profile" />
+        </TableRow>
+        </TableLayout>
+
+    <fragment
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+</LinearLayout>
