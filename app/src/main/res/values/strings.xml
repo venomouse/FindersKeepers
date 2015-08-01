@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">FindersKeepers</string>
     <string name="title_activity_main_screen">MainScreen</string>
+    <string name="title_activity_view_item">ViewItemActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>
