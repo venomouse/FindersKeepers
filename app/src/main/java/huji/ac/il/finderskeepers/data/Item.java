@@ -11,7 +11,7 @@ public class Item implements Serializable {
 
     public static final int  EMPTY_ID = -1;
 
-    String id = null; //this will be set when user is added to DB
+    String id = null; //this will be set when item is added to DB
     double latitude;
     double longitude;
 
