@@ -59,7 +59,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
     private HashMap <Marker, Item> markerItemMap;
     private LinkedList<Item> itemsToDisplay;
-
+    LatLng myloc = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,9 +127,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     }
 
     /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
+     * This is where we can add markers or lines, add listeners or move the camera.
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
@@ -144,12 +142,12 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         Location location = locationManager.getLastKnownLocation(provider);
 
         //TODO save common locations/use home location
-        LatLng myloc = (location == null) ? new LatLng(DEFAULT_LATTITUDE, DEFAULT_LONGITUDE) :
+        myloc = (location == null) ? new LatLng(DEFAULT_LATTITUDE, DEFAULT_LONGITUDE) :
                 new LatLng(location.getLatitude(), location.getLongitude());
 
         //the zoom is between 2 and 21
         //TODO remove the magic number
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 17));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
 
         //fetch a list of items to display
         itemsToDisplay = new LinkedList<Item>();
@@ -183,6 +181,8 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
         Intent viewItemIntent = new Intent(this, ViewItemActivity.class);
         viewItemIntent.putExtra("item", item);
+        viewItemIntent.putExtra("myLocation", myloc);
+
         startActivity(viewItemIntent);
 
         return true;

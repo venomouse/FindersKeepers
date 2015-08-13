@@ -26,5 +26,24 @@
         android:layout_height="wrap_content"
         android:id="@+id/conditionIcon" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_weight="1"
+            android:id="@+id/btnViewItemBack" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take Me There!"
+            android:layout_weight="1"
+            android:id="@+id/btnViewItemTakeMeThere" />
+    </LinearLayout>
 
 </LinearLayout>

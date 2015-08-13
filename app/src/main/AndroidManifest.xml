@@ -39,7 +39,15 @@
         <activity
             android:name=".ViewItemActivity"
             android:label="@string/title_activity_view_item"
-            android:theme="@android:style/Theme.Dialog">
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name=".TakeMeThereActivity"
+            android:label="@string/title_activity_take_me_there"
+            android:parentActivityName=".MainScreenActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="huji.ac.il.finderskeepers.MainScreenActivity" />
         </activity>
     </application>
 

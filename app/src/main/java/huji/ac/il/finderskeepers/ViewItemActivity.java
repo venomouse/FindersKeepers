@@ -6,13 +6,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import  huji.ac.il.finderskeepers.data.*;
 
 
 public class ViewItemActivity extends Activity {
+
+    private LatLng  myLocation = null;
+    private Item item = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +29,23 @@ public class ViewItemActivity extends Activity {
 
         //setting the contents of the item
         Intent intent = getIntent();
-        Item item = (Item) intent.getSerializableExtra("item");
+        item = (Item) intent.getSerializableExtra("item");
+        myLocation = (LatLng) intent.getParcelableExtra("myLocation");
 
         ImageView typeIcon = (ImageView) findViewById(R.id.typeIcon);
         typeIcon.setImageResource(item.getType().iconID);
 
         ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
         conditionIcon.setImageResource(item.getCondition().iconID);
+
+        Button btnViewItemTakeMeThere = (Button) findViewById(R.id.btnViewItemTakeMeThere);
+        btnViewItemTakeMeThere.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                   public void onClick(View v) {
+                      onTakeMeThereClick(v);
+                    }
+        });
+
     }
 
 
@@ -52,5 +69,14 @@ public class ViewItemActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onTakeMeThereClick(View v){
+        Intent takeMeThereIntent = new Intent(this,TakeMeThereActivity.class);
+
+        takeMeThereIntent.putExtra("from", myLocation);
+        takeMeThereIntent.putExtra("to", new LatLng(item.getLatitude(), item.getLongitude()));
+
+        startActivity(takeMeThereIntent);
     }
 }
