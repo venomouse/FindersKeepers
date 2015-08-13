@@ -6,9 +6,9 @@ import huji.ac.il.finderskeepers.R;
  * Created by Maria on 7/25/2015.
  */
 public enum ItemCondition {
-    MINT(0, R.drawable.mint_icon),
-    SOSO(1, R.drawable.soso_icon),
-    NEEDS_REPAIR(2, R.drawable.needsrepair_icon);
+    MINT(0, 0),
+    SOSO(1, 1),
+    NEEDS_REPAIR(2, 2);
 
     public int value;
     public int iconID;

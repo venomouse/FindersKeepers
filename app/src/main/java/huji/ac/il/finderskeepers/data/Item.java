@@ -11,34 +11,37 @@ public class Item implements Serializable {
 
     public static final int  EMPTY_ID = -1;
 
-    int id;
+    String id = null; //this will be set when user is added to DB
     double latitude;
     double longitude;
 
     ItemType type;
     ItemCondition condition;
 
-    int reporterID;
+    String reporterID;
     Date creationDate;
 
-    public Item(int id, double latitude, double longitude, ItemType type, ItemCondition condition,
-                int reporterID, Date creationDate)
+    String imageID; // a reference to an image
+
+    public Item(double latitude, double longitude, ItemType type, ItemCondition condition,
+                String reporterID, Date creationDate)
     {
-        this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.type = type;
         this.condition = condition;
         this.reporterID = reporterID;
         this.creationDate = creationDate;
+        this.imageID = ""; // at start set to empty string, later get DB-relative ID
     }
 
+    public String  getId() { return id; }
     public double getLatitude() { return latitude; }
     public double getLongitude() { return longitude; }
     public ItemType getType() { return type; }
     public ItemCondition getCondition() { return condition; }
-    public int getReporterID() { return reporterID; }
+    public String getReporterID() { return reporterID; }
     public Date getCreationDate()  { return creationDate; }
-
+    public String getImageID() { return imageID; }
 
 }
