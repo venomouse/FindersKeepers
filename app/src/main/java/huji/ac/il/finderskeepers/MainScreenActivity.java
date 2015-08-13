@@ -1,12 +1,23 @@
 package huji.ac.il.finderskeepers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.location.Criteria;
 import android.location.Location;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,12 +26,19 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 import  huji.ac.il.finderskeepers.data.*;
+import huji.ac.il.finderskeepers.db.DataSource;
 
 public class MainScreenActivity extends FragmentActivity implements OnMarkerClickListener {
 
@@ -31,10 +49,11 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private final double EXAMPLE_LONGITUDE = 35.206856;
     private final ItemType EXAMPLE_TYPE = ItemType.BOOKS;
     private final ItemCondition EXAMPLE_CONDITION = ItemCondition.NEEDS_REPAIR;
-    private final int EXAMPLE_REPORTERID = 386;
-    private final Date EXAMPLE_DATE = new Date();
+    private final String EXAMPLE_REPORTERID = "sdfsdfx";
+    private final Date EXAMPLE_DATE =  new Date();
 
-
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE = 1777;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LocationManager locationManager;
 
@@ -49,6 +68,28 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
         markerItemMap = new HashMap<Marker, Item>();
         setUpMapIfNeeded();
+
+//      Example of adding a new item and user to (Parse) DB
+        try{
+            Date specificDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse("2012-07-10 14:58:00.000000");
+            DataSource ds = new DataSource();
+            Item item = new Item(DEFAULT_LATTITUDE, DEFAULT_LONGITUDE, EXAMPLE_TYPE , EXAMPLE_CONDITION,EXAMPLE_REPORTERID,specificDate);
+            User user = new User("pazb");
+            AddItemTask addItemTask = new AddItemTask();
+            addItemTask.execute(item);
+            //ds.addItemTask(item);
+            //ds.addUser(user);
+        }
+        catch (ParseException e){
+
+        }
+        final Button reportItemBtn = (Button) findViewById(R.id.reportItemBtn);
+        reportItemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
     }
 
     @Override
@@ -112,8 +153,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
         //fetch a list of items to display
         itemsToDisplay = new LinkedList<Item>();
-        itemsToDisplay.add(new Item(Item.EMPTY_ID,
-                                    EXAMPLE_LATTITUDE,
+        itemsToDisplay.add(new Item(EXAMPLE_LATTITUDE,
                                     EXAMPLE_LONGITUDE,
                                     EXAMPLE_TYPE,
                                     EXAMPLE_CONDITION,
@@ -147,5 +187,87 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
         return true;
 
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        File file = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        startActivityForResult(intent, CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //Check that request code matches ours:
+        if (requestCode == CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE)
+        {
+            //Get our saved file into a bitmap object:
+            File imageFile = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
+            UploadImageTask uploadImageTask = new UploadImageTask(this);
+            uploadImageTask.execute(imageFile);
+        }
+    }
+
+
+    private class AddItemTask extends AsyncTask<Item, Integer, String> {
+        private DataSource ds = new DataSource();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //showDialog(DIALOG_DOWNLOAD_PROGRESS);
+        }
+
+        @Override
+        protected String doInBackground(Item... items) {
+            return  ds.addItem(items[0]);
+        }
+
+        protected void onProgressUpdate(String... progress) {
+            Toast.makeText(MainScreenActivity.this, "Uploading...",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(MainScreenActivity.this, "id: " + result,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class UploadImageTask extends AsyncTask<File, Integer, String> {
+        Context myContext;
+        private DataSource ds;
+        private ProgressDialog pd;
+        public UploadImageTask(Context context){
+            myContext = context;
+            ds = new DataSource();
+            pd = new ProgressDialog(myContext);
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.show(myContext, "Uploading", "Please wait...");
+        }
+
+        @Override
+        protected String doInBackground(File... files) {
+            String id = ds.uploadImageToParse(files[0]);
+            if (pd != null){
+                pd.dismiss();
+            }
+            return id;
+        }
+
+        protected void onProgressUpdate(String... progress) {
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            Toast.makeText(MainScreenActivity.this, "Image Uploaded! id: " + result,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

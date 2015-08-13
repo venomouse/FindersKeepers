@@ -7,9 +7,9 @@ import huji.ac.il.finderskeepers.R;
  * Created by Maria on 7/25/2015.
  */
 public enum ItemType {
-    FURNITURE(0, R.drawable.furniture_icon),
-    CLOTHES(1, R.drawable.clothes_icon),
-    BOOKS(2, R.drawable.books_icon);
+    FURNITURE(0, 0),
+    CLOTHES(1, 1),
+    BOOKS(2, 2);
 
     public int value;
     public int iconID;
