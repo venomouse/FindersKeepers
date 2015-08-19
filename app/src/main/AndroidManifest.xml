@@ -12,8 +12,11 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:name=".FindersKeepersApp"
         android:allowBackup="true"
@@ -48,6 +51,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="huji.ac.il.finderskeepers.MainScreenActivity" />
+        </activity>
+        <activity
+            android:name=".AddItemActivity"
+            android:label="@string/title_activity_add_item" >
         </activity>
     </application>
 

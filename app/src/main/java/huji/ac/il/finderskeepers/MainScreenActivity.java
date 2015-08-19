@@ -60,6 +60,8 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private HashMap <Marker, Item> markerItemMap;
     private LinkedList<Item> itemsToDisplay;
     LatLng myloc = null;
+    private String imageFilePath = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,7 +193,9 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
     private void dispatchTakePictureIntent() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File file = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
+        String filename = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss'.jpg'").format(new Date());
+        imageFilePath = Environment.getExternalStorageDirectory()+File.separator + filename;
+        File file = new File(imageFilePath);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         startActivityForResult(intent, CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE);
     }
@@ -202,10 +206,13 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         //Check that request code matches ours:
         if (requestCode == CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE)
         {
-            //Get our saved file into a bitmap object:
-            File imageFile = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
-            UploadImageTask uploadImageTask = new UploadImageTask(this);
-            uploadImageTask.execute(imageFile);
+//            Get our saved file into a bitmap object:
+            Intent intent = new Intent(this,AddItemActivity.class);
+            intent.putExtra("filepath",imageFilePath);
+            startActivity(intent);
+//            File imageFile = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
+//            UploadImageTask uploadImageTask = new UploadImageTask(this);
+//            uploadImageTask.execute(imageFile);
         }
     }
 
