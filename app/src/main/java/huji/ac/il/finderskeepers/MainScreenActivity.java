@@ -72,19 +72,15 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         setUpMapIfNeeded();
 
 //      Example of adding a new item and user to (Parse) DB
-        try{
-            Date specificDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse("2012-07-10 14:58:00.000000");
-            DataSource ds = new DataSource();
-            Item item = new Item(DEFAULT_LATTITUDE, DEFAULT_LONGITUDE, EXAMPLE_TYPE , EXAMPLE_CONDITION,EXAMPLE_REPORTERID,specificDate);
-            User user = new User("pazb");
-            AddItemTask addItemTask = new AddItemTask();
-            addItemTask.execute(item);
-            //ds.addItemTask(item);
-            //ds.addUser(user);
-        }
-        catch (ParseException e){
-
-        }
+//        try{
+//            AddItemTask addItemTask = new AddItemTask();
+//            addItemTask.execute(item);
+//            //ds.addItemTask(item);
+//            //ds.addUser(user);
+//        }
+//        catch (ParseException e){
+//
+//        }
         final Button reportItemBtn = (Button) findViewById(R.id.reportItemBtn);
         reportItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,68 +209,6 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 //            File imageFile = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
 //            UploadImageTask uploadImageTask = new UploadImageTask(this);
 //            uploadImageTask.execute(imageFile);
-        }
-    }
-
-
-    private class AddItemTask extends AsyncTask<Item, Integer, String> {
-        private DataSource ds = new DataSource();
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //showDialog(DIALOG_DOWNLOAD_PROGRESS);
-        }
-
-        @Override
-        protected String doInBackground(Item... items) {
-            return  ds.addItem(items[0]);
-        }
-
-        protected void onProgressUpdate(String... progress) {
-            Toast.makeText(MainScreenActivity.this, "Uploading...",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(MainScreenActivity.this, "id: " + result,
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private class UploadImageTask extends AsyncTask<File, Integer, String> {
-        Context myContext;
-        private DataSource ds;
-        private ProgressDialog pd;
-        public UploadImageTask(Context context){
-            myContext = context;
-            ds = new DataSource();
-            pd = new ProgressDialog(myContext);
-        }
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd.show(myContext, "Uploading", "Please wait...");
-        }
-
-        @Override
-        protected String doInBackground(File... files) {
-            String id = ds.uploadImageToParse(files[0]);
-            if (pd != null){
-                pd.dismiss();
-            }
-            return id;
-        }
-
-        protected void onProgressUpdate(String... progress) {
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            Toast.makeText(MainScreenActivity.this, "Image Uploaded! id: " + result,
-                    Toast.LENGTH_SHORT).show();
         }
     }
 }

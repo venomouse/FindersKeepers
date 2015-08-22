@@ -18,4 +18,10 @@ public enum ItemType {
         this.value = value;
         this.iconID = iconID;
     }
+
+
+    public static ItemType fromInt(int value) {
+        return ItemType.values()[value];
+    }
+
 }
