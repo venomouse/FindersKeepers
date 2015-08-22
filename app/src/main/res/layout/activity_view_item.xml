@@ -36,14 +36,14 @@
             android:layout_height="wrap_content"
             android:text="Back"
             android:layout_weight="1"
-            android:id="@+id/btnViewItemBack" />
+            android:id="@+id/viewItemBackBtn" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Take Me There!"
             android:layout_weight="1"
-            android:id="@+id/btnViewItemTakeMeThere" />
+            android:id="@+id/viewItemTakeMeThereBtn" />
     </LinearLayout>
 
 </LinearLayout>

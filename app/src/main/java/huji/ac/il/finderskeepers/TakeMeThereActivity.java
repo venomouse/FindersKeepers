@@ -1,5 +1,6 @@
 package huji.ac.il.finderskeepers;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -57,6 +59,31 @@ public class TakeMeThereActivity extends FragmentActivity {
         fromPoint = (LatLng) getIntent().getParcelableExtra("from");
         toPoint = (LatLng) getIntent().getParcelableExtra("to");
         setUpMapIfNeeded();
+
+        Button takeMeThereBackBtn = (Button) findViewById(R.id.takeMeThereBackBtn);
+        takeMeThereBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackClick(v);
+            }
+        });
+
+        Button takeMeTherePickUpBtn = (Button) findViewById(R.id.takeMeTherePickUpBtn);
+        takeMeTherePickUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickUpClick(v);
+            }
+        });
+
+        Button takeMeThereGoneBtn = (Button) findViewById(R.id.takeMeThereGoneBtn);
+        takeMeThereGoneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onGoneClick(v);
+            }
+        });
+
     }
 
     private void setUpMapIfNeeded() {
@@ -73,8 +100,7 @@ public class TakeMeThereActivity extends FragmentActivity {
     }
 
     /**
-     * This is where we can add markers or lines, add listeners or move the camera.
-     * <p/>
+     * Setting up the map - showing the
      * This should only be called once and when we are sure that {@link #directionsMap} is not null.
      */
     private void setUpMap() {
@@ -112,6 +138,26 @@ public class TakeMeThereActivity extends FragmentActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    private void onBackClick(View v) {
+        this.finish();
+    }
+
+    private void onPickUpClick(View v) {
+        //TODO add database update
+        Intent a = new Intent(this,MainScreenActivity.class);
+        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(a);
+    }
+    private void onGoneClick(View v) {
+        //TODO add database update
+        Intent a = new Intent(this,MainScreenActivity.class);
+        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(a);
+    }
+
+
 
     private class DirectionsFetcher extends AsyncTask<URL, Integer, String> {
         List<LatLng> latLngs = new ArrayList<LatLng>();

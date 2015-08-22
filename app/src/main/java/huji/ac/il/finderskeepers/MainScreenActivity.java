@@ -54,6 +54,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE = 1777;
+
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LocationManager locationManager;
 
@@ -72,6 +73,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         setUpMapIfNeeded();
 
 //      Example of adding a new item and user to (Parse) DB
+        // TODO put in a separate function
         try{
             Date specificDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse("2012-07-10 14:58:00.000000");
             DataSource ds = new DataSource();
@@ -97,7 +99,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     @Override
     protected void onResume() {
         super.onResume();
- //       setUpMapIfNeeded();
+        setUpMapIfNeeded();
     }
 
     /**
@@ -152,15 +154,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
 
         //fetch a list of items to display
-        itemsToDisplay = new LinkedList<Item>();
-        itemsToDisplay.add(new Item(EXAMPLE_LATTITUDE,
-                                    EXAMPLE_LONGITUDE,
-                                    EXAMPLE_TYPE,
-                                    EXAMPLE_CONDITION,
-                                    EXAMPLE_REPORTERID,
-                                    EXAMPLE_DATE));
-
-
+        fetchItemsToDisplay();
         //put marker for every item in the list
 
         for (Item item : itemsToDisplay)
@@ -169,12 +163,17 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
                     .position(new LatLng(item.getLatitude(), item.getLongitude())));
 
             markerItemMap.put(marker, item);
-
-
         }
+    }
 
-
-
+    void fetchItemsToDisplay () {
+        itemsToDisplay = new LinkedList<Item>();
+        itemsToDisplay.add(new Item(EXAMPLE_LATTITUDE,
+                EXAMPLE_LONGITUDE,
+                EXAMPLE_TYPE,
+                EXAMPLE_CONDITION,
+                EXAMPLE_REPORTERID,
+                EXAMPLE_DATE));
     }
 
     @Override
@@ -242,6 +241,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         }
     }
 
+    //TODO: maybe a separate file?
     private class UploadImageTask extends AsyncTask<File, Integer, String> {
         Context myContext;
         private DataSource ds;

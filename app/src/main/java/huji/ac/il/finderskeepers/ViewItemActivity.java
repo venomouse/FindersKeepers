@@ -27,6 +27,27 @@ public class ViewItemActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_view_item);
 
+        fillItemProperties();
+
+        Button btnViewItemTakeMeThere = (Button) findViewById(R.id.viewItemTakeMeThereBtn);
+        btnViewItemTakeMeThere.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                   public void onClick(View v) {
+                      onTakeMeThereClick(v);
+                    }
+        });
+
+        Button btnViewItemBack = (Button) findViewById(R.id.viewItemBackBtn);
+        btnViewItemBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackClick(v);
+            }
+        });
+
+    }
+
+    private void fillItemProperties() {
         //setting the contents of the item
         Intent intent = getIntent();
         item = (Item) intent.getSerializableExtra("item");
@@ -37,15 +58,6 @@ public class ViewItemActivity extends Activity {
 
         ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
         conditionIcon.setImageResource(item.getCondition().iconID);
-
-        Button btnViewItemTakeMeThere = (Button) findViewById(R.id.btnViewItemTakeMeThere);
-        btnViewItemTakeMeThere.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                   public void onClick(View v) {
-                      onTakeMeThereClick(v);
-                    }
-        });
-
     }
 
 
@@ -78,5 +90,9 @@ public class ViewItemActivity extends Activity {
         takeMeThereIntent.putExtra("to", new LatLng(item.getLatitude(), item.getLongitude()));
 
         startActivity(takeMeThereIntent);
+    }
+
+    private void onBackClick (View v) {
+        this.finish();
     }
 }
