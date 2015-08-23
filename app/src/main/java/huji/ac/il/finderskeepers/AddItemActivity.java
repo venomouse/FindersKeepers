@@ -48,15 +48,7 @@ public class AddItemActivity extends ActionBarActivity {
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskManager.AddItemTask uploadTask = TaskManager.createAddItemTask(getApplicationContext(), new File(path));
-                RadioGroup rdgType = (RadioGroup) findViewById(R.id.rdgType);
-                View radioButton = rdgType.findViewById(rdgType.getCheckedRadioButtonId());
-                int typeInt = rdgType.indexOfChild(radioButton);
-                RadioGroup rdgCondition = (RadioGroup) findViewById(R.id.rdgCondition);
-                radioButton = rdgCondition.findViewById(rdgCondition.getCheckedRadioButtonId());
-                int conditionInt = rdgCondition.indexOfChild(radioButton);
-                Item item = new Item(0, 0, ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt),"check_test",new Date()); //TODO: put real info
-                uploadTask.execute(item);
+                onAddClick(v, path);
             }
         });
 
@@ -73,6 +65,18 @@ public class AddItemActivity extends ActionBarActivity {
         }
 
 
+    }
+
+    public void onAddClick(View v, String path) {
+        TaskManager.AddItemTask uploadTask = TaskManager.createAddItemTask(this, new File(path));
+        RadioGroup rdgType = (RadioGroup) findViewById(R.id.rdgType);
+        View radioButton = rdgType.findViewById(rdgType.getCheckedRadioButtonId());
+        int typeInt = rdgType.indexOfChild(radioButton);
+        RadioGroup rdgCondition = (RadioGroup) findViewById(R.id.rdgCondition);
+        radioButton = rdgCondition.findViewById(rdgCondition.getCheckedRadioButtonId());
+        int conditionInt = rdgCondition.indexOfChild(radioButton);
+        Item item = new Item(0, 0, ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt),"check_test",new Date()); //TODO: put real info
+        uploadTask.execute(item);
     }
 
     @Override

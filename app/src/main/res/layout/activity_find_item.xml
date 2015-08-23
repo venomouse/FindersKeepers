@@ -65,8 +65,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="mint only"
-            android:id="@+id/findItemConditionMintOnly"
+            android:text="doesn't matter"
+            android:id="@+id/findItemConditionDoesntMatter"
             android:checked="false" />
 
         <RadioButton
@@ -81,8 +81,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="doesn't matter"
-            android:id="@+id/findItemConditionDoesntMatter"
+            android:text="mint only"
+            android:id="@+id/findItemConditionMintOnly"
             android:checked="false" />
     </RadioGroup>
 

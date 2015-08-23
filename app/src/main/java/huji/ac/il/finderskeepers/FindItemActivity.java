@@ -4,6 +4,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioGroup;
+
+import com.parse.ParseQuery;
 
 
 public class FindItemActivity extends ActionBarActivity {
@@ -12,6 +17,27 @@ public class FindItemActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_item);
+
+        Button btnAddItem = (Button) findViewById(R.id.btnAddItem);
+        btnAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFindClick(v);
+            }
+        });
+    }
+
+    private void onFindClick(View v) {
+        RadioGroup findItemTypeRdg = (RadioGroup) findViewById(R.id.findItemTypeRdg);
+        View typeRadioButton = findItemTypeRdg.findViewById(findItemTypeRdg.getCheckedRadioButtonId());
+        int typeInt = findItemTypeRdg.indexOfChild(typeRadioButton);
+
+        RadioGroup findItemConditionRdg = (RadioGroup) findViewById(R.id.findItemConditionRdg);
+        View conditionRadioButton = findItemConditionRdg.findViewById(findItemConditionRdg.getCheckedRadioButtonId());
+        int conditionInt = findItemConditionRdg.indexOfChild(conditionRadioButton);
+
+
+
     }
 
 
