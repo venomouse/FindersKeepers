@@ -170,7 +170,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         itemsToDisplay.add(new Item(EXAMPLE_LATTITUDE,
                 EXAMPLE_LONGITUDE,
                 EXAMPLE_TYPE,
-                EXAMPLE_CONDITION,
+                EXAMPLE_CONDITION,EXAMPLE_DESCRIPTION,
                 EXAMPLE_REPORTERID,
                 EXAMPLE_DATE));
     }

@@ -20,6 +20,8 @@ import huji.ac.il.finderskeepers.data.User;
  * Acts as an "interface" to the various databases used.
  * All of the app's access to the databases should use this "interface".
  *
+ * Usage: use getDataSource() to get an instance (singleton) of the DataSource
+ *
  * Created by Paz on 8/7/2015.
  */
 public class DataSource {
@@ -27,11 +29,27 @@ public class DataSource {
     private ItemDB items;
     private UserDB users;
     private ImageDB images;
+    private static DataSource singleton = null;
 
-    public DataSource(){
+    /**
+     * private ctor
+     */
+    private DataSource(){
         items = new ItemDB("item");
         users = new UserDB("user");
         images = new ImageDB("image");
+    }
+
+    /**
+     * returns an instance of the DataSource
+     *
+     * @return
+     */
+    public static DataSource getDataSource(){
+        if (singleton == null){
+            singleton = new DataSource();
+        }
+        return singleton;
     }
 
     /**
