@@ -36,7 +36,7 @@ public class ImageDB {
     public String uploadImage(File imageFile){
         try
         {
-            Bitmap bmp = decodeSampledBitmapFromFile(imageFile.getAbsolutePath(), 1000, 700);
+            Bitmap bmp = decodeSampledBitmapFromFile(imageFile.getAbsolutePath(), 500, 500);
             ParseObject pObj = null;
             ParseFile pFile = null ;
             pObj = new ParseObject ("Document");
@@ -49,7 +49,7 @@ public class ImageDB {
             }
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bmp.compress(Bitmap.CompressFormat.PNG, 50, stream);
             pFile = new ParseFile(imageFile.getName(), stream.toByteArray());
             try
             {
