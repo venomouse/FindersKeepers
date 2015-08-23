@@ -44,4 +44,5 @@ public class Item implements Serializable {
     public Date getCreationDate()  { return creationDate; }
     public String getImageID() { return imageID; }
 
+    public void setImageID(String id) {imageID = id; }
 }

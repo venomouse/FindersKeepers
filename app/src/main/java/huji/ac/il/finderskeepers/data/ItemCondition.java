@@ -19,4 +19,8 @@ public enum ItemCondition {
         this.iconID = iconID;
     }
 
+    public static ItemCondition fromInt(int value) {
+        return ItemCondition.values()[value];
+    }
+
 }

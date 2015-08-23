@@ -44,7 +44,7 @@
     <RadioGroup
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rdgCondition"
+        android:id="@+id/rdgType"
         android:orientation="horizontal">
 
         <RadioButton
@@ -83,7 +83,7 @@
     <RadioGroup
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/radioGroup"
+        android:id="@+id/rdgCondition"
         android:orientation="horizontal">
 
         <RadioButton
