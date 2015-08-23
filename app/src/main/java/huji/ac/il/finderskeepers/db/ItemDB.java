@@ -47,7 +47,7 @@ public class ItemDB {
         try{
             itemParseObject.save();
             String id = itemParseObject.getObjectId();
-            Log.d(TAG, "addItem: Item saved to Parse. The item's id is: " + id);
+            Log.d(TAG, "addItem: Item saved to DB. ID: " + id);
             return id;
         }
         catch(ParseException e)
@@ -110,6 +110,7 @@ public class ItemDB {
     private ParseObject itemToParseObject(Item item){
         ParseObject itemObject = new ParseObject(tableName);
         itemObject.put("condition", item.getCondition().value);
+        itemObject.put("description", item.getDescription());
         itemObject.put("creation_date", item.getCreationDate());
         //using the ParseGeoPoint which supports various geo-location methods:
         itemObject.put("location",new ParseGeoPoint(item.getLatitude(),item.getLongitude()));

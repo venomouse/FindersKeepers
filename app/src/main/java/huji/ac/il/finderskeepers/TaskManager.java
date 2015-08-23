@@ -1,16 +1,13 @@
 package huji.ac.il.finderskeepers;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.File;
 
-import huji.ac.il.finderskeepers.MainScreenActivity;
 import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.db.DataSource;
 
@@ -21,28 +18,34 @@ import huji.ac.il.finderskeepers.db.DataSource;
  */
 public class TaskManager {
 
-    public static AddItemTask createAddItemTask(Activity activity, File file){
-        return new AddItemTask(activity, file);
+    public static AddItemTask createAddItemTask(Activity mActivity, ProgressBar bar, File file){
+        return new AddItemTask(mActivity,bar, file);
     }
 
 
     public static class AddItemTask extends AsyncTask<Item, Integer, String> {
         private File itemImage;
-        private Activity activity;
-        public AddItemTask(Activity activity, File itemImage){
+        private Activity mActivity;
+
+        private ProgressBar bar;
+
+        public AddItemTask(Activity mActivity,ProgressBar bar, File itemImage){
             this.itemImage = itemImage;
-            this.activity = activity;
+            this.bar = bar;
+            this.mActivity = mActivity;
         }
         private DataSource ds = new DataSource();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            bar = (ProgressBar) mActivity.findViewById(R.id.progressBar);
+            bar.setVisibility(View.VISIBLE);
             //showDialog(DIALOG_DOWNLOAD_PROGRESS);
         }
 
         @Override
         protected String doInBackground(Item... items) {
-            String serverImageID = ds.uploadImageToParse(itemImage);
+            String serverImageID = ds.uploadImage(itemImage);
             items[0].setImageID(serverImageID);
             return  ds.addItem(items[0]);
         }
@@ -53,33 +56,8 @@ public class TaskManager {
 
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(activity, "Item added!",Toast.LENGTH_LONG);
+            bar.setVisibility(View.GONE);
+            mActivity.finish();
         }
     }
-
-   /* private static class UploadImageTask extends AsyncTask<File, Integer, String> {
-        Context myContext;
-        private DataSource ds = new DataSource();
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected String doInBackground(File... files) {
-            return  ds.uploadImageToParse(files[0]);
-        }
-
-        protected void onProgressUpdate(String... progress) {
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-        }
-    }*/
-
 }

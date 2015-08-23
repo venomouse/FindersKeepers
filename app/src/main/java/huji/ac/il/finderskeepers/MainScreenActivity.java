@@ -49,7 +49,8 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private final double EXAMPLE_LONGITUDE = 35.206856;
     private final ItemType EXAMPLE_TYPE = ItemType.BOOKS;
     private final ItemCondition EXAMPLE_CONDITION = ItemCondition.NEEDS_REPAIR;
-    private final String EXAMPLE_REPORTERID = "sdfsdfx";
+    private final String EXAMPLE_DESCRIPTION = "example_description";
+    private final String EXAMPLE_REPORTERID = "example_user_id";
     private final Date EXAMPLE_DATE =  new Date();
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -153,6 +154,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
                                     EXAMPLE_LONGITUDE,
                                     EXAMPLE_TYPE,
                                     EXAMPLE_CONDITION,
+                                    EXAMPLE_DESCRIPTION,
                                     EXAMPLE_REPORTERID,
                                     EXAMPLE_DATE));
 
@@ -206,9 +208,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
             Intent intent = new Intent(this,AddItemActivity.class);
             intent.putExtra("filepath",imageFilePath);
             startActivity(intent);
-//            File imageFile = new File(Environment.getExternalStorageDirectory()+File.separator + "image.jpg");
-//            UploadImageTask uploadImageTask = new UploadImageTask(this);
-//            uploadImageTask.execute(imageFile);
+
         }
     }
 }
