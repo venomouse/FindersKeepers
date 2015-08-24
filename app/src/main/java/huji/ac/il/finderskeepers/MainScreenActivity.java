@@ -91,6 +91,14 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
                 dispatchTakePictureIntent();
             }
         });
+
+        final Button findItemBtn = (Button) findViewById(R.id.findItemBtn);
+        findItemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFindClick();
+            }
+        });
     }
 
     @Override
@@ -150,10 +158,9 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         //TODO remove the magic number
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
 
-        //fetch a list of items to display
         fetchItemsToDisplay();
-        //put marker for every item in the list
 
+        //put marker for every item in the list
         for (Item item : itemsToDisplay)
         {
             Marker marker =  mMap.addMarker(new MarkerOptions()
@@ -170,7 +177,8 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         itemsToDisplay.add(new Item(EXAMPLE_LATTITUDE,
                 EXAMPLE_LONGITUDE,
                 EXAMPLE_TYPE,
-                EXAMPLE_CONDITION,EXAMPLE_DESCRIPTION,
+                EXAMPLE_CONDITION,
+                EXAMPLE_DESCRIPTION,
                 EXAMPLE_REPORTERID,
                 EXAMPLE_DATE));
     }
@@ -196,6 +204,12 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         File file = new File(imageFilePath);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         startActivityForResult(intent, CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE);
+    }
+
+    private void onFindClick() {
+        Intent findItemIntent = new Intent(this,FindItemActivity.class);
+        findItemIntent.putExtra("myLocation", myloc);
+        startActivity(findItemIntent);
     }
 
     @Override

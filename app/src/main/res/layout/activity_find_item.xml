@@ -86,6 +86,67 @@
             android:checked="false" />
     </RadioGroup>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Max Distance:"
+        android:paddingTop="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/findItemDistanceSeekBar"
+            android:layout_weight="3" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/findItemDistanceText"
+            android:text="1 km"
+            android:paddingTop="10dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/findItemDistanceFromRdg"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="from me"
+            android:id="@+id/findItemDistanceFromMe"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:layout_weight="1"
+            android:text="from home"
+            android:id="@+id/findItemDistanceFromHome"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="from location"
+            android:id="@+id/findItemDistanceFromLocation"
+            android:checked="false" />
+    </RadioGroup>
+
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

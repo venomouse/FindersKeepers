@@ -24,6 +24,19 @@ public class Item implements Serializable {
 
     String imageID; // a reference to an image
 
+    public Item(String id, double latitude, double longitude, ItemType type, ItemCondition condition,
+                String description, String reporterID, Date creationDate)
+    {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.type = type;
+        this.condition = condition;
+        this.description = description;
+        this.reporterID = reporterID;
+        this.creationDate = creationDate;
+        this.imageID = ""; // at start set to empty string, later get DB-relative ID
+    }
+
     public Item(double latitude, double longitude, ItemType type, ItemCondition condition,
                 String description, String reporterID, Date creationDate)
     {
