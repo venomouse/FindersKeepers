@@ -29,14 +29,20 @@ public class ViewItemActivity extends CompletableActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_view_item);
 
-        fillItemProperties();
+        bar = (ProgressBar) this.findViewById(R.id.progressBar);
+        //setting the contents of the item
+        Intent intent = getIntent();
+        item = (Item) intent.getSerializableExtra("item");
+        myLocation = (LatLng) intent.getParcelableExtra("myLocation");
+
+
 
         Button btnViewItemTakeMeThere = (Button) findViewById(R.id.viewItemTakeMeThereBtn);
         btnViewItemTakeMeThere.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                   public void onClick(View v) {
-                      onTakeMeThereClick(v);
-                    }
+            @Override
+            public void onClick(View v) {
+                onTakeMeThereClick(v);
+            }
         });
 
         Button btnViewItemBack = (Button) findViewById(R.id.viewItemBackBtn);
@@ -47,22 +53,19 @@ public class ViewItemActivity extends CompletableActivity {
             }
         });
 
+        TaskManager.GetImageTask getImageTask = new TaskManager.GetImageTask(this,bar);
+        getImageTask.execute(item.getImageID());
     }
 
     private void fillItemProperties() {
-        //setting the contents of the item
-        Intent intent = getIntent();
-        item = (Item) intent.getSerializableExtra("item");
-        myLocation = (LatLng) intent.getParcelableExtra("myLocation");
 
         ImageView typeIcon = (ImageView) findViewById(R.id.typeIcon);
         typeIcon.setImageResource(item.getType().iconID);
 
         ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
         conditionIcon.setImageResource(item.getCondition().iconID);
-        bar = (ProgressBar) this.findViewById(R.id.progressBar);
-        TaskManager.GetImageTask getImageTask = new TaskManager.GetImageTask(this,bar);
-        getImageTask.execute(item.getImageID());
+
+
     }
 
 
@@ -102,6 +105,7 @@ public class ViewItemActivity extends CompletableActivity {
     }
 
     public void complete(Object object){
+        fillItemProperties();
         Bitmap bitmap = (Bitmap) object;
         ImageView imageView = (ImageView) findViewById(R.id.itemImage);
         imageView.setImageBitmap(bitmap);
