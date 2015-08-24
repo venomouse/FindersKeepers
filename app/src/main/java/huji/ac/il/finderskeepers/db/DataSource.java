@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
@@ -12,8 +13,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import huji.ac.il.finderskeepers.data.Item;
+import huji.ac.il.finderskeepers.data.ItemCondition;
+import huji.ac.il.finderskeepers.data.ItemType;
 import huji.ac.il.finderskeepers.data.User;
 
 /**
@@ -46,6 +50,18 @@ public class DataSource {
      * @param item
      */
     public void removeItem(Item item){ items.removeItem(item); }
+
+    /**
+     * Finds items in the database whose type is equal to the asked type and condition is
+     * at least minimal condition
+     * @param type
+     * @param minimalCondition
+     * @return items in the database that fit the search criteria
+     */
+    public List<Item> findItemsByTypeConditionDistance(ItemType type, ItemCondition minimalCondition,
+                                                       LatLng fromPoint, double distance) {
+        return items.findItemsTypeConditionDistance(type, minimalCondition, fromPoint, distance);
+    }
 
     /**
      * Adds a user to the DB (synchronously)
