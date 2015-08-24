@@ -167,6 +167,8 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
                     .position(new LatLng(item.getLatitude(), item.getLongitude())));
 
             markerItemMap.put(marker, item);
+
+
         }
     }
 

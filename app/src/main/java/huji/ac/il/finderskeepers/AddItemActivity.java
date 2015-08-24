@@ -80,7 +80,6 @@ public class AddItemActivity extends ActionBarActivity {
                 Item item = new Item(0, 0, ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt),
                         edtDescription.getText().toString() ,"check_test",new Date()); //TODO: put real info
                 uploadTask.execute(item);
-                finish();
             }
         });
 

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -34,7 +33,7 @@ public class TaskManager {
             this.bar = bar;
             this.mActivity = mActivity;
         }
-        private DataSource ds = new DataSource();
+        private DataSource ds = DataSource.getDataSource();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
