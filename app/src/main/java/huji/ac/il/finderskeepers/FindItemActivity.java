@@ -89,7 +89,7 @@ public class FindItemActivity extends ActionBarActivity {
         SeekBar distanceSeekBar = (SeekBar) findViewById(R.id.findItemDistanceSeekBar);
         double distance = distanceKmFromSeekBar(distanceSeekBar, distanceSeekBar.getProgress());
 
-        DataSource ds = new DataSource();
+        DataSource ds = DataSource.getDataSource();
         List<Item> items = ds.findItemsByTypeConditionDistance(ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt), fromPoint, distance);
 
         if (items != null && items.size() != 0) {

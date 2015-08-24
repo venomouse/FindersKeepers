@@ -2,7 +2,7 @@ package huji.ac.il.finderskeepers;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,16 +10,18 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import  huji.ac.il.finderskeepers.data.*;
 
 
-public class ViewItemActivity extends Activity {
+public class ViewItemActivity extends CompletableActivity {
 
     private LatLng  myLocation = null;
     private Item item = null;
+    private ProgressBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,9 @@ public class ViewItemActivity extends Activity {
 
         ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
         conditionIcon.setImageResource(item.getCondition().iconID);
+        bar = (ProgressBar) this.findViewById(R.id.progressBar);
+        TaskManager.GetImageTask getImageTask = new TaskManager.GetImageTask(this,bar);
+        getImageTask.execute(item.getImageID());
     }
 
 
@@ -94,5 +99,11 @@ public class ViewItemActivity extends Activity {
 
     private void onBackClick (View v) {
         this.finish();
+    }
+
+    public void complete(Object object){
+        Bitmap bitmap = (Bitmap) object;
+        ImageView imageView = (ImageView) findViewById(R.id.itemImage);
+        imageView.setImageBitmap(bitmap);
     }
 }

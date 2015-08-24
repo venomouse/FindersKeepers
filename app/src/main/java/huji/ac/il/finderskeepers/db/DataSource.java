@@ -93,7 +93,20 @@ public class DataSource {
      * @param imageFile
      * @return id of image
      */
-    public String uploadImage(File imageFile){ return images.uploadImage(imageFile);
+    public String uploadImage(File imageFile){ return images.uploadImage(imageFile);   }
+
+    /**
+     * gets an image from the DB
+     *
+     * @param id
+     * @return
+     */
+    public Bitmap getImage(String id){
+        return images.getImage(id);
+    }
+
+    public Item findItemByID(String id){
+        return items.findItemByID(id);
     }
 
     /**
@@ -104,9 +117,7 @@ public class DataSource {
      * @param reqHeight
      * @return
      */
-    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight)
-    { // BEST QUALITY MATCH
-
+    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) {
         //First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

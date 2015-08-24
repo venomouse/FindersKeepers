@@ -91,7 +91,7 @@ public class ItemDB {
      * @param creationDate
      * @return matching ParseObject
      */
-    private ParseObject fetchItemObject(String reporterID, Date creationDate) {
+    public ParseObject fetchItemObject(String reporterID, Date creationDate) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(tableName);
         query.whereEqualTo("reporter_id", reporterID);
         query.whereEqualTo("creation_date", creationDate);
@@ -103,6 +103,20 @@ public class ItemDB {
         }
         catch (ParseException e){
             Log.d(TAG, "fetchItemObject: no object found: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Item findItemByID(String id) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(tableName);
+        query.whereEqualTo("objectId", id);
+        try {
+            ParseObject result = query.get(id); // THIS BLOCKS!
+            Log.d(TAG, "fetchItemByID: object found in query. ID: " + result.getObjectId());
+            return parseObjectToItem(result);
+        }
+        catch (ParseException e){
+            Log.d(TAG, "fetchItemByID: no object found: " + e.getMessage());
             return null;
         }
     }
@@ -145,15 +159,16 @@ public class ItemDB {
     }
 
     private Item parseObjectToItem (ParseObject parseObject) {
-        return new Item (parseObject.getObjectId(),
+        Item item = new Item(parseObject.getObjectId(),
                          parseObject.getParseGeoPoint("location").getLatitude(),
                          parseObject.getParseGeoPoint("location").getLongitude(),
                          ItemType.fromInt(parseObject.getInt("type")),
                          ItemCondition.fromInt(parseObject.getInt("condition")),
                          parseObject.getString("description"),
-                         parseObject.getString("reporterID"),
+                         parseObject.getString("reporter_id"),
                          parseObject.getCreatedAt());
-
+        item.setImageID(parseObject.getString("image_id"));
+        return item;
     }
 
     private List<Item> parseObjectListToItemList(List <ParseObject> parseObjectList) {

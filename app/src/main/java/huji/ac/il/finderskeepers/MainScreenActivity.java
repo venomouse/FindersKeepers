@@ -174,13 +174,10 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
     void fetchItemsToDisplay () {
         itemsToDisplay = new LinkedList<Item>();
-        itemsToDisplay.add(new Item(EXAMPLE_LATTITUDE,
-                EXAMPLE_LONGITUDE,
-                EXAMPLE_TYPE,
-                EXAMPLE_CONDITION,
-                EXAMPLE_DESCRIPTION,
-                EXAMPLE_REPORTERID,
-                EXAMPLE_DATE));
+        DataSource ds = DataSource.getDataSource();
+        Item mySampleItem = ds.findItemByID("J4yHvklOY8");
+
+        itemsToDisplay.add(mySampleItem);
     }
 
     @Override

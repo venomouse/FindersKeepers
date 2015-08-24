@@ -4,11 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Date;
 
 /**
  * Persistent data layer for storing items, with Parse.com as its underlying physical layer.
@@ -33,10 +36,16 @@ public class ImageDB {
         this.tableName = tableName;
     }
 
+    /**
+     * Uploads an image to parse and returns its ID
+     *
+     * @param imageFile
+     * @return
+     */
     public String uploadImage(File imageFile){
         try
         {
-            Bitmap bmp = decodeSampledBitmapFromFile(imageFile.getAbsolutePath(), 500, 500);
+            Bitmap bmp = DataSource.decodeSampledBitmapFromFile(imageFile.getAbsolutePath(), 500, 500);
             ParseObject pObj = null;
             ParseFile pFile = null ;
             pObj = new ParseObject ("Document");
@@ -77,44 +86,31 @@ public class ImageDB {
     }
 
     /**
-     * Decodes an image file and resizes it if needed
+     * Gets an image from the DB
      *
-     * @param path
-     * @param reqWidth
-     * @param reqHeight
+     * @param id
      * @return
      */
-    private static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight)
-    { // BEST QUALITY MATCH
-
-        //First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        // Calculate inSampleSize, Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        int inSampleSize = 1;
-
-        if (height > reqHeight)
-        {
-            inSampleSize = Math.round((float)height / (float)reqHeight);
+    public Bitmap getImage(String id) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Document"); //TODO: fix this!!!
+        query.whereEqualTo("objectId", id);
+        try{
+            ParseObject object = query.get(id);
+            if (object != null) {
+                ParseFile file = (ParseFile)object.get("FileName");
+                byte[] data = file.getData();
+                Log.d(TAG,"got image from Parse. File id: " + file.getName());
+                return BitmapFactory.decodeByteArray(data,0, data.length);
+            }
+            else {
+                return null;
+            }
         }
-        int expectedWidth = width / inSampleSize;
-
-        if (expectedWidth > reqWidth)
-        {
-            //if(Math.round((float)width / (float)reqWidth) > inSampleSize) // If bigger SampSize..
-            inSampleSize = Math.round((float)width / (float)reqWidth);
+        catch (ParseException e){
+            Log.d(TAG,"get image failed");
+            return null;
         }
 
-        options.inSampleSize = inSampleSize;
 
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeFile(path, options);
     }
 }

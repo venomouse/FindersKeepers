@@ -95,7 +95,7 @@ public class AddItemActivity extends ActionBarActivity {
             display.getSize(size);
             int dim = size.x/2;
             //resize image
-            bitmap = Bitmap.createScaledBitmap(bitmap, dim, dim, true); //TODO: fix dimensions - rotate if needed
+            bitmap = Bitmap.createScaledBitmap(bitmap, dim, dim, true);
             //rotate according to orientation:
             Matrix matrix = new Matrix();
             switch (orientation){
@@ -141,9 +141,5 @@ public class AddItemActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void finishCallback(){
-        finish();
     }
 }
