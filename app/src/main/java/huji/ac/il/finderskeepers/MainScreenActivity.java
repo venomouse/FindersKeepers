@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -148,6 +149,27 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, false);
+
+        //TODO clean up here!
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+              if (location != null) {
+                  myloc = new LatLng(location.getLatitude(), location.getLongitude());
+              }
+
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        // Register the listener with the Location Manager to receive location updates
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
         Location location = locationManager.getLastKnownLocation(provider);
 
         //TODO save common locations/use home location
@@ -220,6 +242,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         {
 //            Get our saved file into a bitmap object:
             Intent intent = new Intent(this,AddItemActivity.class);
+            intent.putExtra("myLocation", myloc);
             intent.putExtra("filepath",imageFilePath);
             startActivity(intent);
 

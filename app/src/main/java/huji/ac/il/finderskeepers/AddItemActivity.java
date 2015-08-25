@@ -77,7 +77,9 @@ public class AddItemActivity extends ActionBarActivity {
                 int conditionInt = rdgCondition.indexOfChild(radioButton);
                 EditText edtDescription = (EditText) findViewById(R.id.edtDescription);
 
-                Item item = new Item(0, 0, ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt),
+                LatLng myLocation = (LatLng) getIntent().getParcelableExtra("myLocation");
+
+                Item item = new Item(myLocation.latitude, myLocation.longitude, ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt),
                         edtDescription.getText().toString() ,"check_test",new Date()); //TODO: put real info
                 uploadTask.execute(item);
             }
