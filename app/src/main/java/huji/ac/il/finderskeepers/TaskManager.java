@@ -6,9 +6,14 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.File;
+import java.util.List;
 
 import huji.ac.il.finderskeepers.data.Item;
+import huji.ac.il.finderskeepers.data.ItemCondition;
+import huji.ac.il.finderskeepers.data.ItemType;
 import huji.ac.il.finderskeepers.db.DataSource;
 
 /**
@@ -94,4 +99,34 @@ public class TaskManager {
             activity.complete(bitmap);
         }
     }
+
+    public static class FindItemsTask extends AsyncTask<Void, Integer, List<Item>> {
+        FindItemActivity activity;
+        ItemCondition minimalCondition;
+        ItemType type;
+        LatLng fromPoint;
+        double distance;
+
+        public FindItemsTask(FindItemActivity activity, ItemCondition minimalCondition,
+                ItemType type, LatLng fromPoint, double distance) {
+            this.activity = activity;
+            this.minimalCondition = minimalCondition;
+            this.type = type;
+            this.fromPoint = fromPoint;
+            this.distance = distance;
+        }
+
+        @Override
+        protected List<Item> doInBackground(Void... params) {
+            DataSource ds = DataSource.getDataSource();
+            return ds.findItemsByTypeConditionDistance(type, minimalCondition, fromPoint, distance);
+        }
+
+
+        protected void onPostExecute(List<Item> result) {
+            activity.complete(result);
+        }
+
+    }
+
 }

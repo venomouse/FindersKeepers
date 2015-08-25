@@ -89,23 +89,10 @@ public class FindItemActivity extends ActionBarActivity {
         SeekBar distanceSeekBar = (SeekBar) findViewById(R.id.findItemDistanceSeekBar);
         double distance = distanceKmFromSeekBar(distanceSeekBar, distanceSeekBar.getProgress());
 
-        DataSource ds = DataSource.getDataSource();
-        List<Item> items = ds.findItemsByTypeConditionDistance(ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt), fromPoint, distance);
+        TaskManager.FindItemsTask findItemsTask = new TaskManager.FindItemsTask(this, ItemCondition.fromInt(conditionInt),
+                                                                ItemType.fromInt(typeInt), fromPoint, distance);
 
-        if (items != null && items.size() != 0) {
-            CharSequence text = "Search succeeded";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        else {
-            CharSequence text = "No items found";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
-            toast.show();
-        }
+        findItemsTask.execute();
     }
 
 
@@ -132,4 +119,21 @@ public class FindItemActivity extends ActionBarActivity {
     }
 
 
+    public void complete(List<Item> searchResults) {
+        if (searchResults.size() != 0) {
+            CharSequence text = "Search succeeded";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            CharSequence text = "No items found";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+    }
 }
