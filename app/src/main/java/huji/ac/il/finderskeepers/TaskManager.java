@@ -1,6 +1,7 @@
 package huji.ac.il.finderskeepers;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -39,7 +40,6 @@ public class TaskManager {
             super.onPreExecute();
             bar = (ProgressBar) mActivity.findViewById(R.id.progressBar);
             bar.setVisibility(View.VISIBLE);
-            //showDialog(DIALOG_DOWNLOAD_PROGRESS);
         }
 
         @Override
@@ -57,6 +57,41 @@ public class TaskManager {
         protected void onPostExecute(String result) {
             bar.setVisibility(View.GONE);
             mActivity.finish();
+        }
+    }
+
+    public static class GetImageTask extends AsyncTask<String, Integer, String> {
+        private CompletableActivity activity;
+        private Bitmap bitmap;
+        private ProgressBar bar;
+        private DataSource ds = DataSource.getDataSource();
+
+        public GetImageTask(CompletableActivity activity,ProgressBar bar){
+            this.bar = bar;
+            this.activity = activity;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            bar = (ProgressBar) activity.findViewById(R.id.progressBar);
+            bar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... imageID) {
+            bitmap = ds.getImage(imageID[0]);
+            return "";
+        }
+
+        protected void onProgressUpdate(String... progress) {
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            bar.setVisibility(View.GONE);
+            activity.complete(bitmap);
         }
     }
 }

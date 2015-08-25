@@ -2,7 +2,7 @@ package huji.ac.il.finderskeepers;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,16 +10,18 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import  huji.ac.il.finderskeepers.data.*;
 
 
-public class ViewItemActivity extends Activity {
+public class ViewItemActivity extends CompletableActivity {
 
     private LatLng  myLocation = null;
     private Item item = null;
+    private ProgressBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +29,20 @@ public class ViewItemActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_view_item);
 
-        fillItemProperties();
+        bar = (ProgressBar) this.findViewById(R.id.progressBar);
+        //setting the contents of the item
+        Intent intent = getIntent();
+        item = (Item) intent.getSerializableExtra("item");
+        myLocation = (LatLng) intent.getParcelableExtra("myLocation");
+
+
 
         Button btnViewItemTakeMeThere = (Button) findViewById(R.id.viewItemTakeMeThereBtn);
         btnViewItemTakeMeThere.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                   public void onClick(View v) {
-                      onTakeMeThereClick(v);
-                    }
+            @Override
+            public void onClick(View v) {
+                onTakeMeThereClick(v);
+            }
         });
 
         Button btnViewItemBack = (Button) findViewById(R.id.viewItemBackBtn);
@@ -45,19 +53,19 @@ public class ViewItemActivity extends Activity {
             }
         });
 
+        TaskManager.GetImageTask getImageTask = new TaskManager.GetImageTask(this,bar);
+        getImageTask.execute(item.getImageID());
     }
 
     private void fillItemProperties() {
-        //setting the contents of the item
-        Intent intent = getIntent();
-        item = (Item) intent.getSerializableExtra("item");
-        myLocation = (LatLng) intent.getParcelableExtra("myLocation");
 
         ImageView typeIcon = (ImageView) findViewById(R.id.typeIcon);
         typeIcon.setImageResource(item.getType().iconID);
 
         ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
         conditionIcon.setImageResource(item.getCondition().iconID);
+
+
     }
 
 
@@ -94,5 +102,12 @@ public class ViewItemActivity extends Activity {
 
     private void onBackClick (View v) {
         this.finish();
+    }
+
+    public void complete(Object object){
+        fillItemProperties();
+        Bitmap bitmap = (Bitmap) object;
+        ImageView imageView = (ImageView) findViewById(R.id.itemImage);
+        imageView.setImageBitmap(bitmap);
     }
 }

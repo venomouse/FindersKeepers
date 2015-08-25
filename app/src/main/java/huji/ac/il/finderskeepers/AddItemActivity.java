@@ -2,6 +2,7 @@ package huji.ac.il.finderskeepers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.location.Criteria;
 import android.location.Location;
@@ -44,31 +45,15 @@ public class AddItemActivity extends ActionBarActivity {
         setContentView(R.layout.activity_add_item);
         final String path = getIntent().getStringExtra("filepath");
         final Bitmap bitmap;
-        bitmap = BitmapFactory.decodeFile(path);
 
         bar = (ProgressBar) this.findViewById(R.id.progressBar);
-//
-//        Button btnProgress = (Button) findViewById(R.id.btnProg);
-//        btnProgress.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                bar.setVisibility(View.VISIBLE);
-//
-//            }
-//        });
-
-        //get size of screen:
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int dim = size.x/2;
-
 
         Button btnAddItem = (Button) findViewById(R.id.btnAddItem);
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TaskManager.AddItemTask uploadTask = TaskManager.createAddItemTask(AddItemActivity.this,bar, new File(path));
+                //get input fields:
                 RadioGroup rdgType = (RadioGroup) findViewById(R.id.rdgType);
                 View radioButton = rdgType.findViewById(rdgType.getCheckedRadioButtonId());
                 int typeInt = rdgType.indexOfChild(radioButton);
@@ -85,19 +70,57 @@ public class AddItemActivity extends ActionBarActivity {
             }
         });
 
+        bitmap = normalizeImage(path);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setImageBitmap(bitmap);
         //get image orientation:
+
+
+    }
+
+    /**
+     * Creates, scales and rotates an image to fit the ImageView
+     *
+     * @param path
+     * @return
+     */
+    public Bitmap normalizeImage(String path){
         try{
+            //get orientation
             ExifInterface exif = new ExifInterface(path);
-            exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-            Bitmap resized = Bitmap.createScaledBitmap(bitmap, dim, dim, true); //TODO: fix dimensions - rotate if needed
-            ImageView imageView = (ImageView) findViewById(R.id.imageView);
-            imageView.setImageBitmap(resized);
+            int orientation = Integer.parseInt(exif.getAttribute(ExifInterface.TAG_ORIENTATION));
+            //read raw image
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            //get size of screen:
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int dim = size.x/2;
+            //resize image
+            bitmap = Bitmap.createScaledBitmap(bitmap, dim, dim, true);
+            //rotate according to orientation:
+            Matrix matrix = new Matrix();
+            switch (orientation){
+                case (ExifInterface.ORIENTATION_ROTATE_90): {
+                    matrix.postRotate(90);
+                    break;
+                }
+                case (ExifInterface.ORIENTATION_ROTATE_180):{
+                    matrix.postRotate(180);
+                    break;
+                }
+                case (ExifInterface.ORIENTATION_ROTATE_270):{
+                    matrix.postRotate(270);
+                    break;
+                }
+            }
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            return bitmap;
         }
         catch (Exception e){
-            Log.d("image orintation", e.getMessage());
+            Log.d("image orientation: ", e.getMessage());
+            return null;
         }
-
-
     }
 
     @Override
@@ -120,9 +143,5 @@ public class AddItemActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void finishCallback(){
-        finish();
     }
 }
