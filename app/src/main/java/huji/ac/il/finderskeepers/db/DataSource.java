@@ -81,6 +81,10 @@ public class DataSource {
         return items.findItemsTypeConditionDistance(type, minimalCondition, fromPoint, distance);
     }
 
+    public List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight) {
+        return items.findItemsInGeoBox(lowerLeft, upperRight);
+    }
+
     /**
      * Adds a user to the DB (synchronously)
      * @param user
