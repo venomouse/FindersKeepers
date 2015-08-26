@@ -48,8 +48,7 @@ public class ImageDB {
             Bitmap bmp = DataSource.decodeSampledBitmapFromFile(imageFile.getAbsolutePath(), 500, 500);
             ParseObject pObj = null;
             ParseFile pFile = null ;
-            pObj = new ParseObject ("Document");
-            pObj.put("Notes", "Some Value");
+            pObj = new ParseObject (tableName);
 
             // Ensure bmp has value
             if (bmp == null ) {
@@ -92,7 +91,7 @@ public class ImageDB {
      * @return
      */
     public Bitmap getImage(String id) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Document"); //TODO: fix this!!!
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(tableName);
         query.whereEqualTo("objectId", id);
         try{
             ParseObject object = query.get(id);
