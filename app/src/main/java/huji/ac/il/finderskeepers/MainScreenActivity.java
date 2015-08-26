@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.system.Os;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,9 +25,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
@@ -37,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import  huji.ac.il.finderskeepers.data.*;
 import huji.ac.il.finderskeepers.db.DataSource;
@@ -61,7 +65,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private LocationManager locationManager;
 
     private HashMap <Marker, Item> markerItemMap;
-    private LinkedList<Item> itemsToDisplay;
+    private List<Item> itemsToDisplay;
     LatLng myloc = null;
     private String imageFilePath = null;
 
@@ -177,29 +181,44 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
                 new LatLng(location.getLatitude(), location.getLongitude());
 
         //the zoom is between 2 and 21
+
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition position) {
+                fetchItemsToDisplay();
+
+                //put marker for every item in the list
+                for (Item item : itemsToDisplay)
+                {
+                    Marker marker =  mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(item.getLatitude(), item.getLongitude())));
+
+                    markerItemMap.put(marker, item);
+
+
+                }
+            }
+        });
+
         //TODO remove the magic number
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
 
-        fetchItemsToDisplay();
 
-        //put marker for every item in the list
-        for (Item item : itemsToDisplay)
-        {
-            Marker marker =  mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(item.getLatitude(), item.getLongitude())));
-
-            markerItemMap.put(marker, item);
-
-
-        }
     }
 
     void fetchItemsToDisplay () {
-        itemsToDisplay = new LinkedList<Item>();
-        DataSource ds = DataSource.getDataSource();
-        Item mySampleItem = ds.findItemByID("J4yHvklOY8");
+    //    itemsToDisplay = new LinkedList<Item>();
+    //     DataSource ds = DataSource.getDataSource();
+    //   Item mySampleItem = ds.findItemByID("J4yHvklOY8");
 
-        itemsToDisplay.add(mySampleItem);
+    //    itemsToDisplay.add(mySampleItem);
+
+        VisibleRegion vr = mMap.getProjection().getVisibleRegion();
+        LatLng lowerLeft = mMap.getProjection().getVisibleRegion().nearLeft;
+        LatLng upperRight = mMap.getProjection().getVisibleRegion().farRight;
+
+        DataSource ds = DataSource.getDataSource();
+        itemsToDisplay = ds.findItemsInGeoBox(lowerLeft, upperRight);
     }
 
     @Override

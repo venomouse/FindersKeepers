@@ -139,6 +139,22 @@ public class ItemDB {
         return new ArrayList<Item>();
     }
 
+    public List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
+        query.whereWithinGeoBox("location", new ParseGeoPoint(lowerLeft.latitude, lowerLeft.longitude),
+                                            new ParseGeoPoint(upperRight.latitude, upperRight.longitude));
+
+        try {
+            List<ParseObject> objectList = query.find();
+            return parseObjectListToItemList(objectList);
+        }
+        catch (ParseException e) {
+            Log.d("GeoBox Find operation failed", e.getMessage());
+        }
+
+        return new ArrayList<Item>();
+    }
+
     /**
      * Converts an Item into a ParseObject
      *
