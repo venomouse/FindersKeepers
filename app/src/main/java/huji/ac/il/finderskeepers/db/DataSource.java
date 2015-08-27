@@ -2,7 +2,11 @@ package huji.ac.il.finderskeepers.db;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.Point;
+import android.media.ExifInterface;
 import android.util.Log;
+import android.view.Display;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -97,7 +101,8 @@ public class DataSource {
      * @param imageFile
      * @return id of image
      */
-    public String uploadImage(File imageFile){ return images.uploadImage(imageFile);   }
+    public String uploadImage(File imageFile){
+        return images.uploadImage(imageFile);   }
 
     /**
      * gets an image from the DB
@@ -152,4 +157,46 @@ public class DataSource {
 
         return BitmapFactory.decodeFile(path, options);
     }
+
+    /**
+     * Creates, scales and corrects the orientation of an image
+     *
+     * @param path
+     * @return
+     */
+    public static Bitmap normalizeImage(String path, int targetWidth, int targetHeight){
+        try{
+            //get orientation
+            ExifInterface exif = new ExifInterface(path);
+            int orientation = Integer.parseInt(exif.getAttribute(ExifInterface.TAG_ORIENTATION));
+            //read raw image
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+
+            //resize image
+            bitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
+            //rotate according to orientation:
+            Matrix matrix = new Matrix();
+            switch (orientation){
+                case (ExifInterface.ORIENTATION_ROTATE_90): {
+                    matrix.postRotate(90);
+                    break;
+                }
+                case (ExifInterface.ORIENTATION_ROTATE_180):{
+                    matrix.postRotate(180);
+                    break;
+                }
+                case (ExifInterface.ORIENTATION_ROTATE_270):{
+                    matrix.postRotate(270);
+                    break;
+                }
+            }
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            return bitmap;
+        }
+        catch (Exception e){
+            Log.d("image orientation: ", e.getMessage());
+            return null;
+        }
+    }
+
 }
