@@ -7,7 +7,8 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/border">
         <TableRow
             android:id="@+id/MainButtons"
             android:layout_width="wrap_content"
@@ -18,17 +19,20 @@
                 android:id="@+id/findItemBtn"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Find Item" />
+                android:text="Find Item"
+                android:background="@android:drawable/btn_default" />
             <Button
                 android:id="@+id/reportItemBtn"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Report Item" />
+                android:text="Report Item"
+                android:background="@android:drawable/btn_default" />
             <Button
                 android:id="@+id/profileBtn"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Profile" />
+                android:text="Profile"
+                android:background="@android:drawable/btn_default" />
         </TableRow>
         </TableLayout>
 

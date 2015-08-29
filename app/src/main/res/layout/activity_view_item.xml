@@ -6,62 +6,83 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="huji.ac.il.finderskeepers.AddItemActivity"
-    android:id="@+id/activityViewItemParent">
+    android:id="@+id/activityViewItemParent"
+    android:background="#ffffff">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/linearLayout"
+        android:scrollbars="none"
+        android:fillViewport="true">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context="huji.ac.il.finderskeepers.ViewItemActivity">
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/itemImage" />
-
-        <TextView android:text="Type:" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/typeIcon" />
-
-        <TextView android:text="Condition:" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/conditionIcon" />
-
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:visibility="visible"
+            tools:context="huji.ac.il.finderskeepers.ViewItemActivity"
+            android:id="@+id/activityViewItem">
 
-            <Button
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/itemImage"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:padding="5px" />
+
+            <TextView android:text="Type:" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back"
-                android:layout_weight="1"
-                android:id="@+id/viewItemBackBtn" />
+                android:id="@+id/typeIcon" />
 
-            <Button
+            <TextView android:text="Condition:" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Take Me There!"
-                android:layout_weight="1"
-                android:id="@+id/viewItemTakeMeThereBtn" />
+                android:id="@+id/conditionIcon" />
+
         </LinearLayout>
+    </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentRight="false"
+        android:paddingTop="0dp"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_weight="1"
+            android:id="@+id/viewItemBackBtn" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take Me There!"
+            android:layout_weight="1"
+            android:id="@+id/viewItemTakeMeThereBtn" />
     </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
