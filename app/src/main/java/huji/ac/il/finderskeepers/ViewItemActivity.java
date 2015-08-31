@@ -61,11 +61,11 @@ public class ViewItemActivity extends CompletableActivity {
 
     private void fillItemProperties() {
 
-//        ImageView typeIcon = (ImageView) findViewById(R.id.typeIcon);
-//        typeIcon.setImageResource(item.getType().iconID);
-//
-//        ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
-//        conditionIcon.setImageResource(item.getCondition().iconID);
+        ImageView typeIcon = (ImageView) findViewById(R.id.typeIcon);
+        typeIcon.setImageResource(item.getType().iconID);
+
+        ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
+        conditionIcon.setImageResource(item.getCondition().iconID);
 
 
     }
