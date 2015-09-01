@@ -10,7 +10,7 @@
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_marginTop="95dp"
-        android:background="@drawable/FK_logo"
+        android:background="@drawable/fk_logo"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
