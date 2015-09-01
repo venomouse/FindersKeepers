@@ -133,7 +133,7 @@ public class ItemDB {
             return parseObjectListToItemList(objectList);
         }
         catch (ParseException e) {
-            Log.d("Find operation failed", e.getMessage());
+            Log.d(TAG, "Find operation failed: " + e.getMessage());
         }
 
         return new ArrayList<Item>();
@@ -149,7 +149,7 @@ public class ItemDB {
             return parseObjectListToItemList(objectList);
         }
         catch (ParseException e) {
-            Log.d("GeoBox Find operation failed", e.getMessage());
+            Log.d(TAG ,"GeoBox Find operation failed: " + e.getMessage());
         }
 
         return new ArrayList<Item>();

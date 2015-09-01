@@ -9,4 +9,8 @@
     <string name="title_activity_find_item">FindItemActivity</string>
     <string name="title_activity_add_item">AddItemActivity</string>
     <string name="title_activity_search_results">Search Results</string>
+
+    <string name="item_condition_0">needs repair</string>
+    <string name="item_condition_1">so-so</string>
+    <string name="item_condition_2">mint</string>
 </resources>

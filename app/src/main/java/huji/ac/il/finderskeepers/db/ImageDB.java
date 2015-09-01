@@ -45,7 +45,7 @@ public class ImageDB {
     public String uploadImage(File imageFile){
         try
         {
-            Bitmap bmp = DataSource.normalizeImage(imageFile.getAbsolutePath(), 500, 500);
+            Bitmap bmp = DataSource.normalizeImage(imageFile.getAbsolutePath(), 500, 500,true);
             ParseObject pObj = null;
             ParseFile pFile = null ;
             pObj = new ParseObject (tableName);

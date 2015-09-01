@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -109,5 +111,7 @@ public class ViewItemActivity extends CompletableActivity {
         Bitmap bitmap = (Bitmap) object;
         ImageView imageView = (ImageView) findViewById(R.id.itemImage);
         imageView.setImageBitmap(bitmap);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.activityViewItem);
+        layout.setVisibility(View.VISIBLE);
     }
 }

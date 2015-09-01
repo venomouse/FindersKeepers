@@ -160,12 +160,12 @@ public class DataSource {
     }
 
     /**
-     * Creates, scales and corrects the orientation of an image
+     * Creates, scales and corrects the orientation of an image.
      *
      * @param path
      * @return
      */
-    public static Bitmap normalizeImage(String path, int targetWidth, int targetHeight){
+    public static Bitmap normalizeImage(String path, int targetWidth, int targetHeight, boolean cropToSquare){
         try{
             //get orientation
             ExifInterface exif = new ExifInterface(path);
@@ -173,6 +173,14 @@ public class DataSource {
             //read raw image
             Bitmap bitmap = BitmapFactory.decodeFile(path);
 
+            //crop to square at middle if selected
+            if (cropToSquare){
+                int d = Math.min(bitmap.getWidth(),bitmap.getHeight());
+                int marginLeft = (bitmap.getWidth() - d)/2;
+                int marginTop = (bitmap.getHeight() - d)/2;
+
+                bitmap = Bitmap.createBitmap(bitmap,marginLeft,marginTop,d,d);
+            }
             //resize image
             bitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
             //rotate according to orientation:
