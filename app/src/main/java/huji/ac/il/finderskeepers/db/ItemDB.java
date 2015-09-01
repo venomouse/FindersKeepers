@@ -121,7 +121,7 @@ public class ItemDB {
         }
     }
 
-    public List<Item> findItemsTypeConditionDistance (ItemType type, ItemCondition minimalCondition,
+    public ArrayList<Item> findItemsTypeConditionDistance (ItemType type, ItemCondition minimalCondition,
                                                       LatLng fromPoint, double distance) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereEqualTo("type", type.value);
@@ -187,8 +187,8 @@ public class ItemDB {
         return item;
     }
 
-    private List<Item> parseObjectListToItemList(List <ParseObject> parseObjectList) {
-        List<Item> itemList = new ArrayList<Item>();
+    private ArrayList<Item> parseObjectListToItemList(List <ParseObject> parseObjectList) {
+        ArrayList<Item> itemList = new ArrayList<Item>();
 
         for (ParseObject parseObject : parseObjectList ) {
             itemList.add(parseObjectToItem(parseObject));

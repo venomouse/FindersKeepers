@@ -16,6 +16,7 @@ import com.parse.ParseObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class DataSource {
      * @param minimalCondition
      * @return items in the database that fit the search criteria
      */
-    public List<Item> findItemsByTypeConditionDistance(ItemType type, ItemCondition minimalCondition,
+    public ArrayList<Item> findItemsByTypeConditionDistance(ItemType type, ItemCondition minimalCondition,
                                                        LatLng fromPoint, double distance) {
         return items.findItemsTypeConditionDistance(type, minimalCondition, fromPoint, distance);
     }
