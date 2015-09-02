@@ -44,7 +44,7 @@ public class DataSource {
      */
     private DataSource(){
         items = new ItemDB("item");
-        users = new UserDB("user");
+        users = new UserDB("_User"); //this
         images = new ImageDB("image");
     }
 
@@ -90,17 +90,36 @@ public class DataSource {
     }
 
     /**
-     * Adds a user to the DB (synchronously)
-     * @param user
+     * Adds a user to the DB (synchronously).
+     * If the user already exists, null is returned.
+     *
+     * @param username
      */
-    public void addUser(User user){ users.addUser(user); }
+    public User addUser(String username){ return users.addUser(username); }
 
     /**
-     * Adds an image to the DB
+     * Adds the itemid to the list of items reported by the user with userid
      *
-     * @param imageFile
-     * @return id of image
+     * @param userid
+     * @param itemid
      */
+    public void addToReportedItems(String userid, String itemid){ users.addToReportedItems(userid,itemid);}
+
+    /**
+     * Adds the itemid to the list of items collected by the user with userid
+     *
+     * @param userid
+     * @param itemid
+     */
+    public void addToCollectedItems(String userid, String itemid){ users.addToCollectedItems(userid,itemid);}
+
+
+        /**
+         * Adds an image to the DB
+         *
+         * @param imageFile
+         * @return id of image
+         */
     public String uploadImage(File imageFile){
         return images.uploadImage(imageFile);   }
 

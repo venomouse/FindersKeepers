@@ -51,7 +51,9 @@ public class TaskManager {
         protected String doInBackground(Item... items) {
             String serverImageID = ds.uploadImage(itemImage);
             items[0].setImageID(serverImageID);
-            return  ds.addItem(items[0]);
+            String itemId = ds.addItem(items[0]);
+            ds.addToReportedItems(items[0].getReporterID(),itemId);
+            return  itemId;
         }
 
         protected void onProgressUpdate(String... progress) {

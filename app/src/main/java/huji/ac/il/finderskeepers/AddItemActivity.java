@@ -64,8 +64,10 @@ public class AddItemActivity extends ActionBarActivity {
 
                 LatLng myLocation = (LatLng) getIntent().getParcelableExtra("myLocation");
 
+                String userid = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("userid", null);
+
                 Item item = new Item(myLocation.latitude, myLocation.longitude, ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt),
-                        edtDescription.getText().toString() ,"check_test",new Date()); //TODO: put real info
+                        edtDescription.getText().toString() ,userid ,new Date()); //TODO: put real info
                 uploadTask.execute(item);
             }
         });
