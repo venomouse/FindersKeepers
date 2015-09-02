@@ -159,6 +159,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
             public void onLocationChanged(Location location) {
               if (location != null) {
                   myloc = new LatLng(location.getLatitude(), location.getLongitude());
+                  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
               }
 
             }
@@ -207,6 +208,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     }
 
     void fetchItemsToDisplay () {
+        //TODO remove
     //    itemsToDisplay = new LinkedList<Item>();
     //     DataSource ds = DataSource.getDataSource();
     //   Item mySampleItem = ds.findItemByID("J4yHvklOY8");

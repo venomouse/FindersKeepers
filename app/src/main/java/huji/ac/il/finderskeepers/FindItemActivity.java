@@ -19,6 +19,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import huji.ac.il.finderskeepers.data.Item;
@@ -30,6 +31,8 @@ import huji.ac.il.finderskeepers.db.DataSource;
 public class FindItemActivity extends ActionBarActivity {
 
     double MAX_DISTANCE = 5;
+
+    LatLng fromPoint = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +87,13 @@ public class FindItemActivity extends ActionBarActivity {
         int conditionInt = findItemConditionRdg.indexOfChild(conditionRadioButton);
 
         //TODO temporary - need to add other options of fromPoint
-        LatLng fromPoint = (LatLng) getIntent().getParcelableExtra("myLocation");
+        fromPoint = (LatLng) getIntent().getParcelableExtra("myLocation");
 
         SeekBar distanceSeekBar = (SeekBar) findViewById(R.id.findItemDistanceSeekBar);
         double distance = distanceKmFromSeekBar(distanceSeekBar, distanceSeekBar.getProgress());
 
-        TaskManager.FindItemsTask findItemsTask = new TaskManager.FindItemsTask(this, ItemCondition.fromInt(conditionInt),
-                                                                ItemType.fromInt(typeInt), fromPoint, distance);
+        TaskManager.FindItemsTask findItemsTask = new TaskManager.FindItemsTask(this, ItemType.fromInt(typeInt),
+                                        ItemCondition.fromInt(conditionInt), fromPoint, distance);
 
         findItemsTask.execute();
     }
@@ -119,13 +122,12 @@ public class FindItemActivity extends ActionBarActivity {
     }
 
 
-    public void complete(List<Item> searchResults) {
+    public void complete(ArrayList<Item> searchResults) {
         if (searchResults.size() != 0) {
-            CharSequence text = "Search succeeded";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
-            toast.show();
+            Intent searchResultsIntent = new Intent(this, SearchResultsActivity.class);
+            searchResultsIntent.putParcelableArrayListExtra("searchResults", searchResults);
+            searchResultsIntent.putExtra("fromPoint", fromPoint);
+            startActivity(searchResultsIntent);
         }
         else {
             CharSequence text = "No items found";

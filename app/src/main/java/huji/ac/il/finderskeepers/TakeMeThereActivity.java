@@ -56,8 +56,8 @@ public class TakeMeThereActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_me_there);
 
-        fromPoint = (LatLng) getIntent().getParcelableExtra("from");
-        toPoint = (LatLng) getIntent().getParcelableExtra("to");
+        fromPoint = getIntent().getParcelableExtra("from");
+        toPoint =  getIntent().getParcelableExtra("to");
         setUpMapIfNeeded();
 
         Button takeMeThereBackBtn = (Button) findViewById(R.id.takeMeThereBackBtn);

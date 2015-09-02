@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import huji.ac.il.finderskeepers.data.Item;
@@ -102,15 +103,15 @@ public class TaskManager {
         }
     }
 
-    public static class FindItemsTask extends AsyncTask<Void, Integer, List<Item>> {
+    public static class FindItemsTask extends AsyncTask<Void, Integer, ArrayList<Item>> {
         FindItemActivity activity;
         ItemCondition minimalCondition;
         ItemType type;
         LatLng fromPoint;
         double distance;
 
-        public FindItemsTask(FindItemActivity activity, ItemCondition minimalCondition,
-                ItemType type, LatLng fromPoint, double distance) {
+        public FindItemsTask(FindItemActivity activity, ItemType type, ItemCondition minimalCondition,
+               LatLng fromPoint, double distance) {
             this.activity = activity;
             this.minimalCondition = minimalCondition;
             this.type = type;
@@ -119,13 +120,13 @@ public class TaskManager {
         }
 
         @Override
-        protected List<Item> doInBackground(Void... params) {
+        protected ArrayList<Item> doInBackground(Void... params) {
             DataSource ds = DataSource.getDataSource();
             return ds.findItemsByTypeConditionDistance(type, minimalCondition, fromPoint, distance);
         }
 
 
-        protected void onPostExecute(List<Item> result) {
+        protected void onPostExecute(ArrayList<Item> result) {
             activity.complete(result);
         }
 

@@ -34,7 +34,7 @@ public class ViewItemActivity extends CompletableActivity {
         bar = (ProgressBar) this.findViewById(R.id.progressBar);
         //setting the contents of the item
         Intent intent = getIntent();
-        item = (Item) intent.getSerializableExtra("item");
+        item = (Item) intent.getParcelableExtra("item");
         myLocation = (LatLng) intent.getParcelableExtra("myLocation");
 
 

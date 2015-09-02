@@ -60,6 +60,14 @@
                 android:value="huji.ac.il.finderskeepers.MainScreenActivity" />
         </activity>
         <activity
+            android:name=".SearchResultsActivity"
+            android:label="@string/title_activity_search_results"
+            android:parentActivityName=".MainScreenActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="huji.ac.il.finderskeepers.MainScreenActivity" />
+        </activity>
+        <activity
             android:name=".SplashScreen"
             android:label="@string/title_activity_splash_screen"
             android:theme="@style/Theme.AppCompat.NoActionBar"
