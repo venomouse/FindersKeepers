@@ -125,6 +125,13 @@ public class DataSource {
         return images.uploadImage(imageFile);   }
 
     /**
+     * marks an item in the db as unavailable
+     *
+     * @param item
+     */
+    public void setUnavailable(Item item){ items.setUnavailable(item); }
+
+    /**
      * gets an image from the DB
      *
      * @param id

@@ -95,7 +95,7 @@ public class ViewItemActivity extends CompletableActivity {
 
     private void onTakeMeThereClick(View v){
         Intent takeMeThereIntent = new Intent(this,TakeMeThereActivity.class);
-
+        takeMeThereIntent.putExtra("item",item);
         takeMeThereIntent.putExtra("from", myLocation);
         takeMeThereIntent.putExtra("to", new LatLng(item.getLatitude(), item.getLongitude()));
 

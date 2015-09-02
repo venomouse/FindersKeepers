@@ -66,8 +66,8 @@ public class AddItemActivity extends ActionBarActivity {
 
                 String userid = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("userid", null);
 
-                Item item = new Item(myLocation.latitude, myLocation.longitude, ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt),
-                        edtDescription.getText().toString() ,userid ,new Date()); //TODO: put real info
+                Item item = new Item(true,myLocation.latitude, myLocation.longitude, ItemType.fromInt(typeInt), ItemCondition.fromInt(conditionInt),
+                        edtDescription.getText().toString() ,userid ,new Date());
                 uploadTask.execute(item);
             }
         });

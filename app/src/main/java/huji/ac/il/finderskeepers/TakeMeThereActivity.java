@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,11 +42,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import huji.ac.il.finderskeepers.data.Item;
+import huji.ac.il.finderskeepers.data.User;
+import huji.ac.il.finderskeepers.db.DataSource;
+
 
 public class TakeMeThereActivity extends FragmentActivity {
 
     GoogleMap directionsMap = null;
-
+    Item item = null;
+    String currUserID = null;
     LatLng fromPoint = null;
     LatLng toPoint = null;
 
@@ -56,6 +63,7 @@ public class TakeMeThereActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_me_there);
 
+        item = getIntent().getParcelableExtra("item");
         fromPoint = getIntent().getParcelableExtra("from");
         toPoint =  getIntent().getParcelableExtra("to");
         setUpMapIfNeeded();
@@ -67,6 +75,8 @@ public class TakeMeThereActivity extends FragmentActivity {
                 onBackClick(v);
             }
         });
+
+        currUserID = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("userid", null);
 
         Button takeMeTherePickUpBtn = (Button) findViewById(R.id.takeMeTherePickUpBtn);
         takeMeTherePickUpBtn.setOnClickListener(new View.OnClickListener() {
@@ -145,16 +155,22 @@ public class TakeMeThereActivity extends FragmentActivity {
     }
 
     private void onPickUpClick(View v) {
-        //TODO add database update
-        Intent a = new Intent(this,MainScreenActivity.class);
-        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(a);
+        UpdateItemTask updateItemTask = new UpdateItemTask(currUserID,item);
+        updateItemTask.execute(true);
+
+//        //TODO add database update
+//        Intent a = new Intent(this,MainScreenActivity.class);
+//        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(a);
     }
     private void onGoneClick(View v) {
         //TODO add database update
-        Intent a = new Intent(this,MainScreenActivity.class);
-        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(a);
+        UpdateItemTask updateItemTask = new UpdateItemTask(currUserID,item);
+        updateItemTask.execute(false);
+
+//        Intent a = new Intent(this,MainScreenActivity.class);
+//        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(a);
     }
 
 
@@ -221,5 +237,41 @@ public class TakeMeThereActivity extends FragmentActivity {
     public static class OverviewPolyLine {
         @Key("points")
         public String points;
+    }
+
+
+    public class UpdateItemTask extends AsyncTask<Boolean, Integer, Integer> {
+        Item item;
+        String userid;
+        public UpdateItemTask(String currUserID, Item item){
+            userid = currUserID;
+            this.item = item;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            ProgressBar bar = (ProgressBar) TakeMeThereActivity.this.findViewById(R.id.progressBar);
+            bar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Integer doInBackground(Boolean... isCollected) {
+            DataSource.getDataSource().setUnavailable(item);
+
+            // if item is collected we need to update the user DB
+            if (isCollected[0]){
+                DataSource.getDataSource().addToCollectedItems(userid, item.getId());
+            }
+            return 0;
+        }
+
+        protected void onPostExecute(Integer status) {
+            ProgressBar bar = (ProgressBar) TakeMeThereActivity.this.findViewById(R.id.progressBar);
+            bar.setVisibility(View.INVISIBLE);
+            Intent mainIntent = new Intent(TakeMeThereActivity.this, MainScreenActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(mainIntent);
+        }
+
     }
 }

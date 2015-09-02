@@ -142,7 +142,7 @@ public class ItemDB {
     public List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereWithinGeoBox("location", new ParseGeoPoint(lowerLeft.latitude, lowerLeft.longitude),
-                                            new ParseGeoPoint(upperRight.latitude, upperRight.longitude));
+                new ParseGeoPoint(upperRight.latitude, upperRight.longitude));
 
         try {
             List<ParseObject> objectList = query.find();
@@ -155,6 +155,21 @@ public class ItemDB {
         return new ArrayList<Item>();
     }
 
+    public void setUnavailable(Item item){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(tableName);
+        try {
+            ParseObject result = query.get(item.getId()); // THIS BLOCKS!
+            Log.d(TAG, "object found in query. ID: " + result.getObjectId());
+            result.put("available", false);
+            result.save();
+        }
+        catch (ParseException e){
+            Log.d(TAG, "no object found: " + e.getMessage());
+        }
+
+    }
+
+
     /**
      * Converts an Item into a ParseObject
      *
@@ -164,6 +179,7 @@ public class ItemDB {
     private ParseObject itemToParseObject(Item item){
         ParseObject itemObject = new ParseObject(tableName);
         itemObject.put("condition", item.getCondition().value);
+        itemObject.put("available", item.isAvailable());
         itemObject.put("description", item.getDescription());
         itemObject.put("creation_date", item.getCreationDate());
         //using the ParseGeoPoint which supports various geo-location methods:
@@ -175,7 +191,7 @@ public class ItemDB {
     }
 
     private Item parseObjectToItem (ParseObject parseObject) {
-        Item item = new Item(parseObject.getObjectId(),
+        Item item = new Item(parseObject.getObjectId(),parseObject.getBoolean("available"),
                          parseObject.getParseGeoPoint("location").getLatitude(),
                          parseObject.getParseGeoPoint("location").getLongitude(),
                          ItemType.fromInt(parseObject.getInt("type")),
@@ -191,6 +207,7 @@ public class ItemDB {
         ArrayList<Item> itemList = new ArrayList<Item>();
 
         for (ParseObject parseObject : parseObjectList ) {
+            String id = parseObject.getObjectId();
             itemList.add(parseObjectToItem(parseObject));
         }
         return itemList;

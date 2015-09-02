@@ -1,44 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    tools:context=".TakeMeThereActivity">
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow
-            android:id="@+id/MainButtons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
-
-            <Button
-                android:id="@+id/takeMeThereBackBtn"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@android:color/holo_green_light"
-                android:text="Back" />
-            <Button
-                android:id="@+id/takeMeTherePickUpBtn"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@android:color/holo_green_light"
-                android:text="Pick Up" />
-            <Button
-                android:id="@+id/takeMeThereGoneBtn"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@android:color/holo_green_light"
-                android:text="Gone" />
-        </TableRow>
-    </TableLayout>
-
-    <fragment
-        android:layout_width="match_parent"
+    android:layout_width="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="match_parent"
-        android:id="@+id/takeMeThereMap"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        tools:context=".TakeMeThereActivity">
 
-</LinearLayout>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow
+                android:id="@+id/MainButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip" >
+
+                <Button
+                    android:id="@+id/takeMeThereBackBtn"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@android:color/holo_green_light"
+                    android:text="Back" />
+                <Button
+                    android:id="@+id/takeMeTherePickUpBtn"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@android:color/holo_green_light"
+                    android:text="Pick Up" />
+                <Button
+                    android:id="@+id/takeMeThereGoneBtn"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@android:color/holo_green_light"
+                    android:text="Gone" />
+            </TableRow>
+        </TableLayout>
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/takeMeThereMap"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    </LinearLayout>
+    <ProgressBar
+    android:id="@+id/progressBar"
+    style="?android:attr/progressBarStyleLarge"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:visibility="invisible"
+    android:indeterminateDrawable="@drawable/progress_bar"
+    android:layout_gravity="center_horizontal"
+        android:indeterminate="false">
+    </ProgressBar>
+</RelativeLayout>

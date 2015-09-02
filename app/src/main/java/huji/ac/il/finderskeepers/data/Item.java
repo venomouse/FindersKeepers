@@ -15,6 +15,16 @@ public class Item implements Parcelable {
     public static final int  EMPTY_ID = -1;
 
     String id = null; //this will be set when item is added to DB
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    boolean available = true;
     double latitude;
     double longitude;
 
@@ -27,9 +37,24 @@ public class Item implements Parcelable {
 
     String imageID; // a reference to an image
 
-    public Item(String id, double latitude, double longitude, ItemType type, ItemCondition condition,
+    /**
+     * Ctor for saved items
+     *
+     * @param id
+     * @param available
+     * @param latitude
+     * @param longitude
+     * @param type
+     * @param condition
+     * @param description
+     * @param reporterID
+     * @param creationDate
+     */
+    public Item(String id,boolean available, double latitude, double longitude, ItemType type, ItemCondition condition,
                 String description, String reporterID, Date creationDate)
     {
+        this.id = id;
+        this.available = available;
         this.latitude = latitude;
         this.longitude = longitude;
         this.type = type;
@@ -40,7 +65,7 @@ public class Item implements Parcelable {
         this.imageID = ""; // at start set to empty string, later get DB-relative ID
     }
 
-    public Item(double latitude, double longitude, ItemType type, ItemCondition condition,
+    public Item(boolean available, double latitude, double longitude, ItemType type, ItemCondition condition,
                 String description, String reporterID, Date creationDate)
     {
         this.latitude = latitude;
@@ -56,6 +81,7 @@ public class Item implements Parcelable {
     public Item(Parcel source)
     {
         this.id = source.readString();
+        this.available = source.readByte() != 0;
         this.latitude = source.readDouble();
         this.longitude = source.readDouble();
         this.type = ItemType.fromInt(source.readInt());
@@ -86,6 +112,7 @@ public class Item implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeByte((byte) (available ? 1 : 0));
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeInt(type.value);
