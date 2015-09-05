@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.Criteria;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -45,6 +47,7 @@ import java.util.List;
 
 import  huji.ac.il.finderskeepers.data.*;
 import huji.ac.il.finderskeepers.db.DataSource;
+import huji.ac.il.finderskeepers.design.RectButton;
 import huji.ac.il.finderskeepers.design.SquareButton;
 
 
@@ -97,27 +100,30 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 //        catch (ParseException e){
 //
 //        }
-        final SquareButton reportItemBtn = (SquareButton) findViewById(R.id.reportItemBtn);
+        final RectButton reportItemBtn = (RectButton) findViewById(R.id.reportItemBtn);
         reportItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RectButton reportBtn = (RectButton) v;
+                reportBtn.setBackgroundResource(R.drawable.main_report_item_btn_rect_pushed);
+
                 dispatchTakePictureIntent();
             }
         });
 
-        final SquareButton findItemBtn = (SquareButton) findViewById(R.id.findItemBtn);
+        final RectButton findItemBtn = (RectButton) findViewById(R.id.findItemBtn);
         findItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFindClick();
+                onFindClick(v);
             }
         });
 
-        final SquareButton ProfileBtn = (SquareButton) findViewById(R.id.profileBtn);
+        final RectButton ProfileBtn = (RectButton) findViewById(R.id.profileBtn);
         ProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onProfileClick();
+                onProfileClick(v);
             }
         });
     }
@@ -208,7 +214,8 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
                 for (Item item : itemsToDisplay)
                 {
                     Marker marker =  mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(item.getLatitude(), item.getLongitude())));
+                            .position(new LatLng(item.getLatitude(), item.getLongitude()))
+                            .icon(BitmapDescriptorFactory.fromResource(item.getType().markerID)));
 
                     markerItemMap.put(marker, item);
 
@@ -262,16 +269,26 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         startActivityForResult(intent, CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE);
     }
 
-    private void onFindClick() {
+    private void onFindClick(View v) {
+        RectButton findBtn = (RectButton) v;
+        findBtn.setBackgroundResource(R.drawable.main_find_item_btn_rect_pushed);
+
         Intent findItemIntent = new Intent(this,FindItemActivity.class);
         findItemIntent.putExtra("myLocation", myloc);
         startActivity(findItemIntent);
+
+        findBtn.setBackgroundResource(R.drawable.main_find_item_btn_rect);
     }
 
-    private void onProfileClick() {
+    private void onProfileClick(View v) {
+        RectButton profileBtn = (RectButton) v;
+        profileBtn.setBackgroundResource(R.drawable.main_profile_btn_rect_pushed);
+
         Intent profileIntent = new Intent(this,ProfileActivity.class);
         profileIntent.putExtra("myLocation", myloc);
         startActivity(profileIntent);
+
+        profileBtn.setBackgroundResource(R.drawable.main_profile_btn_rect);
     }
 
     @Override

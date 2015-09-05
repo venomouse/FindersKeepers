@@ -7,16 +7,18 @@ import huji.ac.il.finderskeepers.R;
  * Created by Maria on 7/25/2015.
  */
 public enum ItemType {
-    FURNITURE(0, R.drawable.furniture_icon),
-    CLOTHES(1, R.drawable.clothes_icon),
-    BOOKS(2, R.drawable.books_icon);
+    FURNITURE(0, R.drawable.furniture_icon,R.drawable.furniture_marker),
+    CLOTHES(1, R.drawable.clothes_icon, R.drawable.clothes_marker),
+    BOOKS(2, R.drawable.books_icon, R.drawable.books_marker);
 
     public int value;
     public int iconID;
+    public int markerID;
 
-    ItemType (int value, int iconID) {
+    ItemType (int value, int iconID, int markerID) {
         this.value = value;
         this.iconID = iconID;
+        this.markerID = markerID;
     }
 
 

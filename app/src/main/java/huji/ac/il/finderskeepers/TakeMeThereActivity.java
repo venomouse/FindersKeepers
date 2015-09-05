@@ -45,6 +45,7 @@ import java.util.List;
 import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.data.User;
 import huji.ac.il.finderskeepers.db.DataSource;
+import huji.ac.il.finderskeepers.design.RectButton;
 
 
 public class TakeMeThereActivity extends FragmentActivity {
@@ -68,7 +69,7 @@ public class TakeMeThereActivity extends FragmentActivity {
         toPoint =  getIntent().getParcelableExtra("to");
         setUpMapIfNeeded();
 
-        Button takeMeThereBackBtn = (Button) findViewById(R.id.takeMeThereBackBtn);
+        RectButton takeMeThereBackBtn = (RectButton) findViewById(R.id.takeMeThereBackBtn);
         takeMeThereBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +79,7 @@ public class TakeMeThereActivity extends FragmentActivity {
 
         currUserID = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("userid", null);
 
-        Button takeMeTherePickUpBtn = (Button) findViewById(R.id.takeMeTherePickUpBtn);
+        RectButton takeMeTherePickUpBtn = (RectButton) findViewById(R.id.takeMeTherePickUpBtn);
         takeMeTherePickUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +87,7 @@ public class TakeMeThereActivity extends FragmentActivity {
             }
         });
 
-        Button takeMeThereGoneBtn = (Button) findViewById(R.id.takeMeThereGoneBtn);
+        RectButton takeMeThereGoneBtn = (RectButton) findViewById(R.id.takeMeThereGoneBtn);
         takeMeThereGoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
