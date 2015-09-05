@@ -8,7 +8,7 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border">
+        android:background="@drawable/main_screen_menu_background">
         <TableRow
             android:id="@+id/mainScreenButtons"
             android:layout_width="match_parent"

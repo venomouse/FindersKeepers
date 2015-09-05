@@ -3,9 +3,12 @@ package huji.ac.il.finderskeepers.db;
 import android.util.Log;
 
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import org.json.JSONArray;
 
 import huji.ac.il.finderskeepers.data.User;
 
@@ -35,11 +38,13 @@ public class UserDB {
     /**
      * Adds a user to the DB
      *
-     * @param newUser
+     * @param username
      */
-    public void addUser(User newUser) {
+    public User addUser(String username) {
         ParseUser pu = new ParseUser();
-        pu.setUsername(newUser.getUsername());
+        pu.put("reportedItems", new JSONArray());
+        pu.put("collectedItems", new JSONArray());
+        pu.setUsername(username);
 
         /**
          * TODO: ParseUser needs to have a password. Do we want to use passwords?
@@ -48,11 +53,20 @@ public class UserDB {
         pu.setPassword("12345678");
         try {
             pu.signUp();
+            return parseUserToUser(pu);
         } catch (ParseException e) {
             if (e == null) {
                 Log.d(TAG, "addUser: User sign-up successful");
+                return parseUserToUser(pu);
             } else {
-                Log.d(TAG, "addUser: User sign-up failed: " + e.getMessage());
+                switch (e.getCode()){
+                    case (ParseException.USERNAME_TAKEN):
+                        Log.d(TAG, "addUser: User already exists: " + e.getMessage());
+                        return null;
+                    default:
+                        Log.d(TAG, "addUser: User sign-up failed: " + e.getMessage());
+                        return null;
+                }
             }
         }
     }
@@ -80,14 +94,14 @@ public class UserDB {
      * Fetches from the DB a ParseUser with attributes matching the given user's.
      * The key used for matching is: (username)
      *
-     * @param username
+     * @param userid
      * @return
      */
-    private ParseUser fetchUserObject(String username) {
+    private ParseUser fetchUserObject(String userid) {
         ParseQuery<ParseUser> query = ParseQuery.getQuery(tableName);
-        query.whereEqualTo("username", username);
+        query.whereEqualTo("objectId", userid);
         try {
-            ParseUser result = query.getFirst(); // THIS BLOCKS!
+            ParseUser result = query.get(userid); //THIS BLOCKS!
             Log.d(TAG, "fetchUserObject: user found in query. username: " + result.getUsername());
             return result;
         }
@@ -95,5 +109,48 @@ public class UserDB {
             Log.d(TAG, "fetchUserObject: no user found: " + e.getMessage());
             return null;
         }
+    }
+
+    public void addToReportedItems(String userid, String itemid){
+        ParseUser pu =  fetchUserObject(userid);
+        if (pu != null){
+            pu.add("reportedItems", itemid);
+            try{
+                pu.save();
+            }
+            catch (ParseException e){
+                Log.d(TAG, "failed to add item to reported items: " + e.getMessage());
+            }
+
+        }
+    }
+
+    public void addToCollectedItems(String userid, String itemid){
+        ParseUser pu =  fetchUserObject(userid);
+        if (pu != null){
+            pu.add("collectedItems",itemid);
+            try{
+                pu.save();
+            }
+            catch (ParseException e){
+                Log.d(TAG, "failed to add item to collected items: " + e.getMessage());
+            }
+        }
+    }
+
+    public User getUser(String username) {
+        ParseUser pu = fetchUserObject(username);
+        if (pu == null){
+            return null;
+        }
+        else{
+            return parseUserToUser(pu);
+        }
+    }
+
+    private User parseUserToUser(ParseUser pu){
+        User user = new User(pu.getUsername());
+        user.setId(pu.getObjectId());
+        return user;
     }
 }

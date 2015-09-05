@@ -12,4 +12,6 @@
     <string name="item_condition_0">needs repair</string>
     <string name="item_condition_1">so-so</string>
     <string name="item_condition_2">mint</string>
+    <string name="title_activity_splash_screen">Finders Keepers</string>
+    <string name="title_activity_profile">Profile</string>
 </resources>
