@@ -74,8 +74,6 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     static LatLng myHomeLoc = null;
     private String imageFilePath = null;
 
-    private static boolean firstRun;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,16 +90,6 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         setUpMapIfNeeded();
 
 
-//      Example of adding a new item and user to (Parse) DB
-//        try{
-//            AddItemTask addItemTask = new AddItemTask();
-//            addItemTask.execute(item);
-//            //ds.addItemTask(item);
-//            //ds.addUser(user);
-//        }
-//        catch (ParseException e){
-//
-//        }
         final SquareButton reportItemBtn = (SquareButton) findViewById(R.id.reportItemBtn);
         reportItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override

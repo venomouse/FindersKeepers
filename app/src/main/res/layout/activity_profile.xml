@@ -39,7 +39,7 @@
 
         <ListView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/listReported"
             android:layout_weight="2"
             android:choiceMode="none">
@@ -55,7 +55,7 @@
 
         <ListView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/listCollected"
             android:layout_weight="2"
             android:choiceMode="none" />
