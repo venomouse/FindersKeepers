@@ -74,22 +74,27 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private HashMap <Marker, Item> markerItemMap;
     private List<Item> itemsToDisplay;
     LatLng myloc = null;
-    LatLng myHomeLoc = null;
+    static LatLng myHomeLoc = null;
     private String imageFilePath = null;
 
+    private static boolean firstRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+
         Intent intent = getIntent();
-        myHomeLoc = (LatLng) intent.getParcelableExtra("homeLocation");
+        if (intent != null && intent.hasExtra("homeLocation")){
+            myHomeLoc = (LatLng) intent.getParcelableExtra("homeLocation");
+        }
+
 
         markerItemMap = new HashMap<Marker, Item>();
         setUpMapIfNeeded();
 
-        
+
 //      Example of adding a new item and user to (Parse) DB
 //        try{
 //            AddItemTask addItemTask = new AddItemTask();
