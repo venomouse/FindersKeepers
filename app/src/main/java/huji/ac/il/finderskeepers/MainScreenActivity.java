@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.system.Os;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -44,8 +45,12 @@ import java.util.List;
 
 import  huji.ac.il.finderskeepers.data.*;
 import huji.ac.il.finderskeepers.db.DataSource;
+import huji.ac.il.finderskeepers.design.SquareButton;
 
+
+//Caused by: java.lang.ClassCastException: android.widget.Button cannot be cast to huji.ac.il.finderskeepers.design.SquareButton
 public class MainScreenActivity extends FragmentActivity implements OnMarkerClickListener {
+
     private final double  DEFAULT_LATTITUDE = 31.767050;
     private final double DEFAULT_LONGITUDE = 35.204732;
 
@@ -92,7 +97,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 //        catch (ParseException e){
 //
 //        }
-        final Button reportItemBtn = (Button) findViewById(R.id.reportItemBtn);
+        final SquareButton reportItemBtn = (SquareButton) findViewById(R.id.reportItemBtn);
         reportItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +105,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
             }
         });
 
-        final Button findItemBtn = (Button) findViewById(R.id.findItemBtn);
+        final SquareButton findItemBtn = (SquareButton) findViewById(R.id.findItemBtn);
         findItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +113,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
             }
         });
 
-        final Button ProfileBtn = (Button) findViewById(R.id.profileBtn);
+        final SquareButton ProfileBtn = (SquareButton) findViewById(R.id.profileBtn);
         ProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +125,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     @Override
     protected void onResume() {
         super.onResume();
- //       setUpMapIfNeeded();
+        setUpMapIfNeeded();
     }
 
     /**
