@@ -86,8 +86,8 @@ public class DataSource {
         return items.findItemsTypeConditionDistance(type, minimalCondition, fromPoint, distance);
     }
 
-    public List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight) {
-        return items.findItemsInGeoBox(lowerLeft, upperRight);
+    public List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight, boolean showOnlyAvailable) {
+        return items.findItemsInGeoBox(lowerLeft, upperRight, showOnlyAvailable);
     }
 
     /**
@@ -96,7 +96,7 @@ public class DataSource {
      *
      * @param username
      */
-    public User addUser(String username){ return users.addUser(username); }
+    public User addUser(String username, LatLng location){ return users.addUser(username, location); }
 
     /**
      * Adds the itemid to the list of items reported by the user with userid
@@ -112,7 +112,7 @@ public class DataSource {
      * @param userid
      * @param itemid
      */
-    public void addToCollectedItems(String userid, String itemid){ users.addToCollectedItems(userid,itemid);}
+    public void addToCollectedItems(String userid, String itemid){ users.addToCollectedItems(userid, itemid);}
 
 
         /**
@@ -130,6 +130,16 @@ public class DataSource {
      * @param item
      */
     public void setUnavailable(Item item){ items.setUnavailable(item); }
+
+    public void setHomeLocation(String userid, LatLng location){users.setHomeLocation(userid,location);}
+
+    /**
+     * Returns a user with the given ID.
+     *
+     * @param id
+     * @return
+     */
+    public User getUser(String id){ return users.getUser(id); }
 
     /**
      * gets an image from the DB

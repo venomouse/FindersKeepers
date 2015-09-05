@@ -46,7 +46,6 @@ import  huji.ac.il.finderskeepers.data.*;
 import huji.ac.il.finderskeepers.db.DataSource;
 
 public class MainScreenActivity extends FragmentActivity implements OnMarkerClickListener {
-
     private final double  DEFAULT_LATTITUDE = 31.767050;
     private final double DEFAULT_LONGITUDE = 35.204732;
 
@@ -67,6 +66,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private HashMap <Marker, Item> markerItemMap;
     private List<Item> itemsToDisplay;
     LatLng myloc = null;
+    LatLng myHomeLoc = null;
     private String imageFilePath = null;
 
 
@@ -74,6 +74,9 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+
+        Intent intent = getIntent();
+        myHomeLoc = (LatLng) intent.getParcelableExtra("homeLocation");
 
         markerItemMap = new HashMap<Marker, Item>();
         setUpMapIfNeeded();
@@ -102,6 +105,14 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
             @Override
             public void onClick(View v) {
                 onFindClick();
+            }
+        });
+
+        final Button ProfileBtn = (Button) findViewById(R.id.profileBtn);
+        ProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onProfileClick();
             }
         });
     }
@@ -178,7 +189,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         Location location = locationManager.getLastKnownLocation(provider);
 
         //TODO save common locations/use home location
-        myloc = (location == null) ? new LatLng(DEFAULT_LATTITUDE, DEFAULT_LONGITUDE) :
+        myloc = (location == null) ? myHomeLoc :
                 new LatLng(location.getLatitude(), location.getLongitude());
 
         //the zoom is between 2 and 21
@@ -220,7 +231,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         LatLng upperRight = mMap.getProjection().getVisibleRegion().farRight;
 
         DataSource ds = DataSource.getDataSource();
-        itemsToDisplay = ds.findItemsInGeoBox(lowerLeft, upperRight);
+        itemsToDisplay = ds.findItemsInGeoBox(lowerLeft, upperRight,true);
     }
 
     @Override
@@ -250,6 +261,12 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         Intent findItemIntent = new Intent(this,FindItemActivity.class);
         findItemIntent.putExtra("myLocation", myloc);
         startActivity(findItemIntent);
+    }
+
+    private void onProfileClick() {
+        Intent profileIntent = new Intent(this,ProfileActivity.class);
+        profileIntent.putExtra("myLocation", myloc);
+        startActivity(profileIntent);
     }
 
     @Override

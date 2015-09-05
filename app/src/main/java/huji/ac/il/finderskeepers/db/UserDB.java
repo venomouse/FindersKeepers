@@ -2,14 +2,18 @@ package huji.ac.il.finderskeepers.db;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
-import com.parse.ParseObject;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.data.User;
 
 /**
@@ -40,12 +44,12 @@ public class UserDB {
      *
      * @param username
      */
-    public User addUser(String username) {
+    public User addUser(String username, LatLng homeLocation) {
         ParseUser pu = new ParseUser();
         pu.put("reportedItems", new JSONArray());
         pu.put("collectedItems", new JSONArray());
         pu.setUsername(username);
-
+        pu.put("homeLocation",new ParseGeoPoint(homeLocation.latitude,homeLocation.longitude));
         /**
          * TODO: ParseUser needs to have a password. Do we want to use passwords?
          * In the mean time use default
@@ -138,8 +142,8 @@ public class UserDB {
         }
     }
 
-    public User getUser(String username) {
-        ParseUser pu = fetchUserObject(username);
+    public User getUser(String id) {
+        ParseUser pu = fetchUserObject(id);
         if (pu == null){
             return null;
         }
@@ -148,9 +152,39 @@ public class UserDB {
         }
     }
 
+    /**
+     * Returns a User matching a parse user.
+     *
+     * @param pu
+     * @return
+     */
     private User parseUserToUser(ParseUser pu){
+
         User user = new User(pu.getUsername());
+        ArrayList<Item> reportedItems = new ArrayList<>();
+        ArrayList<Item> collectedItems = new ArrayList<>();
+
         user.setId(pu.getObjectId());
+        List<String> reportedItemsIDs = pu.getList("reportedItems");
+        List<String> collectedItemsIDs = pu.getList("collectedItems");
+        user.setReportedItemsIDs(reportedItemsIDs);
+        user.setCollectedItemsIDs(collectedItemsIDs);
+        ParseGeoPoint gp = pu.getParseGeoPoint("homeLocation");
+        user.setHomeLocation(new LatLng(gp.getLatitude(),gp.getLongitude()));
         return user;
+    }
+
+    public void setHomeLocation(String userid, LatLng location){
+        ParseUser pu =  fetchUserObject(userid);
+        if (pu != null){
+            ParseGeoPoint gp = new ParseGeoPoint(location.latitude,location.longitude);
+            pu.put("homeLocation", gp);
+            try{
+                pu.save();
+            }
+            catch (ParseException e){
+                Log.d(TAG, "failed to set home location: " + e.getMessage());
+            }
+        }
     }
 }

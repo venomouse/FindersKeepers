@@ -30,7 +30,7 @@ import java.util.List;
  * Created by Paz on 8/7/2015.
  */
 public class ItemDB {
-    private String tableName;
+    private static String tableName;
     private static final String TAG = "ItemDB";
     private static final String MSG_SAVE_FAILED = "The item could not be saved!";
 
@@ -48,7 +48,7 @@ public class ItemDB {
      *
      * @param newItem item to be added
      */
-    public String addItem(Item newItem){
+    public static String addItem(Item newItem){
         final ParseObject itemParseObject = itemToParseObject(newItem);
         try{
             itemParseObject.save();
@@ -69,7 +69,7 @@ public class ItemDB {
      *
      * @param item
      */
-    public void removeItem(Item item){
+    public static void removeItem(Item item){
         ParseObject po = fetchItemObject(item.getReporterID(), item.getCreationDate());
         if (po != null){
             try{
@@ -91,7 +91,7 @@ public class ItemDB {
      * @param creationDate
      * @return matching ParseObject
      */
-    public ParseObject fetchItemObject(String reporterID, Date creationDate) {
+    public static ParseObject fetchItemObject(String reporterID, Date creationDate) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(tableName);
         query.whereEqualTo("reporter_id", reporterID);
         query.whereEqualTo("creation_date", creationDate);
@@ -107,7 +107,7 @@ public class ItemDB {
         }
     }
 
-    public Item findItemByID(String id) {
+    public static Item findItemByID(String id) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(tableName);
         query.whereEqualTo("objectId", id);
         try {
@@ -121,7 +121,7 @@ public class ItemDB {
         }
     }
 
-    public ArrayList<Item> findItemsTypeConditionDistance (ItemType type, ItemCondition minimalCondition,
+    public static ArrayList<Item> findItemsTypeConditionDistance (ItemType type, ItemCondition minimalCondition,
                                                       LatLng fromPoint, double distance) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereEqualTo("type", type.value);
@@ -139,10 +139,13 @@ public class ItemDB {
         return new ArrayList<Item>();
     }
 
-    public List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight) {
+    public static List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight, boolean showOnlyAvailable) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereWithinGeoBox("location", new ParseGeoPoint(lowerLeft.latitude, lowerLeft.longitude),
                 new ParseGeoPoint(upperRight.latitude, upperRight.longitude));
+        if (showOnlyAvailable){
+            query.whereEqualTo("available", true);
+        }
 
         try {
             List<ParseObject> objectList = query.find();
@@ -155,7 +158,7 @@ public class ItemDB {
         return new ArrayList<Item>();
     }
 
-    public void setUnavailable(Item item){
+    public static void setUnavailable(Item item){
         ParseQuery<ParseObject> query = ParseQuery.getQuery(tableName);
         try {
             ParseObject result = query.get(item.getId()); // THIS BLOCKS!
@@ -176,7 +179,7 @@ public class ItemDB {
      * @param item item to be converted
      * @return converted ParseObject
      */
-    private ParseObject itemToParseObject(Item item){
+    private static ParseObject itemToParseObject(Item item){
         ParseObject itemObject = new ParseObject(tableName);
         itemObject.put("condition", item.getCondition().value);
         itemObject.put("available", item.isAvailable());
@@ -190,7 +193,7 @@ public class ItemDB {
         return  itemObject;
     }
 
-    private Item parseObjectToItem (ParseObject parseObject) {
+    private static Item parseObjectToItem (ParseObject parseObject) {
         Item item = new Item(parseObject.getObjectId(),parseObject.getBoolean("available"),
                          parseObject.getParseGeoPoint("location").getLatitude(),
                          parseObject.getParseGeoPoint("location").getLongitude(),
@@ -203,7 +206,7 @@ public class ItemDB {
         return item;
     }
 
-    private ArrayList<Item> parseObjectListToItemList(List <ParseObject> parseObjectList) {
+    private static ArrayList<Item> parseObjectListToItemList(List <ParseObject> parseObjectList) {
         ArrayList<Item> itemList = new ArrayList<Item>();
 
         for (ParseObject parseObject : parseObjectList ) {

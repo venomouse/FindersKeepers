@@ -56,20 +56,25 @@ public class SplashScreen extends ActionBarActivity {
             //hide sign up section
             linearLayout.setVisibility(View.INVISIBLE);
 
-            //wait some time (for branding purposes) and then continue to main screen
-            ProgressBar bar = (ProgressBar) this.findViewById(R.id.progressBar);
-            bar.setVisibility(View.VISIBLE);
-            /* New Handler to start the MainScreenActivity
-            * and close this SplashScreen after some seconds.*/
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                    Intent mainIntent = new Intent(SplashScreen.this, MainScreenActivity.class);
-                    startActivity(mainIntent);
-                    SplashScreen.this.finish();
-                }
-            }, SPLASH_DISPLAY_LENGTH);
+            //get user's home location
+            String userid = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("userid", null);
+            GetUserTask getUserTask = new GetUserTask();
+            getUserTask.execute(userid);
+
+//            //wait some time (for branding purposes) and then continue to main screen
+//            ProgressBar bar = (ProgressBar) this.findViewById(R.id.progressBar);
+//            bar.setVisibility(View.VISIBLE);
+//            /* New Handler to start the MainScreenActivity
+//            * and close this SplashScreen after some seconds.*/
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                /* Create an Intent that will start the Menu-Activity. */
+//                    Intent mainIntent = new Intent(SplashScreen.this, MainScreenActivity.class);
+//                    startActivity(mainIntent);
+//                    SplashScreen.this.finish();
+//                }
+//            }, SPLASH_DISPLAY_LENGTH);
         }
     }
 
@@ -105,7 +110,8 @@ public class SplashScreen extends ActionBarActivity {
 
         @Override
         protected User doInBackground(String... params) {
-            return  DataSource.getDataSource().addUser(params[0]);
+            User user = DataSource.getDataSource().addUser(params[0], User.DEFAULT_LOCATION);
+            return user;
         }
 
         protected void onPostExecute(User user) {
@@ -129,9 +135,35 @@ public class SplashScreen extends ActionBarActivity {
                         .apply();
                 //jump to main screen
                 Intent mainIntent = new Intent(SplashScreen.this, MainScreenActivity.class);
+                mainIntent.putExtra("homeLocation",user.getHomeLocation());
                 startActivity(mainIntent);
                 SplashScreen.this.finish();
             }
+        }
+
+    }
+
+    public class GetUserTask extends AsyncTask<String, Integer, User> {
+
+        @Override
+        protected void onPreExecute(){
+            ProgressBar bar = (ProgressBar) SplashScreen.this.findViewById(R.id.progressBar);
+            bar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected User doInBackground(String... userid) {
+            return DataSource.getDataSource().getUser(userid[0]);
+        }
+
+        protected void onPostExecute(User user) {
+            ProgressBar bar = (ProgressBar) SplashScreen.this.findViewById(R.id.progressBar);
+            bar.setVisibility(View.INVISIBLE);
+            Intent mainIntent = new Intent(SplashScreen.this, MainScreenActivity.class);
+            mainIntent.putExtra("homeLocation",user.getHomeLocation());
+            startActivity(mainIntent);
+            SplashScreen.this.finish();
+
         }
 
     }
