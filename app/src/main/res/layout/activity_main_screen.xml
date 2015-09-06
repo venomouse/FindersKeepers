@@ -14,29 +14,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <huji.ac.il.finderskeepers.design.SquareButton
+            <huji.ac.il.finderskeepers.design.RectButton
                 android:id="@+id/findItemBtn"
+                android:paddingRight="1dip"
                 android:layout_weight="1"
-                android:layout_height="42dp"
                 android:gravity="center"
-                android:background="@drawable/main_find_item_btn"
-
+                android:background="@drawable/main_find_item_btn_rect"
                 android:scaleType="fitCenter"/>
-            <huji.ac.il.finderskeepers.design.SquareButton
+            <huji.ac.il.finderskeepers.design.RectButton
                 android:id="@+id/reportItemBtn"
+                android:paddingRight="1dip"
                 android:layout_weight="1"
-                android:layout_height="42dp"
                 android:gravity="center"
-                android:background="@drawable/main_report_item_btn"
-
+                android:background="@drawable/main_report_item_btn_rect"
                 android:scaleType="fitCenter"/>
-            <huji.ac.il.finderskeepers.design.SquareButton
+            <huji.ac.il.finderskeepers.design.RectButton
                 android:id="@+id/profileBtn"
                 android:layout_weight="1"
-                android:layout_height="42dp"
                 android:gravity="center"
-                android:background="@drawable/main_profile_btn"
-
+                android:background="@drawable/main_profile_btn_rect"
                 android:scaleType="fitCenter" />
         </TableRow>
         </TableLayout>

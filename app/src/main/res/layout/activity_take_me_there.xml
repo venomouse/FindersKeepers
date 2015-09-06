@@ -15,27 +15,28 @@
             <TableRow
                 android:id="@+id/MainButtons"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip" >
+                android:layout_height="wrap_content" >
 
-                <Button
+                <huji.ac.il.finderskeepers.design.RectButton
                     android:id="@+id/takeMeThereBackBtn"
+                    android:paddingRight="1dip"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:background="@android:color/holo_green_light"
-                    android:text="Back" />
-                <Button
+                    android:background="@drawable/takemethere_back_btn_rect"
+                    android:scaleType="fitCenter"/>
+                <huji.ac.il.finderskeepers.design.RectButton
                     android:id="@+id/takeMeTherePickUpBtn"
+                    android:paddingRight="1dip"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:background="@android:color/holo_green_light"
-                    android:text="Pick Up" />
-                <Button
+                    android:background="@drawable/takemethere_pickup_btn_rect"
+                    android:scaleType="fitCenter"/>
+                <huji.ac.il.finderskeepers.design.RectButton
                     android:id="@+id/takeMeThereGoneBtn"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:background="@android:color/holo_green_light"
-                    android:text="Gone" />
+                    android:background="@drawable/takemethere_gone_btn_rect"
+                    android:scaleType="fitCenter"/>
             </TableRow>
         </TableLayout>
 

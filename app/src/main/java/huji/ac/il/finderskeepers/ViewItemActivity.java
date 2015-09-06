@@ -3,20 +3,25 @@ package huji.ac.il.finderskeepers;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import  huji.ac.il.finderskeepers.data.*;
+import huji.ac.il.finderskeepers.db.DataSource;
 
 
 public class ViewItemActivity extends CompletableActivity {
@@ -61,11 +66,35 @@ public class ViewItemActivity extends CompletableActivity {
 
     private void fillItemProperties() {
 
+        DataSource ds = DataSource.getDataSource();
+        TextView reporter = (TextView) findViewById(R.id.viewItem_reporter);
+        reporter.setText(ds.getReporter(item).getUsername());
+
+        TextView reportTime = (TextView) findViewById(R.id.viewItem_reportTime);
+        reportTime.setMaxWidth(reportTime.getWidth());
+        reportTime.setText(DateUtils.getRelativeDateTimeString(getBaseContext(),
+                item.getCreationDate().getTime(),
+                DateUtils.DAY_IN_MILLIS,
+                DateUtils.WEEK_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_RELATIVE));
+
         ImageView typeIcon = (ImageView) findViewById(R.id.typeIcon);
         typeIcon.setImageResource(item.getType().iconID);
 
+
         ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
         conditionIcon.setImageResource(item.getCondition().iconID);
+
+        TextView subtypeText = (TextView) findViewById(R.id.subtypeText);
+        subtypeText.setText(item.getDescription());
+
+        String desc = item.getDescription();
+        if (item.getDescription() == "") {
+            subtypeText.setText("no description");
+            subtypeText.setTextColor(Color.LTGRAY);
+        }
+
+
 
 
     }

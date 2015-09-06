@@ -133,6 +133,8 @@ public class DataSource {
 
     public void setHomeLocation(String userid, LatLng location){users.setHomeLocation(userid,location);}
 
+    public User getReporter (Item item) { return users.getUser(item.getReporterID());}
+
     /**
      * Returns a user with the given ID.
      *
