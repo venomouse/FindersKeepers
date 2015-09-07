@@ -47,6 +47,7 @@ public class SplashScreen extends ActionBarActivity {
         if (!isConnected(this)) {
             AlertDialog connectionDialog = new AlertDialog.Builder(SplashScreen.this).create();
             connectionDialog.setTitle("No Internet Connection");
+            connectionDialog.setCanceledOnTouchOutside(false);
             connectionDialog.setMessage("Make sure that the internet connection is enabled");
             connectionDialog.setButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
@@ -75,6 +76,7 @@ public class SplashScreen extends ActionBarActivity {
         if (!isLocationOn(this)) {
             AlertDialog locationDialog = new AlertDialog.Builder(this).create();
             locationDialog.setTitle("Location Service Disabled");
+            locationDialog.setCanceledOnTouchOutside(false);
             locationDialog.setMessage("Make sure that the location service is enabled");
             locationDialog.setButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
