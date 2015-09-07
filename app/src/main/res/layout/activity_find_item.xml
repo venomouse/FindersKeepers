@@ -23,28 +23,19 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="books"
-            android:id="@+id/findItemTypeBooks"
-            android:checked="false" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="clothes"
-            android:id="@+id/findItemTypeClothes"
-            android:checked="true" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="furniture"
+            android:background="@drawable/furniture_selector"
             android:id="@+id/findItemTypeFurniture"
-            android:checked="false"
-            android:layout_weight="1" />
+            style="@style/itemTypeRadioButton"/>
+
+        <RadioButton
+            android:background="@drawable/clothes_selector"
+            android:id="@+id/findItemTypeClothes"
+            style="@style/itemTypeRadioButton"/>
+
+        <RadioButton
+            android:background="@drawable/books_selector"
+            android:id="@+id/findItemTypeBooks"
+            style="@style/itemTypeRadioButton" />
     </RadioGroup>
 
     <TextView
