@@ -72,10 +72,9 @@ public class AddItemActivity extends ActionBarActivity {
             }
         });
 
-        bitmap = DataSource.normalizeImage(path,400,400,true);
+        bitmap = DataSource.normalizeImage(path,300,300,true);
         ImageView imageView = (ImageView) findViewById(R.id.itemImage);
         imageView.setImageBitmap(bitmap);
-        //get image orientation:
 
 
     }

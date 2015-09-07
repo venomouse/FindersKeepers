@@ -13,22 +13,36 @@
         tools:context="huji.ac.il.finderskeepers.ProfileActivity"
         android:orientation="vertical"
         android:id="@+id/layoutProfile"
-        android:visibility="invisible">
+        android:visibility="visible">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="username"
-            android:id="@+id/lblUsername"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginBottom="10dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Set Location as home"
-            android:id="@+id/btnSetAsHome"
-            android:layout_gravity="center_horizontal" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/profile_small_icon"
+                android:padding="2dp"
+                android:adjustViewBounds="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="username"
+                android:id="@+id/lblUsername"
+                android:layout_gravity="center"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set As Home"
+                android:id="@+id/btnSetAsHome" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
