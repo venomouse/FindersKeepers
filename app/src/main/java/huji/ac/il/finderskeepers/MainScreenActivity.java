@@ -68,7 +68,6 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     public static final int ADD_ITEM_REQUEST_CODE = 345;
     public static final int CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE = 1777;
 
-
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LocationManager locationManager;
 
@@ -77,6 +76,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     LatLng myloc = null;
     static LatLng myHomeLoc = null;
     private String imageFilePath = null;
+    Boolean realLocationSet = false;
 
     private static boolean firstRun;
 
@@ -94,8 +94,6 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
         markerItemMap = new HashMap<Marker, Item>();
         setUpMapIfNeeded();
-
-
 
         final RectButton reportItemBtn = (RectButton) findViewById(R.id.reportItemBtn);
         reportItemBtn.setOnClickListener(new View.OnClickListener() {
@@ -176,10 +174,15 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         //TODO clean up here!
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
-              if (location != null) {
-                  myloc = new LatLng(location.getLatitude(), location.getLongitude());
-                  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
-              }
+                //this means that the real location (not the saved one) was loaded for the first time
+                //we should then zoom in to the user's location on the map
+                if (!realLocationSet) {
+                    realLocationSet = true;
+                    if (location != null) {
+                        myloc = new LatLng(location.getLatitude(), location.getLongitude());
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
+                    }
+                }
 
             }
 
