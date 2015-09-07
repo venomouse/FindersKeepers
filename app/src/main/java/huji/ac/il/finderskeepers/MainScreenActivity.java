@@ -78,8 +78,6 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private String imageFilePath = null;
     Boolean realLocationSet = false;
 
-    private static boolean firstRun;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -312,9 +310,9 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
 
         //returning from add item activity:
         if (requestCode == ADD_ITEM_REQUEST_CODE){
+            final RectButton reportItemBtn = (RectButton) findViewById(R.id.reportItemBtn);
+            reportItemBtn.setBackgroundResource(R.drawable.main_report_item_btn_rect);
             if (resultCode == RESULT_OK){
-                final RectButton reportItemBtn = (RectButton) findViewById(R.id.reportItemBtn);
-                reportItemBtn.setBackgroundResource(R.drawable.main_report_item_btn_rect);
                 Item item = data.getParcelableExtra("item");
                 Marker marker =  mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(item.getLatitude(), item.getLongitude()))
