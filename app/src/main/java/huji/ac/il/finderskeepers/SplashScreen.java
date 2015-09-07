@@ -1,8 +1,13 @@
 package huji.ac.il.finderskeepers;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,13 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.List;
-
-import huji.ac.il.finderskeepers.data.Item;
-import huji.ac.il.finderskeepers.data.ItemCondition;
-import huji.ac.il.finderskeepers.data.ItemType;
 import huji.ac.il.finderskeepers.data.User;
 import huji.ac.il.finderskeepers.db.DataSource;
 
@@ -31,7 +29,8 @@ public class SplashScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        checkLoggedIn();
+        checkInternetConnection();
+
 
         Button btnSignIn = (Button) findViewById(R.id.btnSignUp);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +42,59 @@ public class SplashScreen extends ActionBarActivity {
             }
         });
     }
+
+    public void checkInternetConnection(){
+        if (!isConnected(this)) {
+            AlertDialog connectionDialog = new AlertDialog.Builder(SplashScreen.this).create();
+            connectionDialog.setTitle("No Internet Connection");
+            connectionDialog.setMessage("Make sure that the internet connection is enabled");
+            connectionDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    checkInternetConnection();
+                }
+            });
+            connectionDialog.show();
+        }
+        else{
+            checkLocationIsOn();
+        }
+    }
+
+    public boolean isConnected(Context c) {
+        ConnectivityManager cm = (ConnectivityManager) c
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+
+        if (ni != null && ni.isConnected())
+            return true;
+        else
+            return false;
+    }
+
+    public void checkLocationIsOn(){
+        if (!isLocationOn(this)) {
+            AlertDialog locationDialog = new AlertDialog.Builder(this).create();
+            locationDialog.setTitle("Location Service Disabled");
+            locationDialog.setMessage("Make sure that the location service is enabled");
+            locationDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    checkLocationIsOn();
+                }
+            });
+            locationDialog.show();
+        }
+        else{
+            checkLoggedIn();
+        }
+    }
+
+    public boolean isLocationOn(Context c) {
+        LocationManager lm = (LocationManager) c
+                .getSystemService(Context.LOCATION_SERVICE);
+        return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+
 
     public void checkLoggedIn() {
         LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.singinForm);

@@ -13,7 +13,7 @@
         tools:context="huji.ac.il.finderskeepers.ProfileActivity"
         android:orientation="vertical"
         android:id="@+id/layoutProfile"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <LinearLayout
             android:orientation="horizontal"

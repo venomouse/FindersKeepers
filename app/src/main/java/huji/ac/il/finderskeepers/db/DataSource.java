@@ -211,16 +211,20 @@ public class DataSource {
             //read raw image
             Bitmap bitmap = BitmapFactory.decodeFile(path);
 
+            //resize the image so it takes less memory
+            bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/2, bitmap.getHeight()/2, true);
+
             //crop to square at middle if selected
             if (cropToSquare){
                 int d = Math.min(bitmap.getWidth(),bitmap.getHeight());
                 int marginLeft = (bitmap.getWidth() - d)/2;
                 int marginTop = (bitmap.getHeight() - d)/2;
-
                 bitmap = Bitmap.createBitmap(bitmap,marginLeft,marginTop,d,d);
             }
+
             //resize image
             bitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
+
             //rotate according to orientation:
             Matrix matrix = new Matrix();
             switch (orientation){
