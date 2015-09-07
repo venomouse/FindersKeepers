@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -57,9 +58,10 @@ public class AddItemActivity extends ActionBarActivity {
                 RadioGroup rdgType = (RadioGroup) findViewById(R.id.rdgType);
                 View radioButton = rdgType.findViewById(rdgType.getCheckedRadioButtonId());
                 int typeInt = rdgType.indexOfChild(radioButton);
-                RadioGroup rdgCondition = (RadioGroup) findViewById(R.id.rdgCondition);
-                radioButton = rdgCondition.findViewById(rdgCondition.getCheckedRadioButtonId());
-                int conditionInt = rdgCondition.indexOfChild(radioButton);
+
+                RatingBar conditionRatingBar = (RatingBar) findViewById(R.id.addItemConditionRatingBar);
+                int conditionInt = (int) conditionRatingBar.getRating();
+
                 EditText edtDescription = (EditText) findViewById(R.id.edtDescription);
 
                 LatLng myLocation = (LatLng) getIntent().getParcelableExtra("myLocation");

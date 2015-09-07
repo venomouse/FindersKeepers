@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,9 +83,8 @@ public class FindItemActivity extends ActionBarActivity {
         View typeRadioButton = findItemTypeRdg.findViewById(findItemTypeRdg.getCheckedRadioButtonId());
         int typeInt = findItemTypeRdg.indexOfChild(typeRadioButton);
 
-        RadioGroup findItemConditionRdg = (RadioGroup) findViewById(R.id.findItemConditionRdg);
-        View conditionRadioButton = findItemConditionRdg.findViewById(findItemConditionRdg.getCheckedRadioButtonId());
-        int conditionInt = findItemConditionRdg.indexOfChild(conditionRadioButton);
+       RatingBar conditionBar = (RatingBar) findViewById(R.id.findItemConditionRatingBar);
+       int conditionInt = (int) conditionBar.getRating();
 
         //TODO temporary - need to add other options of fromPoint
         fromPoint = (LatLng) getIntent().getParcelableExtra("myLocation");

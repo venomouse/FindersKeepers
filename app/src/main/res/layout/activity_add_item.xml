@@ -68,36 +68,12 @@
             android:id="@+id/lblCondition"
             android:paddingTop="10dp" />
 
-        <RadioGroup
-            android:layout_width="fill_parent"
+        <!--if we want to change this one to custom rating bar, there is another one in FindItem screen-->
+        <RatingBar
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/rdgCondition"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="needs repair"
-                android:id="@+id/rdCondition1"
-                android:checked="false" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="so-so"
-                android:id="@+id/rdCondition2"
-                android:checked="true" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="mint"
-                android:id="@+id/rdCondition3"
-                android:checked="false" />
-        </RadioGroup>
+            android:id="@+id/addItemConditionRatingBar"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"

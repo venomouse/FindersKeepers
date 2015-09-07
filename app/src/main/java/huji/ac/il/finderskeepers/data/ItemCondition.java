@@ -6,17 +6,17 @@ import huji.ac.il.finderskeepers.R;
  * Created by Maria on 7/25/2015.
  */
 public enum ItemCondition {
-    NEEDS_REPAIR(0,  R.drawable.needsrepair_icon_square),
-    SOSO(1, R.drawable.soso_icon_square),
-    MINT(2, R.drawable.mint_icon_square);
+    ZERO_STARS(0),
+    ONE_STAR(1),
+    TWO_STARS(2),
+    THREE_STARS(3),
+    FOUR_STARS(4),
+    FIVE_STARS(5);
 
     public int value;
-    public int iconID;
 
-
-    ItemCondition (int value, int iconID) {
+    ItemCondition (int value) {
         this.value = value;
-        this.iconID = iconID;
     }
 
     public static ItemCondition fromInt(int value) {

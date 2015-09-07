@@ -60,7 +60,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private final double EXAMPLE_LATTITUDE = 31.766567;
     private final double EXAMPLE_LONGITUDE = 35.206856;
     private final ItemType EXAMPLE_TYPE = ItemType.BOOKS;
-    private final ItemCondition EXAMPLE_CONDITION = ItemCondition.NEEDS_REPAIR;
+    private final ItemCondition EXAMPLE_CONDITION = ItemCondition.ZERO_STARS;
     private final String EXAMPLE_DESCRIPTION = "example_description";
     private final String EXAMPLE_REPORTERID = "example_user_id";
     private final Date EXAMPLE_DATE =  new Date();

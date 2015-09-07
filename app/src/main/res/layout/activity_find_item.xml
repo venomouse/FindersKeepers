@@ -42,40 +42,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Condition:"
+        android:text="Minimal Condition:"
         android:id="@+id/lblCondition"
         android:paddingTop="10dp" />
 
-    <RadioGroup
-        android:layout_width="fill_parent"
+    <RatingBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/findItemConditionRdg"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="doesn't matter"
-            android:id="@+id/findItemConditionDoesntMatter"
-            android:checked="false" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="so-so at least"
-            android:id="@+id/findItemConditionSoSoAtLeast"
-            android:checked="true" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="mint only"
-            android:id="@+id/findItemConditionMintOnly"
-            android:checked="false" />
-    </RadioGroup>
+        android:id="@+id/findItemConditionRatingBar"
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
