@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -81,9 +82,8 @@ public class ViewItemActivity extends CompletableActivity {
         ImageView typeIcon = (ImageView) findViewById(R.id.typeIcon);
         typeIcon.setImageResource(item.getType().iconID);
 
-
-        ImageView conditionIcon = (ImageView) findViewById(R.id.conditionIcon);
-        conditionIcon.setImageResource(item.getCondition().iconID);
+        RatingBar conditionBar = (RatingBar) findViewById(R.id.viewItem_conditionRatingBar);
+        conditionBar.setRating((float)item.getCondition().value);
 
         TextView subtypeText = (TextView) findViewById(R.id.subtypeText);
         subtypeText.setText(item.getDescription());
