@@ -29,6 +29,13 @@
                 android:scaleType="centerCrop"
                 android:padding="10dp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="@color/material_blue_grey_900"
+                android:id="@+id/subtypeText"
+                android:padding="3dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,38 +77,58 @@
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
-                <ImageView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:adjustViewBounds="true"
-                    android:id="@+id/typeIcon"
-                    />
-
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:adjustViewBounds="true"
-                    android:id="@+id/conditionIcon" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:singleLine="false"
-                    android:maxLines="2"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/subtypeText" />
+                    android:orientation="vertical"
+                    android:padding="3dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="13sp"
+                        android:text="Type:"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:adjustViewBounds="true"
+                        android:id="@+id/typeIcon"
+                        />
+
+                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical"
+                    android:paddingTop="3dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="13sp"
+                        android:text="Condition:"/>
+
+                    <RatingBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/viewItem_conditionRatingBar"
+                        android:numStars="5"
+                        android:layout_marginTop="7dp"
+                        style="@style/conditionRatingBar"/>
+
+                </LinearLayout>
+
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
