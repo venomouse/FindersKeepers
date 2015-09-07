@@ -76,6 +76,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     LatLng myloc = null;
     static LatLng myHomeLoc = null;
     private String imageFilePath = null;
+    Boolean realLocationSet = false;
 
     private static boolean firstRun;
 
@@ -94,17 +95,6 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         markerItemMap = new HashMap<Marker, Item>();
         setUpMapIfNeeded();
 
-
-//      Example of adding a new item and user to (Parse) DB
-//        try{
-//            AddItemTask addItemTask = new AddItemTask();
-//            addItemTask.execute(item);
-//            //ds.addItemTask(item);
-//            //ds.addUser(user);
-//        }
-//        catch (ParseException e){
-//
-//        }
         final RectButton reportItemBtn = (RectButton) findViewById(R.id.reportItemBtn);
         reportItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,10 +174,15 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         //TODO clean up here!
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
-              if (location != null) {
-                  myloc = new LatLng(location.getLatitude(), location.getLongitude());
-                  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
-              }
+                //this means that the real location (not the saved one) was loaded for the first time
+                //we should then zoom in to the user's location on the map
+                if (!realLocationSet) {
+                    realLocationSet = true;
+                    if (location != null) {
+                        myloc = new LatLng(location.getLatitude(), location.getLongitude());
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
+                    }
+                }
 
             }
 
