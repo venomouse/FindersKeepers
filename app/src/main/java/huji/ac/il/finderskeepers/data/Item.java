@@ -14,6 +14,10 @@ public class Item implements Parcelable {
 
     public static final int  EMPTY_ID = -1;
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     String id = null; //this will be set when item is added to DB
 
     public boolean isAvailable() {

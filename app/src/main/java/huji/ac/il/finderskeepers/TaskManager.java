@@ -1,6 +1,7 @@
 package huji.ac.il.finderskeepers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.View;
@@ -29,7 +30,7 @@ public class TaskManager {
     }
 
 
-    public static class AddItemTask extends AsyncTask<Item, Integer, String> {
+    public static class AddItemTask extends AsyncTask<Item, Integer, Item> {
         private File itemImage;
         private Activity mActivity;
 
@@ -49,12 +50,13 @@ public class TaskManager {
         }
 
         @Override
-        protected String doInBackground(Item... items) {
+        protected Item doInBackground(Item... items) {
             String serverImageID = ds.uploadImage(itemImage);
             items[0].setImageID(serverImageID);
             String itemId = ds.addItem(items[0]);
+            items[0].setId(itemId);
             ds.addToReportedItems(items[0].getReporterID(),itemId);
-            return  itemId;
+            return  items[0];
         }
 
         protected void onProgressUpdate(String... progress) {
@@ -62,8 +64,11 @@ public class TaskManager {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Item item) {
             bar.setVisibility(View.GONE);
+            Intent intent = new Intent();
+            intent.putExtra("item", item);
+            mActivity.setResult(Activity.RESULT_OK,intent);
             mActivity.finish();
         }
     }
