@@ -65,7 +65,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     private final String EXAMPLE_REPORTERID = "example_user_id";
     private final Date EXAMPLE_DATE =  new Date();
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int ADD_ITEM_REQUEST_CODE = 345;
     public static final int CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE = 1777;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -77,8 +77,6 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
     static LatLng myHomeLoc = null;
     private String imageFilePath = null;
     Boolean realLocationSet = false;
-
-    private static boolean firstRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -297,11 +295,30 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
         //Check that request code matches ours:
         if (requestCode == CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE)
         {
-//            Get our saved file into a bitmap object:
-            Intent intent = new Intent(this,AddItemActivity.class);
-            intent.putExtra("myLocation", myloc);
-            intent.putExtra("filepath",imageFilePath);
-            startActivity(intent);
+            //If took picture, get our saved file into a bitmap object:
+            if (resultCode == RESULT_OK){
+                Intent intent = new Intent(this,AddItemActivity.class);
+                intent.putExtra("myLocation", myloc);
+                intent.putExtra("filepath",imageFilePath);
+                startActivityForResult(intent,ADD_ITEM_REQUEST_CODE);
+            }
+            else { //reset appearance
+                final RectButton reportItemBtn = (RectButton) findViewById(R.id.reportItemBtn);
+                reportItemBtn.setBackgroundResource(R.drawable.main_report_item_btn_rect);
+            }
+        }
+
+        //returning from add item activity:
+        if (requestCode == ADD_ITEM_REQUEST_CODE){
+            final RectButton reportItemBtn = (RectButton) findViewById(R.id.reportItemBtn);
+            reportItemBtn.setBackgroundResource(R.drawable.main_report_item_btn_rect);
+            if (resultCode == RESULT_OK){
+                Item item = data.getParcelableExtra("item");
+                Marker marker =  mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(item.getLatitude(), item.getLongitude()))
+                        .icon(BitmapDescriptorFactory.fromResource(item.getType().markerID)));
+                markerItemMap.put(marker, item);
+            }
 
         }
     }

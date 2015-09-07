@@ -33,29 +33,34 @@
 
         <activity
             android:name=".MainScreenActivity"
-            android:label="@string/title_activity_main_screen" >
+            android:label="@string/title_activity_main_screen"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ViewItemActivity"
             android:label="@string/title_activity_view_item"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@android:style/Theme.Dialog"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".TakeMeThereActivity"
             android:label="@string/title_activity_take_me_there"
-            android:parentActivityName=".MainScreenActivity" >
+            android:parentActivityName=".MainScreenActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="huji.ac.il.finderskeepers.MainScreenActivity" />
         </activity>
         <activity
             android:name=".AddItemActivity"
-            android:label="@string/title_activity_add_item" >
+            android:label="@string/title_activity_add_item"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".FindItemActivity"
             android:label="@string/title_activity_find_item"
-            android:parentActivityName=".MainScreenActivity" >
+            android:parentActivityName=".MainScreenActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="huji.ac.il.finderskeepers.MainScreenActivity" />
@@ -63,7 +68,8 @@
         <activity
             android:name=".SearchResultsActivity"
             android:label="@string/title_activity_search_results"
-            android:parentActivityName=".MainScreenActivity" >
+            android:parentActivityName=".MainScreenActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="huji.ac.il.finderskeepers.MainScreenActivity" />
@@ -71,7 +77,8 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/title_activity_splash_screen"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -80,7 +87,8 @@
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/title_activity_profile" >
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
