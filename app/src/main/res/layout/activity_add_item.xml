@@ -31,13 +31,9 @@
             android:layout_gravity="center_horizontal" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            style="@style/AddFindFormText"
             android:text="Type:"
-            android:id="@+id/lblType"
-            android:layout_above="@+id/btnAddItem"
-            android:paddingTop="10dp" />
+            android:id="@+id/lblType" />
 
         <RadioGroup
             android:layout_width="fill_parent"
@@ -62,12 +58,9 @@
         </RadioGroup>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            style="@style/AddFindFormText"
             android:text="Condition:"
-            android:id="@+id/lblCondition"
-            android:paddingTop="10dp" />
+            android:id="@+id/lblCondition" />
 
         <!--if we want to change this one to custom rating bar, there is another one in FindItem screen-->
         <RatingBar
@@ -82,12 +75,9 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                style="@style/AddFindFormText"
                 android:text="Description:"
-                android:id="@+id/lblDescription"
-                android:paddingTop="10dp" />
+                android:id="@+id/lblDescription" />
 
             <EditText
                 android:layout_width="fill_parent"

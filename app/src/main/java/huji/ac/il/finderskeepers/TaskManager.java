@@ -67,7 +67,9 @@ public class TaskManager {
         protected void onPostExecute(Item item) {
             bar.setVisibility(View.GONE);
             Intent intent = new Intent();
+            //TODO: Maria - why to we add this?
             intent.putExtra("item", item);
+            intent.putExtra("message", "Item added successfully");
             mActivity.setResult(Activity.RESULT_OK,intent);
             mActivity.finish();
         }

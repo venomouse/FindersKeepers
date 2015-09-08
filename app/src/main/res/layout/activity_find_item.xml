@@ -8,13 +8,9 @@
     tools:context="huji.ac.il.finderskeepers.FindItemActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        style="@style/AddFindFormText"
         android:text="Type:"
-        android:id="@+id/lblType"
-        android:layout_above="@+id/findItemTypeLbl"
-        android:paddingTop="10dp" />
+        android:id="@+id/lblType" />
 
     <RadioGroup
         android:layout_width="fill_parent"
@@ -39,12 +35,9 @@
     </RadioGroup>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        style="@style/AddFindFormText"
         android:text="Minimal Condition:"
-        android:id="@+id/lblCondition"
-        android:paddingTop="10dp" />
+        android:id="@+id/lblCondition" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -53,11 +46,8 @@
         android:layout_gravity="center_horizontal" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Max Distance:"
-        android:paddingTop="10dp"/>
+        style="@style/AddFindFormText"
+        android:text="Max Distance:"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,12 +60,9 @@
             android:id="@+id/findItemDistanceSeekBar"
             android:layout_weight="3" />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            style="@style/AddFindFormText"
             android:id="@+id/findItemDistanceText"
             android:text="0 km"
-            android:paddingTop="10dp"
             android:layout_weight="1"/>
 
     </LinearLayout>
@@ -105,10 +92,7 @@
     </RadioGroup>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:paddingTop="10dp"
+        style="@style/AddFindFormText"
         android:text="Words in description (optional):"/>
 
     <EditText

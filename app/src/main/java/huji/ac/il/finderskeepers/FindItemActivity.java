@@ -1,10 +1,9 @@
 package huji.ac.il.finderskeepers;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,24 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.data.ItemCondition;
 import huji.ac.il.finderskeepers.data.ItemType;
-import huji.ac.il.finderskeepers.db.DataSource;
 
 
 public class FindItemActivity extends ActionBarActivity {
 
     double MAX_DISTANCE = 5;
-
     LatLng fromPoint = null;
 
     @Override
@@ -65,7 +57,6 @@ public class FindItemActivity extends ActionBarActivity {
 
                     }
                 });
-
 
         Button findItemFindBtn = (Button) findViewById(R.id.findItemFindBtn);
         findItemFindBtn.setOnClickListener(new View.OnClickListener() {

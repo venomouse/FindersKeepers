@@ -1,6 +1,5 @@
 package huji.ac.il.finderskeepers;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -11,20 +10,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import  huji.ac.il.finderskeepers.data.*;
+import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.db.DataSource;
 
-
+/**
+ * This activity is used to display the details of the item
+ * It is called by a click on a marker on a map
+ */
 public class ViewItemActivity extends CompletableActivity {
 
     private LatLng  myLocation = null;
@@ -40,16 +40,15 @@ public class ViewItemActivity extends CompletableActivity {
         bar = (ProgressBar) this.findViewById(R.id.progressBar);
         //setting the contents of the item
         Intent intent = getIntent();
-        item = (Item) intent.getParcelableExtra("item");
-        myLocation = (LatLng) intent.getParcelableExtra("myLocation");
-
-
+        item = intent.getParcelableExtra("item");
+        myLocation = intent.getParcelableExtra("myLocation");
+        fillItemProperties();
 
         Button btnViewItemTakeMeThere = (Button) findViewById(R.id.viewItemTakeMeThereBtn);
         btnViewItemTakeMeThere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onTakeMeThereClick(v);
+                onTakeMeThereClick();
             }
         });
 
@@ -57,7 +56,7 @@ public class ViewItemActivity extends CompletableActivity {
         btnViewItemBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackClick(v);
+                onBackClick();
             }
         });
 
@@ -65,6 +64,9 @@ public class ViewItemActivity extends CompletableActivity {
         getImageTask.execute(item.getImageID());
     }
 
+    /**
+     * Fills the properties of the displayed items into the fields
+     */
     private void fillItemProperties() {
 
         DataSource ds = DataSource.getDataSource();
@@ -83,22 +85,17 @@ public class ViewItemActivity extends CompletableActivity {
         typeIcon.setImageResource(item.getType().iconID);
 
         RatingBar conditionBar = (RatingBar) findViewById(R.id.viewItem_conditionRatingBar);
-        conditionBar.setRating((float)item.getCondition().value);
+        conditionBar.setRating((float) item.getCondition().value);
 
         TextView subtypeText = (TextView) findViewById(R.id.subtypeText);
         subtypeText.setText(item.getDescription());
 
-        String desc = item.getDescription();
-        if (item.getDescription() == "") {
-            subtypeText.setText("no description");
+        if (item.getDescription().isEmpty()) {
+            subtypeText.setText("(no description)");
             subtypeText.setTextColor(Color.LTGRAY);
         }
 
-
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,21 +119,19 @@ public class ViewItemActivity extends CompletableActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void onTakeMeThereClick(View v){
+    private void onTakeMeThereClick(){
         Intent takeMeThereIntent = new Intent(this,TakeMeThereActivity.class);
         takeMeThereIntent.putExtra("item",item);
         takeMeThereIntent.putExtra("from", myLocation);
         takeMeThereIntent.putExtra("to", new LatLng(item.getLatitude(), item.getLongitude()));
-
         startActivity(takeMeThereIntent);
     }
 
-    private void onBackClick (View v) {
+    private void onBackClick () {
         this.finish();
     }
 
     public void complete(Object object){
-        fillItemProperties();
         Bitmap bitmap = (Bitmap) object;
         ImageView imageView = (ImageView) findViewById(R.id.itemImage);
         imageView.setImageBitmap(bitmap);

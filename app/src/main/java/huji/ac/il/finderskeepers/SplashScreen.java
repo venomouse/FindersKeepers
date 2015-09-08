@@ -31,7 +31,6 @@ public class SplashScreen extends ActionBarActivity {
         setContentView(R.layout.activity_splash_screen);
         checkInternetConnection();
 
-
         Button btnSignIn = (Button) findViewById(R.id.btnSignUp);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +51,7 @@ public class SplashScreen extends ActionBarActivity {
             connectionDialog.setButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     checkInternetConnection();
+                   // startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
                 }
             });
             connectionDialog.show();
