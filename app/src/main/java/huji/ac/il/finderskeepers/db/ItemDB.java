@@ -198,12 +198,6 @@ public class ItemDB {
         return  itemObject;
     }
 
-    /**
-     * Converts a ParseObject into an Item
-     *
-     * @param parseObject parseObject to be converted
-     * @return converted Item
-     */
     private static Item parseObjectToItem (ParseObject parseObject) {
         Item item = new Item(parseObject.getObjectId(),parseObject.getBoolean("available"),
                          parseObject.getParseGeoPoint("location").getLatitude(),

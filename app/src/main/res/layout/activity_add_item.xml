@@ -20,14 +20,15 @@
 
 
         <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:id="@+id/itemImage"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:paddingLeft="120px"
             android:paddingRight="120px"
-            android:paddingTop="0dp" />
+            android:paddingTop="0dp"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,19 +76,26 @@
             android:id="@+id/addItemConditionRatingBar"
             android:layout_gravity="center_horizontal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Description (optional):"
-            android:id="@+id/lblDescription"
-            android:paddingTop="10dp" />
-
-        <EditText
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtDescription"
-            android:singleLine="true" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Description:"
+                android:id="@+id/lblDescription"
+                android:paddingTop="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtDescription"
+                android:singleLine="true"
+                android:background="#dce9e2" />
+        </LinearLayout>
 
 
         <Button
