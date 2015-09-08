@@ -11,22 +11,21 @@
         <TableRow
             android:id="@+id/SearchResultsMainButtons"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:layout_height="wrap_content" >
 
-            <Button
+            <huji.ac.il.finderskeepers.design.HalfButton
                 android:id="@+id/searchResultsUpdateSearchBtn"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@android:color/holo_orange_light"
-                android:text="Update Search" />
+                android:background="@drawable/searchresults_updatesearch_half"
+                android:scaleType="fitCenter"/>
 
-            <Button
+            <huji.ac.il.finderskeepers.design.HalfButton
                 android:id="@+id/searchResultsFinishSearchBtn"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@android:color/holo_orange_light"
-                android:text="Finish Search" />
+                android:background="@drawable/searchresults_finishsearch_half"
+                android:scaleType="fitCenter"/>
         </TableRow>
     </TableLayout>
 
