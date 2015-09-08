@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -39,23 +40,20 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
             v = vi.inflate(R.layout.item_list_row, null);
         }
 
-        Item p = getItem(position);
+        Item item = getItem(position);
         Bitmap b = itemImgs.get(position);
-        if (p != null) {
-            TextView tt1 = (TextView) v.findViewById(R.id.lblType);
-            TextView tt2 = (TextView) v.findViewById(R.id.lblCondition);
+        if (item != null) {
+            ImageView typeIconView = (ImageView) v.findViewById(R.id.typeIcon);
+            typeIconView.setImageResource(item.getType().iconID);
+
+            RatingBar conditionBar = (RatingBar) v.findViewById(R.id.ratingBar);
+            conditionBar.setRating((float) item.getCondition().value);
+
             TextView tt3 = (TextView) v.findViewById(R.id.lblDescription);
             ImageView itemImgView = (ImageView) v.findViewById(R.id.itemSmallImage);
-            if (tt1 != null) {
-                tt1.setText(p.getType().name());
-            }
-
-            if (tt2 != null) {
-                tt2.setText(p.getCondition().name());
-            }
 
             if (tt3 != null) {
-                tt3.setText(p.getDescription());
+                tt3.setText(item.getDescription());
             }
             if (itemImgView != null) {
                 itemImgView.setImageBitmap(b);
