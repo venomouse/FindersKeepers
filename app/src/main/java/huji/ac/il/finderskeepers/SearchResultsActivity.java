@@ -15,19 +15,24 @@ import android.widget.Button;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import huji.ac.il.finderskeepers.data.Item;
 
 
-public class SearchResultsActivity extends FragmentActivity{
+public class SearchResultsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener{
 
     GoogleMap searchResultsMap = null;
     ArrayList<Item> searchResults = null;
+    HashMap<Marker, Item> markerItemMap = new HashMap<>();
+
     LatLng fromPoint = null;
     final int SEARCH_RESULTS_FOCUS_PADDING = 100;
 
@@ -69,6 +74,7 @@ public class SearchResultsActivity extends FragmentActivity{
             // Check if we were successful in obtaining the map.
             if (searchResultsMap != null) {
                 searchResultsMap.setMyLocationEnabled(true);
+                searchResultsMap.setOnMarkerClickListener(this);
                 searchResultsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fromPoint, 14));
                 searchResultsMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                     @Override
@@ -108,9 +114,10 @@ public class SearchResultsActivity extends FragmentActivity{
         }
 
         for (Item item : searchResults) {
-            searchResultsMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(item.getLatitude(), item.getLongitude())));
-
+            Marker marker =  searchResultsMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(item.getLatitude(), item.getLongitude()))
+                    .icon(BitmapDescriptorFactory.fromResource(item.getType().markerID)));
+            markerItemMap.put(marker, item);
         }
     }
 
@@ -142,6 +149,20 @@ public class SearchResultsActivity extends FragmentActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Item item = markerItemMap.get(marker);
+
+        Intent viewItemIntent = new Intent(this, ViewItemActivity.class);
+        viewItemIntent.putExtra("item", item);
+        viewItemIntent.putExtra("myLocation", fromPoint);
+
+        startActivity(viewItemIntent);
+
+        return true;
+
     }
 
     /**
