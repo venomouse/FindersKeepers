@@ -166,6 +166,8 @@ public class SearchResultsActivity extends FragmentActivity implements GoogleMap
 
     }
 
+
+    //TODO remove!
     /**
      * A placeholder fragment containing a simple view.
      */

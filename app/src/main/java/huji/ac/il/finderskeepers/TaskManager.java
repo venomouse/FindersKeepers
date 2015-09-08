@@ -114,20 +114,22 @@ public class TaskManager {
         ItemType type;
         LatLng fromPoint;
         double distance;
+        String description;
 
         public FindItemsTask(FindItemActivity activity, ItemType type, ItemCondition minimalCondition,
-               LatLng fromPoint, double distance) {
+               LatLng fromPoint, double distance, String description) {
             this.activity = activity;
             this.minimalCondition = minimalCondition;
             this.type = type;
             this.fromPoint = fromPoint;
             this.distance = distance;
+            this.description = description;
         }
 
         @Override
         protected ArrayList<Item> doInBackground(Void... params) {
             DataSource ds = DataSource.getDataSource();
-            return ds.findItemsByTypeConditionDistance(type, minimalCondition, fromPoint, distance);
+            return ds.findItems(type, minimalCondition, fromPoint, distance,description);
         }
 
 

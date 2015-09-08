@@ -1,6 +1,7 @@
 package huji.ac.il.finderskeepers;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -20,7 +21,9 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -55,6 +58,8 @@ public class TakeMeThereActivity extends FragmentActivity {
     String currUserID = null;
     LatLng fromPoint = null;
     LatLng toPoint = null;
+
+    LatLngBounds routeBounds = null;
 
     static final HttpTransport HTTP_TRANSPORT = AndroidHttp.newCompatibleTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -118,11 +123,19 @@ public class TakeMeThereActivity extends FragmentActivity {
         //enables my-location layer on a map, showing the user's location all the time
         directionsMap.setMyLocationEnabled(true);
         Marker marker =  directionsMap.addMarker(new MarkerOptions()
-                .position(new LatLng(toPoint.latitude, toPoint.longitude)));
+                .position(new LatLng(toPoint.latitude, toPoint.longitude))
+                .icon(BitmapDescriptorFactory.fromResource(item.getType().markerID)));
 
-        Marker marker2 =  directionsMap.addMarker(new MarkerOptions()
-                .position(new LatLng(fromPoint.latitude, fromPoint.longitude)));
         directionsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fromPoint, 15));
+        directionsMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                if (routeBounds != null) {
+                    //TODO magicNumber!
+                    directionsMap.moveCamera(CameraUpdateFactory.newLatLngBounds(routeBounds,80));
+                }
+            }
+        });
         new DirectionsFetcher().execute();
     }
 
@@ -204,6 +217,13 @@ public class TakeMeThereActivity extends FragmentActivity {
                 DirectionsResult directionsResult = httpResponse.parseAs(DirectionsResult.class);
                 String encodedPoints = directionsResult.routes.get(0).overviewPolyLine.points;
                 latLngs = PolyUtil.decode(encodedPoints);
+
+                LatLng northEast = new LatLng(directionsResult.routes.get(0).bounds.northeast.lat,
+                                              directionsResult.routes.get(0).bounds.northeast.lng);
+
+                LatLng southWest = new LatLng(directionsResult.routes.get(0).bounds.southwest.lat,
+                        directionsResult.routes.get(0).bounds.southwest.lng);
+                routeBounds = new LatLngBounds(southWest, northEast);
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -220,7 +240,9 @@ public class TakeMeThereActivity extends FragmentActivity {
         }
 
         protected void onPostExecute(String result) {
-            directionsMap.addPolyline(new PolylineOptions().addAll(latLngs));
+            PolylineOptions routeOptions = new PolylineOptions().addAll(latLngs).width(13).color(Color.parseColor("#630263"));
+            directionsMap.addPolyline(routeOptions);
+
         }
 
     }
@@ -231,6 +253,8 @@ public class TakeMeThereActivity extends FragmentActivity {
     }
 
     public static class Route {
+        @Key("bounds")
+        public Bounds bounds;
         @Key("overview_polyline")
         public OverviewPolyLine overviewPolyLine;
     }
@@ -238,6 +262,20 @@ public class TakeMeThereActivity extends FragmentActivity {
     public static class OverviewPolyLine {
         @Key("points")
         public String points;
+    }
+
+    public static class Bounds {
+        @Key("northeast")
+        public BoundLatLng northeast;
+        @Key("southwest")
+        public BoundLatLng southwest;
+    }
+
+    public static class BoundLatLng {
+        @Key("lat")
+        public double lat;
+        @Key("lng")
+        public double lng;
     }
 
 

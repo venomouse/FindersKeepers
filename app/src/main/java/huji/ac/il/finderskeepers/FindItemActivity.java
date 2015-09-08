@@ -3,11 +3,13 @@ package huji.ac.il.finderskeepers;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
@@ -92,8 +94,11 @@ public class FindItemActivity extends ActionBarActivity {
         SeekBar distanceSeekBar = (SeekBar) findViewById(R.id.findItemDistanceSeekBar);
         double distance = distanceKmFromSeekBar(distanceSeekBar, distanceSeekBar.getProgress());
 
+        EditText descriptionEdtText = (android.widget.EditText) findViewById(R.id.findItemDescription);
+
+        Editable desc = descriptionEdtText.getText();
         TaskManager.FindItemsTask findItemsTask = new TaskManager.FindItemsTask(this, ItemType.fromInt(typeInt),
-                                        ItemCondition.fromInt(conditionInt), fromPoint, distance);
+                                        ItemCondition.fromInt(conditionInt), fromPoint, distance, descriptionEdtText.getText().toString());
 
         findItemsTask.execute();
     }

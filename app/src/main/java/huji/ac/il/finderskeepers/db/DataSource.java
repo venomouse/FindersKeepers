@@ -81,9 +81,10 @@ public class DataSource {
      * @param minimalCondition
      * @return items in the database that fit the search criteria
      */
-    public ArrayList<Item> findItemsByTypeConditionDistance(ItemType type, ItemCondition minimalCondition,
-                                                       LatLng fromPoint, double distance) {
-        return items.findItemsTypeConditionDistance(type, minimalCondition, fromPoint, distance);
+
+    public ArrayList<Item> findItems(ItemType type, ItemCondition minimalCondition,
+                                     LatLng fromPoint, double distance, String description) {
+        return items.findItems(type, minimalCondition, fromPoint, distance, description);
     }
 
     public List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight, boolean showOnlyAvailable) {

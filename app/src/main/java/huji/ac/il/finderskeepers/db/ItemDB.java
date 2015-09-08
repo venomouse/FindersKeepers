@@ -121,12 +121,17 @@ public class ItemDB {
         }
     }
 
-    public static ArrayList<Item> findItemsTypeConditionDistance (ItemType type, ItemCondition minimalCondition,
-                                                      LatLng fromPoint, double distance) {
+    public static ArrayList<Item> findItems (ItemType type, ItemCondition minimalCondition,
+                                                      LatLng fromPoint, double distance, String description) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereEqualTo("type", type.value);
         query.whereGreaterThanOrEqualTo("condition", minimalCondition.value);
         query.whereWithinKilometers("location", new ParseGeoPoint(fromPoint.latitude, fromPoint.longitude), distance);
+
+        //TODO: check - there is another check whether the string is empty in some other place
+        if (!description.isEmpty()) {
+            query.whereContains("description", description);
+        }
 
         try {
             List<ParseObject> objectList = query.find();
@@ -193,6 +198,12 @@ public class ItemDB {
         return  itemObject;
     }
 
+    /**
+     * Converts a ParseObject into an Item
+     *
+     * @param parseObject parseObject to be converted
+     * @return converted Item
+     */
     private static Item parseObjectToItem (ParseObject parseObject) {
         Item item = new Item(parseObject.getObjectId(),parseObject.getBoolean("available"),
                          parseObject.getParseGeoPoint("location").getLatitude(),
