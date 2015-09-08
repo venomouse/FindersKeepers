@@ -122,12 +122,14 @@ public class ItemDB {
     }
 
     public static ArrayList<Item> findItemsTypeConditionDistance (ItemType type, ItemCondition minimalCondition,
-                                                      LatLng fromPoint, double distance) {
+                                                      LatLng fromPoint, double distance, boolean showOnlyAvailable) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereEqualTo("type", type.value);
         query.whereGreaterThanOrEqualTo("condition", minimalCondition.value);
         query.whereWithinKilometers("location", new ParseGeoPoint(fromPoint.latitude, fromPoint.longitude), distance);
-
+        if (showOnlyAvailable){
+            query.whereEqualTo("available", true);
+        }
         try {
             List<ParseObject> objectList = query.find();
             return parseObjectListToItemList(objectList);

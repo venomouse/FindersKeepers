@@ -214,10 +214,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
                     Marker marker =  mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(item.getLatitude(), item.getLongitude()))
                             .icon(BitmapDescriptorFactory.fromResource(item.getType().markerID)));
-
                     markerItemMap.put(marker, item);
-
-
                 }
             }
         });
@@ -318,6 +315,7 @@ public class MainScreenActivity extends FragmentActivity implements OnMarkerClic
                         .position(new LatLng(item.getLatitude(), item.getLongitude()))
                         .icon(BitmapDescriptorFactory.fromResource(item.getType().markerID)));
                 markerItemMap.put(marker, item);
+
             }
 
         }

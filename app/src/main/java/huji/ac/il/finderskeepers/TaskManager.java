@@ -127,7 +127,7 @@ public class TaskManager {
         @Override
         protected ArrayList<Item> doInBackground(Void... params) {
             DataSource ds = DataSource.getDataSource();
-            return ds.findItemsByTypeConditionDistance(type, minimalCondition, fromPoint, distance);
+            return ds.findItemsByTypeConditionDistance(type, minimalCondition, fromPoint, distance, true);
         }
 
 
