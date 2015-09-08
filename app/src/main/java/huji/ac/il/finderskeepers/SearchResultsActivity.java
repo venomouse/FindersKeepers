@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import huji.ac.il.finderskeepers.data.Item;
+import huji.ac.il.finderskeepers.design.HalfButton;
 
 
 public class SearchResultsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener{
@@ -46,7 +47,7 @@ public class SearchResultsActivity extends FragmentActivity implements GoogleMap
         fromPoint = callingIntent.getParcelableExtra("fromPoint");
         setUpMapIfNeeded();
 
-        Button updateSearchBtn = (Button) findViewById(R.id.searchResultsUpdateSearchBtn);
+        HalfButton updateSearchBtn = (HalfButton) findViewById(R.id.searchResultsUpdateSearchBtn);
         updateSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +55,7 @@ public class SearchResultsActivity extends FragmentActivity implements GoogleMap
             }
         });
 
-        Button finishSearchBtn = (Button) findViewById(R.id.searchResultsFinishSearchBtn);
+        HalfButton finishSearchBtn = (HalfButton) findViewById(R.id.searchResultsFinishSearchBtn);
         finishSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

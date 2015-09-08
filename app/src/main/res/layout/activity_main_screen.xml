@@ -16,14 +16,14 @@
 
             <huji.ac.il.finderskeepers.design.RectButton
                 android:id="@+id/findItemBtn"
-                android:paddingRight="1dip"
+                android:paddingEnd="2dip"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="@drawable/main_find_item_btn_rect"
                 android:scaleType="fitCenter"/>
             <huji.ac.il.finderskeepers.design.RectButton
                 android:id="@+id/reportItemBtn"
-                android:paddingRight="1dip"
+                android:paddingEnd="2dip"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="@drawable/main_report_item_btn_rect"
