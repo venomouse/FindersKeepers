@@ -1,6 +1,7 @@
 package huji.ac.il.finderskeepers;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.data.ItemCondition;
 import huji.ac.il.finderskeepers.data.ItemType;
+import huji.ac.il.finderskeepers.db.DataSource;
 
 
 public class FindItemActivity extends ActionBarActivity {
@@ -87,8 +89,7 @@ public class FindItemActivity extends ActionBarActivity {
 
         EditText descriptionEdtText = (android.widget.EditText) findViewById(R.id.findItemDescription);
 
-        Editable desc = descriptionEdtText.getText();
-        TaskManager.FindItemsTask findItemsTask = new TaskManager.FindItemsTask(this, ItemType.fromInt(typeInt),
+        FindItemsTask findItemsTask = new FindItemsTask(ItemType.fromInt(typeInt),
                                         ItemCondition.fromInt(conditionInt), fromPoint, distance, descriptionEdtText.getText().toString());
 
         findItemsTask.execute();
@@ -118,7 +119,7 @@ public class FindItemActivity extends ActionBarActivity {
     }
 
 
-    public void complete(ArrayList<Item> searchResults) {
+    public void onSearchResultsReturned(ArrayList<Item> searchResults) {
         if (searchResults.size() != 0) {
             Intent searchResultsIntent = new Intent(this, SearchResultsActivity.class);
             searchResultsIntent.putParcelableArrayListExtra("searchResults", searchResults);
@@ -131,6 +132,36 @@ public class FindItemActivity extends ActionBarActivity {
 
             Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
             toast.show();
+        }
+
+    }
+
+
+    private class FindItemsTask extends AsyncTask<Void, Integer, ArrayList<Item>> {
+        ItemCondition minimalCondition;
+        ItemType type;
+        LatLng fromPoint;
+        double distance;
+        String description;
+
+        public FindItemsTask(ItemType type, ItemCondition minimalCondition,
+                             LatLng fromPoint, double distance, String description) {
+            this.minimalCondition = minimalCondition;
+            this.type = type;
+            this.fromPoint = fromPoint;
+            this.distance = distance;
+            this.description = description;
+        }
+
+        @Override
+        protected ArrayList<Item> doInBackground(Void... params) {
+            DataSource ds = DataSource.getDataSource();
+            return ds.findItems(type, minimalCondition, fromPoint, distance,description);
+        }
+
+
+        protected void onPostExecute(ArrayList<Item> result) {
+            onSearchResultsReturned(result);
         }
 
     }

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -74,9 +75,11 @@ public class SearchResultsActivity extends FragmentActivity implements GoogleMap
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (searchResultsMap != null) {
+                ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
+                bar.setVisibility(View.VISIBLE);
                 searchResultsMap.setMyLocationEnabled(true);
                 searchResultsMap.setOnMarkerClickListener(this);
-                searchResultsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fromPoint, 14));
+                searchResultsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fromPoint, Common.DEFAULT_CAMERA_ZOOM));
                 searchResultsMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                     @Override
                     public void onMapLoaded() {
@@ -120,6 +123,9 @@ public class SearchResultsActivity extends FragmentActivity implements GoogleMap
                     .icon(BitmapDescriptorFactory.fromResource(item.getType().markerID)));
             markerItemMap.put(marker, item);
         }
+
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
+        bar.setVisibility(View.INVISIBLE);
     }
 
     private void onUpdateSearchClick(View v) { this.finish();}
