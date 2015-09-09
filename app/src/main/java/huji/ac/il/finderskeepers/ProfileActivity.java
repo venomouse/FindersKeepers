@@ -149,7 +149,23 @@ public class ProfileActivity extends ActionBarActivity {
         @Override
         protected Integer doInBackground(LatLng... location) {
             DataSource ds = DataSource.getDataSource();
-            ds.setHomeLocation(userid,location[0]);
+            ds.setHomeLocation(userid, location[0]);
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isHomeLocationSet", true)
+                    .apply();
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putFloat("homeLocationLat", (float) location[0].latitude)
+                    .apply();
+
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putFloat("homeLocationLng", (float) location[0].longitude)
+                    .apply();
             return 0;
         }
 
