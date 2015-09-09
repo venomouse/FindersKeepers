@@ -122,10 +122,14 @@ public class ItemDB {
     }
 
     public static ArrayList<Item> findItems (ItemType type, ItemCondition minimalCondition,
-                                                      LatLng fromPoint, double distance, String description) {
+                                                      LatLng fromPoint, double distance, String description, boolean showOnlyAvailable) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereEqualTo("type", type.value);
         query.whereGreaterThanOrEqualTo("condition", minimalCondition.value);
+
+        if (showOnlyAvailable){
+            query.whereEqualTo("available", true);
+        }
 
         //parse query bug where if distance = 0 it returns all items
         if (distance == 0){

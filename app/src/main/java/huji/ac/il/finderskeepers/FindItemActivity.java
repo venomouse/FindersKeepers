@@ -180,7 +180,7 @@ public class FindItemActivity extends ActionBarActivity {
         @Override
         protected ArrayList<Item> doInBackground(Void... params) {
             DataSource ds = DataSource.getDataSource();
-            return ds.findItems(type, minimalCondition, fromPoint, distance,description);
+            return ds.findItems(type, minimalCondition, fromPoint, distance,description, true);
         }
 
 

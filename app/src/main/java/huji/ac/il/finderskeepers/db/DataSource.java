@@ -83,8 +83,8 @@ public class DataSource {
      */
 
     public ArrayList<Item> findItems(ItemType type, ItemCondition minimalCondition,
-                                     LatLng fromPoint, double distance, String description) {
-        return items.findItems(type, minimalCondition, fromPoint, distance, description);
+                                     LatLng fromPoint, double distance, String description, boolean showOnlyAvailable) {
+        return items.findItems(type, minimalCondition, fromPoint, distance, description, showOnlyAvailable);
     }
 
     public List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight, boolean showOnlyAvailable) {
