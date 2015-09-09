@@ -31,7 +31,7 @@ public class Common {
             connectionDialog.setTitle("No Internet Connection");
             connectionDialog.setCanceledOnTouchOutside(false);
             connectionDialog.setMessage("Make sure that the internet connection is enabled");
-            connectionDialog.setButton("Proceed to wireless setting screen", new DialogInterface.OnClickListener() {
+            connectionDialog.setButton("Proceed to wireless connection settings", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     context.startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
                 }
@@ -61,7 +61,7 @@ public class Common {
             locationDialog.setTitle("Location Service Disabled");
             locationDialog.setCanceledOnTouchOutside(false);
             locationDialog.setMessage("Make sure that the location service is enabled");
-            locationDialog.setButton("Proceed to location", new DialogInterface.OnClickListener() {
+            locationDialog.setButton("Proceed to location settings", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     context.startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 }

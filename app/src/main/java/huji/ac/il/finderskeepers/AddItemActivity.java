@@ -1,18 +1,8 @@
 package huji.ac.il.finderskeepers;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.Point;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-import android.media.ExifInterface;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,13 +16,11 @@ import android.widget.RatingBar;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.data.ItemCondition;
 import huji.ac.il.finderskeepers.data.ItemType;
-import huji.ac.il.finderskeepers.data.User;
 import huji.ac.il.finderskeepers.db.DataSource;
 
 public class AddItemActivity extends ActionBarActivity {
