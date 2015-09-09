@@ -3,20 +3,12 @@ package huji.ac.il.finderskeepers;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,7 +16,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -40,29 +31,30 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Key;
 import com.google.maps.android.PolyUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import huji.ac.il.finderskeepers.data.Item;
-import huji.ac.il.finderskeepers.data.User;
 import huji.ac.il.finderskeepers.db.DataSource;
 import huji.ac.il.finderskeepers.design.RectButton;
 
 
+/**
+ * This activity is used to display the route towards the chosen item
+ * it uses Google Directions service to calculate the route, and
+ * displays it on the map using the Google Maps API.
+ */
 public class TakeMeThereActivity extends FragmentActivity {
 
     GoogleMap directionsMap = null;
     Item item = null;
     String currUserID = null;
+
     LatLng fromPoint = null;
     LatLng toPoint = null;
 
     LatLngBounds routeBounds = null;
-
-    static final HttpTransport HTTP_TRANSPORT = AndroidHttp.newCompatibleTransport();
-    static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +66,12 @@ public class TakeMeThereActivity extends FragmentActivity {
         toPoint =  getIntent().getParcelableExtra("to");
         setUpMapIfNeeded();
 
+        //setting up the buttons
         RectButton takeMeThereBackBtn = (RectButton) findViewById(R.id.takeMeThereBackBtn);
         takeMeThereBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackClick(v);
+                onBackClick();
             }
         });
 
@@ -88,7 +81,7 @@ public class TakeMeThereActivity extends FragmentActivity {
         takeMeTherePickUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPickUpClick(v);
+                onPickUpClick();
             }
         });
 
@@ -96,7 +89,7 @@ public class TakeMeThereActivity extends FragmentActivity {
         takeMeThereGoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onGoneClick(v);
+                onGoneClick();
             }
         });
 
@@ -108,7 +101,6 @@ public class TakeMeThereActivity extends FragmentActivity {
             // Try to obtain the map from the SupportMapFragment.
             directionsMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.takeMeThereMap))
                     .getMap();
-            // Check if we were successful in obtaining the map.
             if (directionsMap != null) {
                 setUpMap();
             }
@@ -116,27 +108,28 @@ public class TakeMeThereActivity extends FragmentActivity {
     }
 
     /**
-     * Setting up the map - showing the
-     * This should only be called once and when we are sure that {@link #directionsMap} is not null.
+     * Setting up the map - showing the destination and navigation directions
      */
     private void setUpMap() {
         //enables my-location layer on a map, showing the user's location all the time
         directionsMap.setMyLocationEnabled(true);
-        Marker marker =  directionsMap.addMarker(new MarkerOptions()
+        directionsMap.addMarker(new MarkerOptions()
                 .position(new LatLng(toPoint.latitude, toPoint.longitude))
                 .icon(BitmapDescriptorFactory.fromResource(item.getType().markerID)));
 
-        directionsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fromPoint, 15));
+        directionsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fromPoint, Common.DEFAULT_CAMERA_ZOOM));
         directionsMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
+                //after we calculated the route, we zoom the map camera
+                //so that all the route will be on the map
                 if (routeBounds != null) {
-                    //TODO magicNumber!
-                    directionsMap.moveCamera(CameraUpdateFactory.newLatLngBounds(routeBounds,80));
+                    directionsMap.moveCamera(CameraUpdateFactory.newLatLngBounds(routeBounds,Common.DEFAULT_CAMERA_PADDING));
                 }
             }
         });
-        new DirectionsFetcher().execute();
+
+        new FetchDirectionsTask().execute();
     }
 
 
@@ -150,9 +143,6 @@ public class TakeMeThereActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -164,33 +154,28 @@ public class TakeMeThereActivity extends FragmentActivity {
     }
 
 
-    private void onBackClick(View v) {
+    private void onBackClick() {
         this.finish();
     }
 
-    private void onPickUpClick(View v) {
+    private void onPickUpClick() {
         UpdateItemTask updateItemTask = new UpdateItemTask(currUserID,item);
         updateItemTask.execute(true);
-
-//        //TODO add database update
-//        Intent a = new Intent(this,MainScreenActivity.class);
-//        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(a);
     }
-    private void onGoneClick(View v) {
-        //TODO add database update
+
+    private void onGoneClick() {
         UpdateItemTask updateItemTask = new UpdateItemTask(currUserID,item);
         updateItemTask.execute(false);
-
-//        Intent a = new Intent(this,MainScreenActivity.class);
-//        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(a);
     }
 
-
-
-    private class DirectionsFetcher extends AsyncTask<URL, Integer, String> {
-        List<LatLng> latLngs = new ArrayList<LatLng>();
+    /**
+     *  This task is used to send an HTTP response to the Google Directions service
+     *  and use the service response to draw the route on the map.
+     */
+    private class FetchDirectionsTask extends AsyncTask<URL, Integer, String> {
+        List<LatLng> latLngs = new ArrayList<>();
+        final HttpTransport HTTP_TRANSPORT = AndroidHttp.newCompatibleTransport();
+        final JsonFactory JSON_FACTORY = new JacksonFactory();
 
         protected String doInBackground(URL... urls) {
             HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
@@ -206,14 +191,14 @@ public class TakeMeThereActivity extends FragmentActivity {
             GenericUrl url = new GenericUrl("https://maps.googleapis.com/maps/api/directions/json");
             url.put("origin", fromString);
             url.put("destination", toString);
-            //TODO make a constant!
+
             url.put("mode","walking");
-            url.put("key", "AIzaSyBva2JVJ7Y3c5_BmgPQJfFD654AbuutNck");
+            url.put("key", getResources().getText(R.string.google_directions_key));
 
             try {
                 HttpRequest request = requestFactory.buildGetRequest(url);
                 HttpResponse httpResponse = request.execute();
-                //String response = httpResponse.parseAsString();
+
                 DirectionsResult directionsResult = httpResponse.parseAs(DirectionsResult.class);
                 String encodedPoints = directionsResult.routes.get(0).overviewPolyLine.points;
                 latLngs = PolyUtil.decode(encodedPoints);
@@ -224,10 +209,6 @@ public class TakeMeThereActivity extends FragmentActivity {
                 LatLng southWest = new LatLng(directionsResult.routes.get(0).bounds.southwest.lat,
                         directionsResult.routes.get(0).bounds.southwest.lng);
                 routeBounds = new LatLngBounds(southWest, northEast);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-
             }
 
             catch (Exception e){
@@ -240,13 +221,14 @@ public class TakeMeThereActivity extends FragmentActivity {
         }
 
         protected void onPostExecute(String result) {
+            //draw the route on the map
             PolylineOptions routeOptions = new PolylineOptions().addAll(latLngs).width(13).color(Color.parseColor("#630263"));
             directionsMap.addPolyline(routeOptions);
-
         }
 
     }
 
+    /**-----------------------------Classes used to parse the HTTP Response -------------*/
     public static class DirectionsResult {
         @Key("routes")
         public List<Route> routes;
@@ -277,8 +259,12 @@ public class TakeMeThereActivity extends FragmentActivity {
         @Key("lng")
         public double lng;
     }
+    /**-------------------------------END classes for parsing---------------------*/
 
 
+    /**
+     * This task updates target item if it was taken or gone
+     */
     public class UpdateItemTask extends AsyncTask<Boolean, Integer, Integer> {
         Item item;
         String userid;

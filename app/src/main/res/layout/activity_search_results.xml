@@ -1,38 +1,59 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
     tools:context=".SearchResultsActivity">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow
-            android:id="@+id/SearchResultsMainButtons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <huji.ac.il.finderskeepers.design.HalfButton
-                android:id="@+id/searchResultsUpdateSearchBtn"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@drawable/searchresults_updatesearch_half"
-                android:scaleType="fitCenter"/>
-
-            <huji.ac.il.finderskeepers.design.HalfButton
-                android:id="@+id/searchResultsFinishSearchBtn"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@drawable/searchresults_finishsearch_half"
-                android:scaleType="fitCenter"/>
-        </TableRow>
-    </TableLayout>
-
-    <fragment
-        android:layout_width="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="match_parent"
-        android:id="@+id/searchResultsMap"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        tools:context=".SearchResultsActivity">
 
-</LinearLayout>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow
+                android:id="@+id/SearchResultsMainButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <huji.ac.il.finderskeepers.design.HalfButton
+                    android:id="@+id/searchResultsUpdateSearchBtn"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/searchresults_updatesearch_half"
+                    android:scaleType="fitCenter"/>
+
+                <huji.ac.il.finderskeepers.design.HalfButton
+                    android:id="@+id/searchResultsFinishSearchBtn"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/searchresults_finishsearch_half"
+                    android:scaleType="fitCenter"/>
+            </TableRow>
+        </TableLayout>
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/searchResultsMap"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:indeterminateDrawable="@drawable/progress_bar"
+        android:layout_gravity="center_horizontal">
+    </ProgressBar>
+
+</RelativeLayout>

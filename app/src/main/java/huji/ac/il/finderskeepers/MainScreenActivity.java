@@ -187,7 +187,7 @@ public class MainScreenActivity extends FragmentActivity
                     realLocationSet = true;
                     if (location != null) {
                         myLoc = new LatLng(location.getLatitude(), location.getLongitude());
-                        itemsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
+                        itemsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, Common.DEFAULT_CAMERA_ZOOM));
                     }
                 }
 
@@ -211,7 +211,7 @@ public class MainScreenActivity extends FragmentActivity
                 new LatLng(location.getLatitude(), location.getLongitude());
 
         itemsMap.setOnCameraChangeListener(this);
-        itemsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, Common.MAIN_ACTIVITY_DEFAULT_CAMERA_ZOOM));
+        itemsMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, Common.DEFAULT_CAMERA_ZOOM));
     }
 
     @Override

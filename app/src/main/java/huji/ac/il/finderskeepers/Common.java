@@ -22,8 +22,9 @@ public class Common {
     public static final int ADD_ITEM_REQUEST_CODE = 345;
     public static final int CAPTURE_IMAGE_FULLSIZE_ACTIVITY_REQUEST_CODE = 1777;
 
-    //main activity constants
-    public static final int MAIN_ACTIVITY_DEFAULT_CAMERA_ZOOM = 15;
+    //map constants
+    public static final int DEFAULT_CAMERA_ZOOM = 15;
+    public static final int DEFAULT_CAMERA_PADDING = 100;
 
     public static boolean checkInternetConnection(final Context context) {
         if (!isConnected(context)) {

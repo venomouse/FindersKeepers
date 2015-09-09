@@ -110,35 +110,4 @@ public class TaskManager {
         }
     }
 
-    public static class FindItemsTask extends AsyncTask<Void, Integer, ArrayList<Item>> {
-        FindItemActivity activity;
-        ItemCondition minimalCondition;
-        ItemType type;
-        LatLng fromPoint;
-        double distance;
-        String description;
-
-        public FindItemsTask(FindItemActivity activity, ItemType type, ItemCondition minimalCondition,
-               LatLng fromPoint, double distance, String description) {
-            this.activity = activity;
-            this.minimalCondition = minimalCondition;
-            this.type = type;
-            this.fromPoint = fromPoint;
-            this.distance = distance;
-            this.description = description;
-        }
-
-        @Override
-        protected ArrayList<Item> doInBackground(Void... params) {
-            DataSource ds = DataSource.getDataSource();
-            return ds.findItems(type, minimalCondition, fromPoint, distance,description);
-        }
-
-
-        protected void onPostExecute(ArrayList<Item> result) {
-            activity.complete(result);
-        }
-
-    }
-
 }
