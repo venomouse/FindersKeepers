@@ -96,7 +96,6 @@ public class FindItemActivity extends ActionBarActivity {
        RatingBar conditionBar = (RatingBar) findViewById(R.id.findItemConditionRatingBar);
        int conditionInt = (int) conditionBar.getRating();
 
-        //TODO temporary - need to add other options of fromPoint
         RadioGroup locationRdg = (RadioGroup) findViewById(R.id.findItemDistanceFromRdg);
         View locationButton = locationRdg.findViewById(locationRdg.getCheckedRadioButtonId());
         int locationInt = locationRdg.indexOfChild(locationButton);
