@@ -33,7 +33,7 @@ public class ItemDB {
     private static String tableName;
     private static final String TAG = "ItemDB";
     private static final String MSG_SAVE_FAILED = "The item could not be saved!";
-
+    private static final double MINIMAL_DISTANCE = 0.001;
     /**
      * Ctor
      *
@@ -126,6 +126,11 @@ public class ItemDB {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereEqualTo("type", type.value);
         query.whereGreaterThanOrEqualTo("condition", minimalCondition.value);
+
+        //parse query bug where if distance = 0 it returns all items
+        if (distance == 0){
+            distance = MINIMAL_DISTANCE;
+        }
         query.whereWithinKilometers("location", new ParseGeoPoint(fromPoint.latitude, fromPoint.longitude), distance);
 
         //TODO: check - there is another check whether the string is empty in some other place

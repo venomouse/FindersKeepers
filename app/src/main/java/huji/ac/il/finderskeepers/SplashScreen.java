@@ -153,7 +153,6 @@ public class SplashScreen extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public class SignUpTask extends AsyncTask<String, Integer, User> {
 
         @Override
@@ -172,11 +171,11 @@ public class SplashScreen extends ActionBarActivity {
             ProgressBar bar = (ProgressBar) SplashScreen.this.findViewById(R.id.progressBar);
             bar.setVisibility(View.INVISIBLE);
 
-            if (user == null){
+            if (user == null){ //user exists already, so show message
                 TextView lblSingUpStatus = (TextView ) SplashScreen.this.findViewById(R.id.lblSignUpStatus);
                 lblSingUpStatus.setVisibility(View.VISIBLE);
             }
-            else{
+            else{ //new user created
                 //update that we're logged in
                 getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                         .edit()
@@ -186,6 +185,11 @@ public class SplashScreen extends ActionBarActivity {
                 getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                         .edit()
                         .putString("userid", user.getId())
+                        .apply();
+                //update that home location isn't set
+                getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                        .edit()
+                        .putBoolean("isHomeLocationSet", false)
                         .apply();
                 //jump to main screen
                 Intent mainIntent = new Intent(SplashScreen.this, MainScreenActivity.class);
@@ -217,7 +221,6 @@ public class SplashScreen extends ActionBarActivity {
             mainIntent.putExtra("homeLocation",user.getHomeLocation());
             startActivity(mainIntent);
             SplashScreen.this.finish();
-
         }
 
     }

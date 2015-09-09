@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
@@ -29,7 +30,11 @@ import huji.ac.il.finderskeepers.db.DataSource;
 public class FindItemActivity extends ActionBarActivity {
 
     double MAX_DISTANCE = 5;
+    final int FIND_BY_CURRENT_LOCATION = 0;
+    final int FIND_BY_HOME_LOCATION = 1;
+
     LatLng fromPoint = null;
+    LatLng homePoint = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,18 @@ public class FindItemActivity extends ActionBarActivity {
                 onFindClick(v);
             }
         });
+
+        boolean isHomeLocationSet = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isHomeLocationSet", false);
+        RadioButton homeRadioButton = (RadioButton) findViewById(R.id.findItemDistanceFromHome);
+        if (!isHomeLocationSet){
+            homeRadioButton.setEnabled(false);
+        }
+        else {
+            homeRadioButton.setEnabled(true);
+            float homeLat = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getFloat("homeLocationLat", 0);
+            float homeLng = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getFloat("homeLocationLng", 0);
+            homePoint = new LatLng(homeLat,homeLng);
+        }
     }
 
     private double distanceKmFromSeekBar(SeekBar seekBar, int progress) {
@@ -82,7 +99,15 @@ public class FindItemActivity extends ActionBarActivity {
        int conditionInt = (int) conditionBar.getRating();
 
         //TODO temporary - need to add other options of fromPoint
-        fromPoint = (LatLng) getIntent().getParcelableExtra("myLocation");
+        RadioGroup locationRdg = (RadioGroup) findViewById(R.id.findItemDistanceFromRdg);
+        View locationButton = locationRdg.findViewById(locationRdg.getCheckedRadioButtonId());
+        int locationInt = locationRdg.indexOfChild(locationButton);
+        if (locationInt == FIND_BY_CURRENT_LOCATION){
+            fromPoint = (LatLng) getIntent().getParcelableExtra("myLocation");
+        }
+        else {
+            fromPoint = homePoint;
+        }
 
         SeekBar distanceSeekBar = (SeekBar) findViewById(R.id.findItemDistanceSeekBar);
         double distance = distanceKmFromSeekBar(distanceSeekBar, distanceSeekBar.getProgress());
