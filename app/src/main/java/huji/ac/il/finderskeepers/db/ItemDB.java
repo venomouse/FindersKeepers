@@ -126,6 +126,11 @@ public class ItemDB {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("item");
         query.whereEqualTo("type", type.value);
         query.whereGreaterThanOrEqualTo("condition", minimalCondition.value);
+
+        //parse query bug where if distance = 0 it returns all items
+        if (distance == 0){
+            distance = 0.001;
+        }
         query.whereWithinKilometers("location", new ParseGeoPoint(fromPoint.latitude, fromPoint.longitude), distance);
 
         //TODO: check - there is another check whether the string is empty in some other place
