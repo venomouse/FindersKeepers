@@ -151,17 +151,15 @@ public class ProfileActivity extends ActionBarActivity {
             DataSource ds = DataSource.getDataSource();
             ds.setHomeLocation(userid, location[0]);
 
+            // add location to local device storage
             getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                     .edit()
                     .putBoolean("isHomeLocationSet", true)
                     .apply();
-
             getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                     .edit()
                     .putFloat("homeLocationLat", (float) location[0].latitude)
                     .apply();
-
-
             getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                     .edit()
                     .putFloat("homeLocationLng", (float) location[0].longitude)

@@ -45,6 +45,7 @@ public class ImageDB {
     public String uploadImage(File imageFile){
         try
         {
+            //normalize image - crop to center square and set its dimensions to 300x300:
             Bitmap bmp = DataSource.normalizeImage(imageFile.getAbsolutePath(), 300, 300,true);
             ParseObject pObj = null;
             ParseFile pFile = null ;
@@ -57,6 +58,7 @@ public class ImageDB {
             }
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            //compress the photo to 50%
             bmp.compress(Bitmap.CompressFormat.PNG, 50, stream);
             pFile = new ParseFile(imageFile.getName(), stream.toByteArray());
             try

@@ -49,11 +49,11 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
             RatingBar conditionBar = (RatingBar) v.findViewById(R.id.ratingBar);
             conditionBar.setRating((float) item.getCondition().value);
 
-            TextView tt3 = (TextView) v.findViewById(R.id.lblDescription);
+            TextView lblDescription = (TextView) v.findViewById(R.id.lblDescription);
             ImageView itemImgView = (ImageView) v.findViewById(R.id.itemSmallImage);
 
-            if (tt3 != null) {
-                tt3.setText(item.getDescription());
+            if (lblDescription != null) {
+                lblDescription.setText(item.getDescription());
             }
             if (itemImgView != null) {
                 itemImgView.setImageBitmap(b);

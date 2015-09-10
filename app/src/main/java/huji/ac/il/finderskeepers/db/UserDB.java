@@ -115,6 +115,12 @@ public class UserDB {
         }
     }
 
+    /**
+     * Adds an item to the list of the user's reported items.
+     *
+     * @param userid
+     * @param itemid
+     */
     public void addToReportedItems(String userid, String itemid){
         ParseUser pu =  fetchUserObject(userid);
         if (pu != null){
@@ -129,6 +135,12 @@ public class UserDB {
         }
     }
 
+    /**
+     * Adds an item to the list of the user's collected items.
+     *
+     * @param userid
+     * @param itemid
+     */
     public void addToCollectedItems(String userid, String itemid){
         ParseUser pu =  fetchUserObject(userid);
         if (pu != null){
@@ -142,6 +154,12 @@ public class UserDB {
         }
     }
 
+    /**
+     * gets a user by its ID
+     *
+     * @param id
+     * @return
+     */
     public User getUser(String id) {
         ParseUser pu = fetchUserObject(id);
         if (pu == null){
@@ -174,6 +192,12 @@ public class UserDB {
         return user;
     }
 
+    /**
+     * sets the user's home loacation on the server
+     *
+     * @param userid
+     * @param location
+     */
     public void setHomeLocation(String userid, LatLng location){
         ParseUser pu =  fetchUserObject(userid);
         if (pu != null){

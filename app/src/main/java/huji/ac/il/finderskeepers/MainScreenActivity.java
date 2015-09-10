@@ -45,6 +45,7 @@ public class MainScreenActivity extends FragmentActivity
     private List<Item> itemsToDisplay;
 
     LatLng myLoc = null;
+    //default location so we're fail-safe
     static LatLng myHomeLoc = new LatLng(31.767050,35.204732);
     Boolean realLocationSet = false;
 

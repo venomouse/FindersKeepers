@@ -1,6 +1,5 @@
 package huji.ac.il.finderskeepers.db;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import huji.ac.il.finderskeepers.data.Item;
@@ -107,6 +106,12 @@ public class ItemDB {
         }
     }
 
+    /**
+     * finds an item by its ID
+     *
+     * @param id
+     * @return
+     */
     public static Item findItemByID(String id) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(tableName);
         query.whereEqualTo("objectId", id);

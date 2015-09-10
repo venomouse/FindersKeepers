@@ -3,21 +3,14 @@ package huji.ac.il.finderskeepers.db;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.Point;
 import android.media.ExifInterface;
 import android.util.Log;
-import android.view.Display;
-import android.widget.Toast;
+
 
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import huji.ac.il.finderskeepers.data.Item;
@@ -160,6 +153,7 @@ public class DataSource {
 
     /**
      * Decodes an image file and resizes it if needed
+     * This is old code, probably not needed anymore with the normalizeImage function
      *
      * @param path
      * @param reqWidth
