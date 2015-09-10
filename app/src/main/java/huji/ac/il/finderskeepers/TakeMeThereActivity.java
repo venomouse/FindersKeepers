@@ -295,6 +295,7 @@ public class TakeMeThereActivity extends FragmentActivity {
             bar.setVisibility(View.INVISIBLE);
             Intent mainIntent = new Intent(TakeMeThereActivity.this, MainScreenActivity.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            mainIntent.putExtra("itemWasRemoved",true);
             startActivity(mainIntent);
         }
 

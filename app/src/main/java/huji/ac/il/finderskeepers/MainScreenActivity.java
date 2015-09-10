@@ -45,7 +45,7 @@ public class MainScreenActivity extends FragmentActivity
     private List<Item> itemsToDisplay;
 
     LatLng myLoc = null;
-    static LatLng myHomeLoc = null;
+    static LatLng myHomeLoc = new LatLng(31.767050,35.204732);
     Boolean realLocationSet = false;
 
     private String imageFilePath = null;
@@ -56,12 +56,12 @@ public class MainScreenActivity extends FragmentActivity
         setContentView(R.layout.activity_main_screen);
 
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("homeLocation")){
-            //TODO: Maria - ?
-            myHomeLoc = intent.getParcelableExtra("homeLocation");
+        setUpMapIfNeeded();
+
+        if (intent != null && intent.hasExtra("itemWasRemoved")){
+            refreshMarkers();
         }
 
-        setUpMapIfNeeded();
 
         //setting up the buttons
         final RectButton reportItemBtn = (RectButton) findViewById(R.id.reportItemBtn);
@@ -230,6 +230,10 @@ public class MainScreenActivity extends FragmentActivity
 
     @Override
     public void onCameraChange(CameraPosition position) {
+        refreshMarkers();
+    }
+
+    public void refreshMarkers(){
         fetchItemsToDisplay();
 
         //put marker for every item in the list
