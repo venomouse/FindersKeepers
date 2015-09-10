@@ -23,7 +23,7 @@ import huji.ac.il.finderskeepers.db.DataSource;
 
 /**
  * This activity is used to display the details of the item
- * It is called by a click on a marker on a map
+ * It is called by a click on a marker on a map.
  */
 public class ViewItemActivity extends CompletableActivity {
 
@@ -38,12 +38,14 @@ public class ViewItemActivity extends CompletableActivity {
         setContentView(R.layout.activity_view_item);
 
         bar = (ProgressBar) this.findViewById(R.id.progressBar);
+
         //setting the contents of the item
         Intent intent = getIntent();
         item = intent.getParcelableExtra("item");
         myLocation = intent.getParcelableExtra("myLocation");
         fillItemProperties();
 
+        //setting up the buttons
         Button btnViewItemTakeMeThere = (Button) findViewById(R.id.viewItemTakeMeThereBtn);
         btnViewItemTakeMeThere.setOnClickListener(new View.OnClickListener() {
             @Override

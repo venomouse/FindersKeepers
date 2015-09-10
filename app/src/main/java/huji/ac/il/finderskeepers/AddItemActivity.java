@@ -23,6 +23,9 @@ import huji.ac.il.finderskeepers.data.ItemCondition;
 import huji.ac.il.finderskeepers.data.ItemType;
 import huji.ac.il.finderskeepers.db.DataSource;
 
+/**
+ * This activity is used to add an item with existing picture to the database
+ */
 public class AddItemActivity extends ActionBarActivity {
     private final double  DEFAULT_LATTITUDE = 31.767050;
     private final double DEFAULT_LONGITUDE = 35.204732;
@@ -52,7 +55,7 @@ public class AddItemActivity extends ActionBarActivity {
 
                 EditText edtDescription = (EditText) findViewById(R.id.edtDescription);
 
-                LatLng myLocation = (LatLng) getIntent().getParcelableExtra("myLocation");
+                LatLng myLocation = getIntent().getParcelableExtra("myLocation");
 
                 String userid = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("userid", null);
 

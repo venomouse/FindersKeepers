@@ -1,8 +1,9 @@
 package huji.ac.il.finderskeepers.data;
 
-import huji.ac.il.finderskeepers.R;
 
 /**
+ * This enum represents possible values for the condition of the item.
+ * Currently the condition is measured by stars, on the scale from 0 to 5.
  * Created by Maria on 7/25/2015.
  */
 public enum ItemCondition {

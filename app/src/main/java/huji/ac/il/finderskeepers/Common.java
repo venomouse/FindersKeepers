@@ -26,6 +26,12 @@ public class Common {
     public static final int DEFAULT_CAMERA_ZOOM = 15;
     public static final int DEFAULT_CAMERA_PADDING = 100;
 
+    /**
+     * Checks if the app is connected to the internet and if not, displays a dialog
+     * to the user that guides him to wireless settings screen
+     * @param context the context of the calling application
+     * @return true if the application is connected to the internet
+     */
     public static boolean checkInternetConnection(final Context context) {
         if (!isConnected(context)) {
             AlertDialog connectionDialog = new AlertDialog.Builder(context).create();
@@ -56,6 +62,12 @@ public class Common {
             return false;
     }
 
+    /**
+     * Checks if the location service is active and if not, displays a dialog
+     * to the user that guides him to location settings screen
+     * @param context the context of the calling application
+     * @return true if the location services are active
+     */
     public static boolean checkLocationIsOn(final Context context){
         if (!isLocationOn(context)) {
             AlertDialog locationDialog = new AlertDialog.Builder(context).create();

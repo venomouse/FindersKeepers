@@ -67,6 +67,7 @@ public class SearchResultsActivity extends FragmentActivity implements GoogleMap
 
     }
 
+    /** Sets up the map for the first time */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (searchResultsMap == null) {
@@ -90,8 +91,9 @@ public class SearchResultsActivity extends FragmentActivity implements GoogleMap
         }
     }
 
-
-
+    /**
+     * Focuses the map on the geobox that contains all the found items + padding
+     */
     public void zoomOnItems( ) {
         assert(searchResults.size() > 0);
 

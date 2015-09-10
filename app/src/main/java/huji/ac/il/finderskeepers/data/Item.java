@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * This class represents an item. Its implementation is independent of the database
+ * implementation.
  * Created by Maria on 7/25/2015.
  */
 

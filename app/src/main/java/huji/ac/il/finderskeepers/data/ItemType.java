@@ -3,7 +3,7 @@ package huji.ac.il.finderskeepers.data;
 import huji.ac.il.finderskeepers.R;
 
 /**
- * The type of the item - chosen by an icon when reporting
+ * This enum represents the type of an item.
  * Created by Maria on 7/25/2015.
  */
 public enum ItemType {

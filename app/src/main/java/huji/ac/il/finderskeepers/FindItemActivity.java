@@ -26,7 +26,11 @@ import huji.ac.il.finderskeepers.data.ItemCondition;
 import huji.ac.il.finderskeepers.data.ItemType;
 import huji.ac.il.finderskeepers.db.DataSource;
 
-
+/**
+ * This activity is a search criteria form to look for items.
+ * After filling the criteria, the user pushes on "Find" button and
+ * is forwarded to Search Results activity.
+ */
 public class FindItemActivity extends ActionBarActivity {
 
     double MAX_DISTANCE = 5;
@@ -69,7 +73,7 @@ public class FindItemActivity extends ActionBarActivity {
         findItemFindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFindClick(v);
+                onFindClick();
             }
         });
 
@@ -90,15 +94,15 @@ public class FindItemActivity extends ActionBarActivity {
         return MAX_DISTANCE * (double) progress / (double) seekBar.getMax();
     }
 
-    private void onFindClick(View v) {
+    private void onFindClick() {
+        //fetching the criteria from the form
         RadioGroup findItemTypeRdg = (RadioGroup) findViewById(R.id.findItemTypeRdg);
         View typeRadioButton = findItemTypeRdg.findViewById(findItemTypeRdg.getCheckedRadioButtonId());
         int typeInt = findItemTypeRdg.indexOfChild(typeRadioButton);
 
-       RatingBar conditionBar = (RatingBar) findViewById(R.id.findItemConditionRatingBar);
-       int conditionInt = (int) conditionBar.getRating();
+        RatingBar conditionBar = (RatingBar) findViewById(R.id.findItemConditionRatingBar);
+        int conditionInt = (int) conditionBar.getRating();
 
-        //TODO temporary - need to add other options of fromPoint
         RadioGroup locationRdg = (RadioGroup) findViewById(R.id.findItemDistanceFromRdg);
         View locationButton = locationRdg.findViewById(locationRdg.getCheckedRadioButtonId());
         int locationInt = locationRdg.indexOfChild(locationButton);
@@ -113,9 +117,10 @@ public class FindItemActivity extends ActionBarActivity {
         double distance = distanceKmFromSeekBar(distanceSeekBar, distanceSeekBar.getProgress());
 
         EditText descriptionEdtText = (android.widget.EditText) findViewById(R.id.findItemDescription);
+        //---------------------------------------------
 
         FindItemsTask findItemsTask = new FindItemsTask(ItemType.fromInt(typeInt),
-                                        ItemCondition.fromInt(conditionInt), fromPoint, distance, descriptionEdtText.getText().toString());
+                ItemCondition.fromInt(conditionInt), fromPoint, distance, descriptionEdtText.getText().toString());
 
         findItemsTask.execute();
     }
@@ -161,7 +166,9 @@ public class FindItemActivity extends ActionBarActivity {
 
     }
 
-
+    /**
+     * This task is used to retrieve items from the database 
+     */
     private class FindItemsTask extends AsyncTask<Void, Integer, ArrayList<Item>> {
         ItemCondition minimalCondition;
         ItemType type;
