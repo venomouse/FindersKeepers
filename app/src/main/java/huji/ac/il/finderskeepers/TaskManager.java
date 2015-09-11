@@ -7,19 +7,13 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import huji.ac.il.finderskeepers.data.Item;
-import huji.ac.il.finderskeepers.data.ItemCondition;
-import huji.ac.il.finderskeepers.data.ItemType;
 import huji.ac.il.finderskeepers.db.DataSource;
 
 /**
- * A class for various async tasks
+ * A class for various async tasks used by the app
  *
  * Created by Paz on 8/10/2015.
  */
@@ -29,7 +23,9 @@ public class TaskManager {
         return new AddItemTask(mActivity,bar, file);
     }
 
-
+    /**
+     * This class adds an item (including an image) to the database
+     */
     public static class AddItemTask extends AsyncTask<Item, Integer, Item> {
         private File itemImage;
         private Activity mActivity;
@@ -75,6 +71,9 @@ public class TaskManager {
         }
     }
 
+    /**
+     * This task downloads the image to the database
+     */
     public static class GetImageTask extends AsyncTask<String, Integer, String> {
         private CompletableActivity activity;
         private Bitmap bitmap;

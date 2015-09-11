@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -107,7 +106,7 @@ public class FindItemActivity extends ActionBarActivity {
         View locationButton = locationRdg.findViewById(locationRdg.getCheckedRadioButtonId());
         int locationInt = locationRdg.indexOfChild(locationButton);
         if (locationInt == FIND_BY_CURRENT_LOCATION){
-            fromPoint = (LatLng) getIntent().getParcelableExtra("myLocation");
+            fromPoint = getIntent().getParcelableExtra("myLocation");
         }
         else {
             fromPoint = homePoint;
@@ -158,7 +157,6 @@ public class FindItemActivity extends ActionBarActivity {
         }
         else {
             CharSequence text = "No items found";
-            int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
             toast.show();

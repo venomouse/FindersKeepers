@@ -2,21 +2,19 @@ package huji.ac.il.finderskeepers.db;
 
 import android.util.Log;
 
-import huji.ac.il.finderskeepers.data.Item;
-import huji.ac.il.finderskeepers.data.ItemCondition;
-import huji.ac.il.finderskeepers.data.ItemType;
-
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import huji.ac.il.finderskeepers.data.Item;
+import huji.ac.il.finderskeepers.data.ItemCondition;
+import huji.ac.il.finderskeepers.data.ItemType;
 
 /**
  * Persistent data layer for storing items, with Parse.com as its underlying physical layer.
@@ -155,7 +153,7 @@ public class ItemDB {
             Log.d(TAG, "Find operation failed: " + e.getMessage());
         }
 
-        return new ArrayList<Item>();
+        return new ArrayList<>();
     }
 
     public static List<Item> findItemsInGeoBox (LatLng lowerLeft, LatLng upperRight, boolean showOnlyAvailable) {
@@ -174,7 +172,7 @@ public class ItemDB {
             Log.d(TAG ,"GeoBox Find operation failed: " + e.getMessage());
         }
 
-        return new ArrayList<Item>();
+        return new ArrayList<>();
     }
 
     public static void setUnavailable(Item item){
@@ -226,10 +224,9 @@ public class ItemDB {
     }
 
     private static ArrayList<Item> parseObjectListToItemList(List <ParseObject> parseObjectList) {
-        ArrayList<Item> itemList = new ArrayList<Item>();
+        ArrayList<Item> itemList = new ArrayList<>();
 
         for (ParseObject parseObject : parseObjectList ) {
-            String id = parseObject.getObjectId();
             itemList.add(parseObjectToItem(parseObject));
         }
         return itemList;

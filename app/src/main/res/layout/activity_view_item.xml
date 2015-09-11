@@ -9,7 +9,6 @@
     android:orientation="vertical"
     tools:context="huji.ac.il.finderskeepers.ViewItemActivity"
     android:id="@+id/activityViewItemParent">
-    <!--android:background="#ffffff">-->
 
 
         <LinearLayout

@@ -3,7 +3,6 @@ package huji.ac.il.finderskeepers.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -44,17 +43,8 @@ public class Item implements Parcelable {
     String imageID; // a reference to an image
 
     /**
-     * Ctor for saved items
-     *
-     * @param id
-     * @param available
-     * @param latitude
-     * @param longitude
-     * @param type
-     * @param condition
-     * @param description
-     * @param reporterID
-     * @param creationDate
+     *  Parse implementation:
+     *  This constructor is used for an item already saved in the database
      */
     public Item(String id,boolean available, double latitude, double longitude, ItemType type, ItemCondition condition,
                 String description, String reporterID, Date creationDate)
@@ -71,6 +61,10 @@ public class Item implements Parcelable {
         this.imageID = ""; // at start set to empty string, later get DB-relative ID
     }
 
+    /**
+     *  Parse implementation:
+     *  This constructor is used for an item just created (without parse ID yet)
+     */
     public Item(boolean available, double latitude, double longitude, ItemType type, ItemCondition condition,
                 String description, String reporterID, Date creationDate)
     {

@@ -3,8 +3,8 @@ package huji.ac.il.finderskeepers;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -24,7 +23,6 @@ import java.util.List;
 import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.data.User;
 import huji.ac.il.finderskeepers.db.DataSource;
-import huji.ac.il.finderskeepers.db.ItemDB;
 
 public class ProfileActivity extends ActionBarActivity {
     private LatLng myLocation = null;
@@ -36,7 +34,7 @@ public class ProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         Intent intent = getIntent();
-        myLocation = (LatLng) intent.getParcelableExtra("myLocation");
+        myLocation = intent.getParcelableExtra("myLocation");
         final String userid = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("userid", null);
 
         Button btnSetAsHome = (Button) findViewById(R.id.btnSetAsHome);

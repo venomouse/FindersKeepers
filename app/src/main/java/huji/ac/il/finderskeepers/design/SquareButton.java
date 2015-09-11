@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.Button;
 
 /**
+ * This buttons are used for action button panels with 4 buttons in a row
  * Created by Maria on 9/5/2015.
  */
 

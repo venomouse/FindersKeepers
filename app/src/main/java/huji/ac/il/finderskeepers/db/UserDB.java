@@ -179,8 +179,6 @@ public class UserDB {
     private User parseUserToUser(ParseUser pu){
 
         User user = new User(pu.getUsername());
-        ArrayList<Item> reportedItems = new ArrayList<>();
-        ArrayList<Item> collectedItems = new ArrayList<>();
 
         user.setId(pu.getObjectId());
         List<String> reportedItemsIDs = pu.getList("reportedItems");

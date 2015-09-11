@@ -133,6 +133,9 @@ public class ViewItemActivity extends CompletableActivity {
         this.finish();
     }
 
+    /**
+     * Complete the layout loading after the image has been fetched.
+     */
     public void complete(Object object){
         Bitmap bitmap = (Bitmap) object;
         ImageView imageView = (ImageView) findViewById(R.id.itemImage);

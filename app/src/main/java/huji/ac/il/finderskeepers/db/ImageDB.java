@@ -11,7 +11,6 @@ import com.parse.ParseQuery;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.Date;
 
 /**
  * Persistent data layer for storing items, with Parse.com as its underlying physical layer.
