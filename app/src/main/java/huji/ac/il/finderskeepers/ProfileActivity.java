@@ -24,6 +24,10 @@ import huji.ac.il.finderskeepers.data.Item;
 import huji.ac.il.finderskeepers.data.User;
 import huji.ac.il.finderskeepers.db.DataSource;
 
+/**
+ * This action displays user's profile - currently, it contains the name of the user and
+ * the list of collected and reported items.
+ */
 public class ProfileActivity extends ActionBarActivity {
     private LatLng myLocation = null;
     private User user = null;

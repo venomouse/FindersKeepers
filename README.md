@@ -9,3 +9,6 @@ Features:
 
 
 Developers: Maria Dyshel and Paz Bunis
+
+Want to contribute and improve the app? Contact finderskeepersapp@gmail.com to become and alpha-tester,
+beta-tester, or co-developer!

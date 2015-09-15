@@ -21,7 +21,10 @@ import android.widget.TextView;
 import huji.ac.il.finderskeepers.data.User;
 import huji.ac.il.finderskeepers.db.DataSource;
 
-
+/**
+ * The splash screen of the application. If the user is entering for the first time,
+ * contains the sign up form.
+ */
 public class SplashScreen extends ActionBarActivity {
     private final int SPLASH_DISPLAY_LENGTH = 2000;
 
@@ -42,6 +45,9 @@ public class SplashScreen extends ActionBarActivity {
         });
     }
 
+    /**
+     * This function does not let the user enter the application until he turns on the internet
+     */
     public void checkInternetConnection(){
         if (!isConnected(this)) {
             AlertDialog connectionDialog = new AlertDialog.Builder(SplashScreen.this).create();
@@ -72,6 +78,9 @@ public class SplashScreen extends ActionBarActivity {
             return false;
     }
 
+    /**
+     * This function does not let the user enter the application until he turns on the location services
+     */
     public void checkLocationIsOn(){
         if (!isLocationOn(this)) {
             AlertDialog locationDialog = new AlertDialog.Builder(this).create();
